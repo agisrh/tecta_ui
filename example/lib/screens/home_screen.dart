@@ -2,38 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
 import '../main.dart'; // To access themeNotifier
 
-import 'colors_showcase_screen.dart';
-import 'typography_showcase_screen.dart';
-import 'shadows_showcase_screen.dart';
-import 'icons_showcase_screen.dart';
-import 'accordion_showcase_screen.dart';
-import 'alert_showcase_screen.dart';
-import 'avatar_showcase_screen.dart';
-import 'badge_showcase_screen.dart';
-import 'button_showcase_screen.dart';
-import 'checkbox_showcase_screen.dart';
-import 'chip_showcase_screen.dart';
-import 'radio_showcase_screen.dart';
-import 'switch_showcase_screen.dart';
-import 'text_field_showcase_screen.dart';
-import 'snackbar_showcase_screen.dart';
-import 'label_showcase_screen.dart';
-import 'upload_showcase_screen.dart';
-import 'dialog_showcase_screen.dart';
-import 'bottom_sheet_showcase_screen.dart';
-import 'card_showcase_screen.dart';
-import 'tooltip_showcase_screen.dart';
-import 'rating_showcase_screen.dart';
-import 'timeline_showcase_screen.dart';
-import 'slider_showcase_screen.dart';
-import 'tabs_showcase_screen.dart';
-import 'skeleton_showcase_screen.dart';
-import 'empty_state_showcase_screen.dart';
-import 'progress_showcase_screen.dart';
-import 'divider_showcase_screen.dart';
-import 'picker_showcase_screen.dart';
-import 'segmented_control_showcase_screen.dart';
-import 'dropdown_menu_showcase_screen.dart';
+import 'components/foundation/colors_showcase_screen.dart';
+import 'components/foundation/typography_showcase_screen.dart';
+import 'components/foundation/shadows_showcase_screen.dart';
+import 'components/foundation/icons_showcase_screen.dart';
+import 'components/display/accordion_showcase_screen.dart';
+import 'components/feedback/alert_showcase_screen.dart';
+import 'components/display/avatar_showcase_screen.dart';
+import 'components/display/badge_showcase_screen.dart';
+import 'components/buttons/button_showcase_screen.dart';
+import 'components/inputs/checkbox_showcase_screen.dart';
+import 'components/display/chip_showcase_screen.dart';
+import 'components/inputs/radio_showcase_screen.dart';
+import 'components/inputs/switch_showcase_screen.dart';
+import 'components/inputs/text_field_showcase_screen.dart';
+import 'components/feedback/snackbar_showcase_screen.dart';
+import 'components/display/label_showcase_screen.dart';
+import 'components/inputs/upload_showcase_screen.dart';
+import 'components/feedback/dialog_showcase_screen.dart';
+import 'components/feedback/bottom_sheet_showcase_screen.dart';
+import 'components/display/card_showcase_screen.dart';
+import 'components/feedback/tooltip_showcase_screen.dart';
+import 'components/inputs/rating_showcase_screen.dart';
+import 'components/display/timeline_showcase_screen.dart';
+import 'components/inputs/slider_showcase_screen.dart';
+import 'components/display/tabs_showcase_screen.dart';
+import 'components/feedback/skeleton_showcase_screen.dart';
+import 'components/feedback/empty_state_showcase_screen.dart';
+import 'components/feedback/progress_showcase_screen.dart';
+import 'components/display/divider_showcase_screen.dart';
+import 'components/inputs/picker_showcase_screen.dart';
+import 'components/inputs/segmented_control_showcase_screen.dart';
+import 'components/feedback/dropdown_menu_showcase_screen.dart';
+
+import 'docs_tab_screen.dart';
+import 'templates_tab_screen.dart';
+import 'playground_tab_screen.dart';
 
 class ShowcaseHomeScreen extends StatefulWidget {
   const ShowcaseHomeScreen({super.key});
@@ -74,6 +78,7 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
   bool _isGridView = false;
   PreviewDeviceMode _deviceMode = PreviewDeviceMode.desktop;
   late _ShowcaseItem _selectedItem;
+  String _currentTab = 'Components';
 
   late List<_ShowcaseCategory> _categories;
 
@@ -333,6 +338,130 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
     ];
   }
 
+  Widget _buildTopNavigationBar() {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : TectaColors.grey900;
+
+    return Container(
+      height: 64,
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        border: Border(bottom: BorderSide(color: theme.dividerColor)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Left Logo
+          Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: TectaColors.primaryMain,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'T',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Tecta UI',
+                style: TectaTypography.subtitle1.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: textColor,
+                ),
+              ),
+            ],
+          ),
+          // Center Navigation Tabs
+          Row(
+            children: ['Docs', 'Components', 'Templates', 'Playground'].map((tab) {
+              final isSelected = _currentTab == tab;
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _currentTab = tab;
+                  });
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: isSelected ? TectaColors.errorMain : Colors.transparent,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      tab,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                        color: isSelected ? textColor : TectaColors.grey500,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          // Right Theme Control
+          IconButton(
+            icon: Icon(
+              themeNotifier.value == ThemeMode.dark
+                  ? Icons.light_mode_rounded
+                  : Icons.dark_mode_rounded,
+              color: TectaColors.grey800,
+            ),
+            onPressed: () {
+              setState(() {
+                themeNotifier.value =
+                    themeNotifier.value == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMainContent() {
+    switch (_currentTab) {
+      case 'Docs':
+        return const DocsTabScreen();
+      case 'Templates':
+        return const TemplatesTabScreen();
+      case 'Playground':
+        return const PlaygroundTabScreen();
+      case 'Components':
+      default:
+        return Column(
+          children: [
+            _buildPlaygroundHeader(),
+            Expanded(
+              child: Center(
+                child: _buildPreviewCanvas(),
+              ),
+            ),
+          ],
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -340,26 +469,22 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
 
     if (isDesktop) {
       return Scaffold(
-        body: Row(
+        body: Column(
           children: [
-            // Left Sidebar
-            _buildSidebar(),
-            // Main Playground Canvas
+            _buildTopNavigationBar(),
             Expanded(
-              child: Container(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? TectaColors.grey900
-                    : TectaColors.grey100,
-                child: Column(
-                  children: [
-                    _buildPlaygroundHeader(),
-                    Expanded(
-                      child: Center(
-                        child: _buildPreviewCanvas(),
-                      ),
+              child: Row(
+                children: [
+                  if (_currentTab == 'Components') _buildSidebar(),
+                  Expanded(
+                    child: Container(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? TectaColors.grey900
+                          : TectaColors.grey100,
+                      child: _buildMainContent(),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -728,45 +853,7 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Logo
-          Container(
-            height: 64,
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            decoration: BoxDecoration(
-              color: theme.cardColor,
-              border: Border(bottom: BorderSide(color: theme.dividerColor)),
-            ),
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: TectaColors.primaryMain,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'T',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  'Tecta UI',
-                  style: TectaTypography.subtitle1.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: TectaColors.grey800,
-                  ),
-                ),
-              ],
-            ),
-          ),
+
           // Scrollable Sidebar list
           Expanded(
             child: ListView(

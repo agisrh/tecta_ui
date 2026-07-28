@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
-import '../utils/showcase_page_layout.dart';
-import '../utils/showcase_section.dart';
+import '../../../utils/showcase_page_layout.dart';
+import '../../../utils/showcase_section.dart';
 
 class IconsShowcasePage extends StatelessWidget {
   const IconsShowcasePage({super.key});
