@@ -185,20 +185,17 @@ class ShowcaseDesktopView extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: isSelected ? TectaColors.errorMain : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
-                    ),
+                    decoration: const BoxDecoration(),
                     child: Text(
                       tab,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                        color: isSelected ? textColor : TectaColors.grey500,
+                        color: isSelected
+                            ? TectaColors.secondaryMain
+                            : (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white70
+                                : TectaColors.grey700),
                       ),
                     ),
                   ),
