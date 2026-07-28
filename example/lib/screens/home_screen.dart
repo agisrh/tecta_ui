@@ -448,16 +448,7 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
         return const PlaygroundTabScreen();
       case 'Components':
       default:
-        return Column(
-          children: [
-            _buildPlaygroundHeader(),
-            Expanded(
-              child: Center(
-                child: _buildPreviewCanvas(),
-              ),
-            ),
-          ],
-        );
+        return _buildPreviewCanvas();
     }
   }
 
@@ -624,42 +615,7 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
     );
   }
 
-  Widget _buildPlaygroundHeader() {
-    final theme = Theme.of(context);
-    return Container(
-      height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        border: Border(bottom: BorderSide(color: theme.dividerColor)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const SizedBox.shrink(),
-          Row(
-            children: [
-              // Theme Toggle Button
-              IconButton(
-                icon: Icon(
-                  themeNotifier.value == ThemeMode.dark
-                      ? Icons.light_mode_rounded
-                      : Icons.dark_mode_rounded,
-                  color: TectaColors.grey800,
-                ),
-                onPressed: () {
-                  setState(() {
-                    themeNotifier.value =
-                        themeNotifier.value == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
-                  });
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+
 
 
 
