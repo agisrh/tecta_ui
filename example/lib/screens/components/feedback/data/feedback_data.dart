@@ -15,8 +15,6 @@ ShowcaseCategory buildFeedbackCategory() {
       ShowcaseItem(
         title: 'Alert',
         description: 'Status notifications',
-        longDescription:
-            'TectaAlert is a contextual feedback widget for displaying inline status messages. It supports four severity levels (info, success, warning, error) and three visual variants (soft, filled, outlined). An optional close button can be enabled via the onClose callback. Alerts are designed to be used inline within content areas — for transient toast-style messages, use TectaSnackbar instead.',
         icon: Icons.info_outline,
         iconColor: TectaColors.infoMain,
         builder: (context) => const AlertShowcasePage(),

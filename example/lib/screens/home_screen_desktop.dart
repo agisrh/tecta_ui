@@ -122,55 +122,9 @@ class ShowcaseDesktopView extends StatelessWidget {
                 child: _buildPreviewCanvas(context),
               ),
             ),
-            // Optional long description below component preview
-            if (selectedItem.longDescription != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 32.0),
-                child: _buildLongDescription(context, selectedItem.longDescription!),
-              ),
           ],
         );
     }
-  }
-
-  Widget _buildLongDescription(BuildContext context, String text) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: isDark
-            ? TectaColors.primaryMain.withValues(alpha: 0.06)
-            : TectaColors.primaryMain.withValues(alpha: 0.04),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isDark
-              ? TectaColors.primaryMain.withValues(alpha: 0.2)
-              : TectaColors.primaryMain.withValues(alpha: 0.15),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            Icons.info_outline_rounded,
-            size: 18,
-            color: TectaColors.primaryMain.withValues(alpha: 0.7),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 14,
-                color: isDark ? Colors.white70 : TectaColors.grey700,
-                height: 1.6,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   String _getCategoryTitle(ShowcaseItem item) {
