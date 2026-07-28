@@ -1,0 +1,44 @@
+/// A premium, clean, and highly customizable UI component design system for Flutter,
+/// featuring beautiful colors, smooth typography, and refined feedback elements.
+library;
+
+export 'src/foundation/tecta_colors.dart';
+export 'src/foundation/tecta_typography.dart';
+export 'src/foundation/tecta_shadows.dart';
+export 'src/foundation/tecta_icons.dart';
+export 'src/components/accordion/tecta_accordion.dart';
+export 'src/components/alert/tecta_alert.dart';
+export 'src/components/avatar/tecta_avatar.dart';
+export 'src/components/avatar/tecta_avatar_group.dart';
+export 'src/components/badge/tecta_badge.dart';
+export 'src/components/buttons/tecta_button.dart';
+export 'src/components/buttons/tecta_icon_button.dart';
+export 'src/components/buttons/tecta_fab.dart';
+export 'src/components/inputs/tecta_checkbox.dart';
+export 'src/components/inputs/tecta_radio.dart';
+export 'src/components/inputs/tecta_switch.dart';
+export 'src/components/inputs/tecta_text_field.dart';
+export 'src/components/inputs/tecta_upload.dart';
+export 'src/components/snackbar/tecta_snackbar.dart';
+export 'src/components/labels/tecta_chip.dart';
+export 'src/components/labels/tecta_label.dart';
+export 'src/components/dialog/tecta_dialog.dart';
+export 'src/components/divider/tecta_divider.dart';
+export 'src/components/segmented_control/tecta_segmented_control.dart';
+export 'src/components/dropdown_menu/tecta_dropdown_menu.dart';
+export 'src/components/date_picker/tecta_calendar_event.dart';
+export 'src/components/date_picker/tecta_calendar.dart';
+export 'src/components/date_picker/tecta_month_year_picker.dart';
+export 'src/components/date_picker/tecta_time_picker.dart';
+export 'src/components/date_picker/tecta_picker_dialogs.dart';
+export 'src/components/bottom_sheet/tecta_bottom_sheet.dart';
+export 'src/components/card/tecta_card.dart';
+export 'src/components/tooltip/tecta_tooltip.dart';
+export 'src/components/rating/tecta_rating.dart';
+export 'src/components/timeline/tecta_timeline.dart';
+export 'src/components/slider/tecta_slider.dart';
+export 'src/components/tabs/tecta_tabs.dart';
+export 'src/components/skeleton/tecta_skeleton.dart';
+export 'src/components/empty_state/tecta_empty_state.dart';
+export 'src/components/progress/tecta_progress.dart';
+export 'src/theme/tecta_theme.dart';
