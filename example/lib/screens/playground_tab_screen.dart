@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tecta_ui/tecta_ui.dart';
 
-/// A custom TextEditingController to highlight code editor text dynamically.
+/// A custom TextEditingController to highlight Dart/Flutter code syntax dynamically.
 class CodePlaygroundController extends TextEditingController {
   @override
   TextSpan buildTextSpan({
@@ -14,24 +14,22 @@ class CodePlaygroundController extends TextEditingController {
     final List<TextSpan> children = [];
     final textVal = text;
 
-    // A basic syntax highlighter using Regex
+    // A basic Dart syntax highlighter using Regex
     final regExp = RegExp(
-      r'(import|from|export|default|function|return)|' // Keywords [1]
-      r'(<[A-Za-z0-9_]+|</[A-Za-z0-9_]+>)|' // Tags [2]
-      r'([a-zA-Z0-9_-]+)(?=\=)|' // Attributes [3]
+      r'\b(import|class|extends|final|const|return|Widget|build|BuildContext|context|void|null|true|false|super)\b|' // Keywords [1]
+      r'\b(TectaCard|TectaButton|TectaAlert|TectaTextField|Text|Padding|Row|Column|EdgeInsets|TextStyle|Divider)\b|' // Widget/Class names [2]
+      r'([a-zA-Z0-9_-]+)(?=\:)|' // Parameters/Key arguments [3]
       r'(".*?"|' + "'.*?')" + r'|' // Strings [4]
-      r'(\d+)', // Numbers [5]
+      r'(\b\d+\b)', // Numbers [5]
     );
 
     int lastMatchEnd = 0;
 
     regExp.allMatches(textVal).forEach((match) {
-      // Add unhighlighted text before match
       if (match.start > lastMatchEnd) {
         children.add(TextSpan(text: textVal.substring(lastMatchEnd, match.start)));
       }
 
-      // Add highlighted text based on capturing group
       if (match.group(1) != null) {
         // Keywords
         children.add(TextSpan(
@@ -39,13 +37,13 @@ class CodePlaygroundController extends TextEditingController {
           style: const TextStyle(color: Color(0xFFC586C0), fontWeight: FontWeight.bold),
         ));
       } else if (match.group(2) != null) {
-        // Tags
+        // Widgets/Classes
         children.add(TextSpan(
           text: match.group(0),
-          style: const TextStyle(color: Color(0xFF569CD6)),
+          style: const TextStyle(color: Color(0xFF4EC9B0)),
         ));
       } else if (match.group(3) != null) {
-        // Attributes
+        // Params (e.g. padding:)
         children.add(TextSpan(
           text: match.group(0),
           style: const TextStyle(color: Color(0xFF9CDCFE)),
@@ -100,7 +98,6 @@ class _PlaygroundTabScreenState extends State<PlaygroundTabScreen> {
   String _cardContent = 'Try out components in the code editor, open a ready-made template, and build your own theme in the theme editor — all in one place.';
   String _cardButtonLabel = 'Get started';
   bool _cardHasDivider = true;
-  double _cardWidth = 400.0;
   double _cardPadding = 24.0;
 
   // Button Visual States
@@ -123,70 +120,60 @@ class _PlaygroundTabScreenState extends State<PlaygroundTabScreen> {
   String _tfHelper = 'We will never share your email.';
   String _tfError = '';
 
-  // Default Code Templates
+  // Default Code Templates (Now genuine Flutter / Dart code!)
   final Map<String, String> _templatesCode = {
-    'Card': '''import {Card} from '@tecta_ui/core/Card';
-import {Layout, LayoutHeader, LayoutContent, LayoutFooter} from '@tecta_ui/core/Layout';
-import {Text, Heading} from '@tecta_ui/core/Text';
-import {TectaButton} from '@tecta_ui/core/TectaButton';
+    'Card': '''import 'package:tecta_ui/tecta_ui.dart';
+import 'package:flutter/material.dart';
 
-export default function Example() {
-  return (
-    <Card width={400} padding={24}>
-      <Layout>
-        <LayoutHeader hasDivider={true}>
-          <Heading level={2}>Welcome</Heading>
-        </LayoutHeader>
-        <LayoutContent>
-          <Text type="body" color="secondary">
-            Try out components in the code editor, open a ready-made template, and build your own theme in the theme editor — all in one place.
-          </Text>
-        </LayoutContent>
-        <LayoutFooter>
-          <TectaButton variant="contained">Get started</TectaButton>
-        </LayoutFooter>
-      </Layout>
-    </Card>
+Widget build(BuildContext context) {
+  return TectaCard(
+    padding: const EdgeInsets.all(24),
+    header: Text(
+      'Welcome',
+      style: TectaTypography.h5,
+    ),
+    content: Text(
+      'Try out components in the code editor, open a ready-made template, and build your own theme in the theme editor — all in one place.',
+    ),
+    actions: [
+      TectaButton(
+        label: 'Get started',
+        variant: TectaButtonVariant.contained,
+        onPressed: () {},
+      ),
+    ],
   );
 }''',
-    'Button': '''import {TectaButton} from '@tecta_ui/core/TectaButton';
+    'Button': '''import 'package:tecta_ui/tecta_ui.dart';
 
-export default function ButtonExample() {
-  return (
-    <TectaButton 
-      variant="contained" 
-      size="medium"
-      loading={false}
-      hasIcon={false}
-    >
-      Get started
-    </TectaButton>
+Widget build(BuildContext context) {
+  return TectaButton(
+    label: 'Get started',
+    variant: TectaButtonVariant.contained,
+    size: TectaButtonSize.medium,
+    loading: false,
+    hasIcon: false,
   );
 }''',
-    'Alert': '''import {TectaAlert} from '@tecta_ui/core/TectaAlert';
+    'Alert': '''import 'package:tecta_ui/tecta_ui.dart';
 
-export default function AlertExample() {
-  return (
-    <TectaAlert 
-      severity="info"
-      variant="soft" 
-      title="Notice"
-      isClosable={true}
-    >
-      This is an example notification widget.
-    </TectaAlert>
+Widget build(BuildContext context) {
+  return TectaAlert(
+    title: 'Notice',
+    message: 'This is an example notification widget.',
+    severity: TectaAlertSeverity.info,
+    variant: TectaAlertVariant.soft,
+    isClosable: true,
   );
 }''',
-    'TextField': '''import {TectaTextField} from '@tecta_ui/core/TectaTextField';
+    'TextField': '''import 'package:tecta_ui/tecta_ui.dart';
 
-export default function TextFieldExample() {
-  return (
-    <TectaTextField 
-      label="Email Address" 
-      placeholder="Enter your email..."
-      helperText="We will never share your email."
-      errorText=""
-    />
+Widget build(BuildContext context) {
+  return TectaTextField(
+    label: 'Email Address',
+    placeholder: 'Enter your email...',
+    helperText: 'We will never share your email.',
+    errorText: '',
   );
 }''',
   };
@@ -234,48 +221,39 @@ export default function TextFieldExample() {
     });
   }
 
-  // Regex Parsers per Component
+  // Regex Parsers per Component for Dart Syntax
   void _parseCardTemplate(String code) {
-    // 1. Width
-    final widthMatch = RegExp(r'width\s*=\s*\{(\d+)\}').firstMatch(code);
-    if (widthMatch != null) {
-      _cardWidth = double.tryParse(widthMatch.group(1) ?? '400') ?? 400.0;
-    }
-
-    // 2. Padding
-    final paddingMatch = RegExp(r'padding\s*=\s*\{(\d+)\}').firstMatch(code);
+    // 1. Padding
+    final paddingMatch = RegExp(r'EdgeInsets\.all\((\d+)\)').firstMatch(code);
     if (paddingMatch != null) {
       _cardPadding = double.tryParse(paddingMatch.group(1) ?? '24') ?? 24.0;
     }
 
-    // 3. hasDivider
-    final dividerMatch = RegExp(r'hasDivider\s*=\s*\{(true|false)\}').firstMatch(code);
-    if (dividerMatch != null) {
-      _cardHasDivider = dividerMatch.group(1) == 'true';
-    }
+    // 2. hasDivider (Simulated by checking if Divider widget exists in header)
+    _cardHasDivider = code.contains('Divider(');
 
-    // 4. Heading / Title
-    final headingMatch = RegExp(r'<Heading[^>]*>(.*?)</Heading>').firstMatch(code);
+    // 3. Header title Text
+    final headingMatch = RegExp(r"header:\s*Text\(\s*[''](.*?)['']").firstMatch(code);
     if (headingMatch != null) {
-      _cardTitle = headingMatch.group(1)?.trim() ?? 'Welcome';
+      _cardTitle = headingMatch.group(1) ?? 'Welcome';
     }
 
-    // 5. Content text
-    final textMatch = RegExp(r'<Text[^>]*>(.*?)</Text>', dotAll: true).firstMatch(code);
+    // 4. Content Text
+    final textMatch = RegExp(r"content:\s*Text\(\s*[''](.*?)['']", dotAll: true).firstMatch(code);
     if (textMatch != null) {
-      _cardContent = textMatch.group(1)?.trim() ?? '';
+      _cardContent = textMatch.group(1)?.replaceAll('\n', ' ').trim() ?? '';
     }
 
-    // 6. Button label
-    final btnMatch = RegExp(r'<TectaButton[^>]*>(.*?)</TectaButton>').firstMatch(code);
+    // 5. Button label
+    final btnMatch = RegExp(r"label:\s*[''](.*?)['']").firstMatch(code);
     if (btnMatch != null) {
-      _cardButtonLabel = btnMatch.group(1)?.trim() ?? 'Get started';
+      _cardButtonLabel = btnMatch.group(1) ?? 'Get started';
     }
   }
 
   void _parseButtonTemplate(String code) {
     // 1. Variant
-    final varMatch = RegExp(r'variant\s*=\s*"([^"]*)"').firstMatch(code);
+    final varMatch = RegExp(r'TectaButtonVariant\.([a-zA-Z]+)').firstMatch(code);
     if (varMatch != null) {
       final val = varMatch.group(1);
       _btnVariant = TectaButtonVariant.values.firstWhere(
@@ -285,7 +263,7 @@ export default function TextFieldExample() {
     }
 
     // 2. Size
-    final sizeMatch = RegExp(r'size\s*=\s*"([^"]*)"').firstMatch(code);
+    final sizeMatch = RegExp(r'TectaButtonSize\.([a-zA-Z]+)').firstMatch(code);
     if (sizeMatch != null) {
       final val = sizeMatch.group(1);
       _btnSize = TectaButtonSize.values.firstWhere(
@@ -295,27 +273,27 @@ export default function TextFieldExample() {
     }
 
     // 3. Loading
-    final loadingMatch = RegExp(r'loading\s*=\s*\{(true|false)\}').firstMatch(code);
+    final loadingMatch = RegExp(r'loading:\s*(true|false)').firstMatch(code);
     if (loadingMatch != null) {
       _btnLoading = loadingMatch.group(1) == 'true';
     }
 
     // 4. HasIcon
-    final iconMatch = RegExp(r'hasIcon\s*=\s*\{(true|false)\}').firstMatch(code);
+    final iconMatch = RegExp(r'hasIcon:\s*(true|false)').firstMatch(code);
     if (iconMatch != null) {
       _btnHasIcon = iconMatch.group(1) == 'true';
     }
 
     // 5. Button label
-    final labelMatch = RegExp(r'<TectaButton[^>]*>\s*(.*?)\s*</TectaButton>', dotAll: true).firstMatch(code);
+    final labelMatch = RegExp(r"label:\s*[''](.*?)['']").firstMatch(code);
     if (labelMatch != null) {
-      _btnLabel = labelMatch.group(1)?.trim() ?? 'Get started';
+      _btnLabel = labelMatch.group(1) ?? 'Get started';
     }
   }
 
   void _parseAlertTemplate(String code) {
     // 1. Severity
-    final sevMatch = RegExp(r'severity\s*=\s*"([^"]*)"').firstMatch(code);
+    final sevMatch = RegExp(r'TectaAlertSeverity\.([a-zA-Z]+)').firstMatch(code);
     if (sevMatch != null) {
       final val = sevMatch.group(1);
       _alertSeverity = TectaAlertSeverity.values.firstWhere(
@@ -325,7 +303,7 @@ export default function TextFieldExample() {
     }
 
     // 2. Variant
-    final varMatch = RegExp(r'variant\s*=\s*"([^"]*)"').firstMatch(code);
+    final varMatch = RegExp(r'TectaAlertVariant\.([a-zA-Z]+)').firstMatch(code);
     if (varMatch != null) {
       final val = varMatch.group(1);
       _alertVariant = TectaAlertVariant.values.firstWhere(
@@ -335,45 +313,45 @@ export default function TextFieldExample() {
     }
 
     // 3. Title
-    final titleMatch = RegExp(r'title\s*=\s*"([^"]*)"').firstMatch(code);
+    final titleMatch = RegExp(r"title:\s*[''](.*?)['']").firstMatch(code);
     if (titleMatch != null) {
       _alertTitle = titleMatch.group(1) ?? 'Notice';
     }
 
     // 4. Closable
-    final closableMatch = RegExp(r'isClosable\s*=\s*\{(true|false)\}').firstMatch(code);
+    final closableMatch = RegExp(r'isClosable:\s*(true|false)').firstMatch(code);
     if (closableMatch != null) {
       _alertIsClosable = closableMatch.group(1) == 'true';
     }
 
     // 5. Description content
-    final descMatch = RegExp(r'<TectaAlert[^>]*>\s*(.*?)\s*</TectaAlert>', dotAll: true).firstMatch(code);
+    final descMatch = RegExp(r"message:\s*[''](.*?)['']").firstMatch(code);
     if (descMatch != null) {
-      _alertDesc = descMatch.group(1)?.trim() ?? '';
+      _alertDesc = descMatch.group(1) ?? '';
     }
   }
 
   void _parseTextFieldTemplate(String code) {
     // 1. Label
-    final labelMatch = RegExp(r'label\s*=\s*"([^"]*)"').firstMatch(code);
+    final labelMatch = RegExp(r"label:\s*[''](.*?)['']").firstMatch(code);
     if (labelMatch != null) {
       _tfLabel = labelMatch.group(1) ?? 'Email Address';
     }
 
     // 2. Hint/Placeholder
-    final hintMatch = RegExp(r'placeholder\s*=\s*"([^"]*)"').firstMatch(code);
+    final hintMatch = RegExp(r"placeholder:\s*[''](.*?)['']").firstMatch(code);
     if (hintMatch != null) {
       _tfHint = hintMatch.group(1) ?? '';
     }
 
     // 3. Helper
-    final helperMatch = RegExp(r'helperText\s*=\s*"([^"]*)"').firstMatch(code);
+    final helperMatch = RegExp(r"helperText:\s*[''](.*?)['']").firstMatch(code);
     if (helperMatch != null) {
       _tfHelper = helperMatch.group(1) ?? '';
     }
 
     // 4. Error
-    final errorMatch = RegExp(r'errorText\s*=\s*"([^"]*)"').firstMatch(code);
+    final errorMatch = RegExp(r"errorText:\s*[''](.*?)['']").firstMatch(code);
     if (errorMatch != null) {
       _tfError = errorMatch.group(1) ?? '';
     }
@@ -382,7 +360,7 @@ export default function TextFieldExample() {
   Widget _buildPreviewComponent() {
     if (_selectedTemplate == 'Card') {
       return Container(
-        width: _cardWidth,
+        width: 400.0,
         child: TectaCard(
           header: Padding(
             padding: EdgeInsets.fromLTRB(_cardPadding, _cardPadding, _cardPadding, _cardHasDivider ? 16 : _cardPadding),
@@ -467,8 +445,6 @@ export default function TextFieldExample() {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
       color: const Color(0xFF161616), // Dark IDE theme
       child: Row(
