@@ -214,6 +214,27 @@ return isDesktop
   ? const ShowcaseDesktopView() 
   : const ShowcaseMobileView();''',
           ),
+          const SizedBox(height: 40),
+
+          // Section 5: AI-Ready Design Specifications
+          _buildSectionHeader(theme, 'AI-Ready Design Specifications'),
+          _buildDescription(isDark, 'Tecta UI includes a specialized specification document (TECTA_SPECS.md) at the project root directory. This contains clean widget constructor signatures, parameter details, and token styles optimized to help AI coding models and developers build UI layouts with perfect styling compliance:'),
+          const SizedBox(height: 16),
+          const SyntaxHighlightedCode(
+            code: '''# Tecta Design System — AI-Ready Specifications
+// File: /TECTA_SPECS.md
+
+// Provides structured constructor signatures for AI:
+const TectaButton({
+  super.key,
+  required String label,
+  TectaButtonVariant variant = TectaButtonVariant.contained,
+  TectaButtonSize size = TectaButtonSize.medium,
+  bool loading = false,
+  bool hasIcon = false,
+  VoidCallback? onPressed,
+});''',
+          ),
           const SizedBox(height: 24),
         ],
       ),
