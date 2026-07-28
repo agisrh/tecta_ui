@@ -44,23 +44,13 @@ class ShowcaseDesktopView extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header: breadcrumb + title + short description
             Padding(
               padding: const EdgeInsets.fromLTRB(40.0, 40.0, 40.0, 24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    selectedItem.title,
-                    style: TextStyle(
-                      fontSize: 38,
-                      fontWeight: FontWeight.w900,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : TectaColors.grey800,
-                      letterSpacing: -1.0,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
+                  // Breadcrumb
                   Row(
                     children: [
                       Text(
@@ -76,7 +66,7 @@ class ShowcaseDesktopView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          '•',
+                          '›',
                           style: TextStyle(
                             fontSize: 13,
                             color: Theme.of(context).brightness == Brightness.dark
@@ -90,23 +80,97 @@ class ShowcaseDesktopView extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: TectaColors.grey500,
+                          color: TectaColors.secondaryMain,
                         ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+                  // Title
+                  Text(
+                    selectedItem.title,
+                    style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.w900,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : TectaColors.grey800,
+                      letterSpacing: -1.0,
+                    ),
+                  ),
+                  // Short description below title
+                  if (selectedItem.description.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      selectedItem.description,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white54
+                            : TectaColors.grey500,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
+            // Component preview — must stay Expanded so showcase pages render correctly
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: _buildPreviewCanvas(context),
               ),
             ),
+            // Optional long description below component preview
+            if (selectedItem.longDescription != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 32.0),
+                child: _buildLongDescription(context, selectedItem.longDescription!),
+              ),
           ],
         );
     }
+  }
+
+  Widget _buildLongDescription(BuildContext context, String text) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: isDark
+            ? TectaColors.primaryMain.withValues(alpha: 0.06)
+            : TectaColors.primaryMain.withValues(alpha: 0.04),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isDark
+              ? TectaColors.primaryMain.withValues(alpha: 0.2)
+              : TectaColors.primaryMain.withValues(alpha: 0.15),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.info_outline_rounded,
+            size: 18,
+            color: TectaColors.primaryMain.withValues(alpha: 0.7),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 14,
+                color: isDark ? Colors.white70 : TectaColors.grey700,
+                height: 1.6,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   String _getCategoryTitle(ShowcaseItem item) {

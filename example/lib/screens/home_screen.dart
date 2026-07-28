@@ -13,6 +13,7 @@ import 'home_screen_mobile.dart';
 class ShowcaseItem {
   final String title;
   final String description;
+  final String? longDescription;
   final IconData icon;
   final Color iconColor;
   final WidgetBuilder builder;
@@ -20,6 +21,7 @@ class ShowcaseItem {
   const ShowcaseItem({
     required this.title,
     required this.description,
+    this.longDescription,
     required this.icon,
     required this.iconColor,
     required this.builder,
