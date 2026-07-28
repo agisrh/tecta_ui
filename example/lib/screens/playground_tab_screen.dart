@@ -607,26 +607,18 @@ Widget build(BuildContext context) {
                             ),
                             const SizedBox(width: 8),
                             // Zoom / Scale Selector
-                            DropdownButtonHideUnderline(
-                              child: DropdownButton<double>(
-                                value: _previewScale,
-                                icon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.white38),
-                                dropdownColor: const Color(0xFF222222),
-                                style: const TextStyle(fontSize: 12, color: Colors.white70),
-                                items: [0.5, 0.75, 1.0, 1.25, 1.5].map((scale) {
-                                  return DropdownMenuItem(
-                                    value: scale,
-                                    child: Text('${(scale * 100).toInt()}%'),
-                                  );
-                                }).toList(),
-                                onChanged: (val) {
-                                  if (val != null) {
-                                    setState(() {
-                                      _previewScale = val;
-                                    });
-                                  }
-                                },
-                              ),
+                            _buildTopDropdown(
+                              label: 'Zoom',
+                              items: ['50%', '75%', '100%', '125%', '150%'],
+                              value: '${(_previewScale * 100).toInt()}%',
+                              onChanged: (val) {
+                                if (val != null) {
+                                  final numVal = double.tryParse(val.replaceAll('%', '')) ?? 100.0;
+                                  setState(() {
+                                    _previewScale = numVal / 100.0;
+                                  });
+                                }
+                              },
                             ),
                             const SizedBox(width: 16),
                             // Export Button
@@ -695,32 +687,78 @@ Widget build(BuildContext context) {
     required String value,
     required ValueChanged<String?> onChanged,
   }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: const Color(0xFF2D2D2D),
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: const Color(0xFF444444), width: 1),
+    return PopupMenuButton<String>(
+      tooltip: 'Select $label',
+      offset: const Offset(0, 36),
+      color: const Color(0xFF1E1E1E),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: const BorderSide(color: Color(0xFF333333)),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: value,
-          icon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.white60, size: 18),
-          dropdownColor: const Color(0xFF1E1E1E),
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: Colors.white70,
-          ),
-          items: items.map((item) {
-            return DropdownMenuItem(
-              value: item,
-              child: Text(item),
-            );
-          }).toList(),
-          onChanged: onChanged,
+      onSelected: onChanged,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: const Color(0xFF252526),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: const Color(0xFF3C3C3C)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$label: ',
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.white38,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.white70,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(width: 6),
+            const Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: Colors.white54,
+              size: 16,
+            ),
+          ],
         ),
       ),
+      itemBuilder: (context) {
+        return items.map((item) {
+          final isSelected = item == value;
+          return PopupMenuItem<String>(
+            value: item,
+            height: 36,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  item,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                    color: isSelected ? Colors.white : Colors.white70,
+                  ),
+                ),
+                if (isSelected)
+                  const Icon(
+                    Icons.check_rounded,
+                    color: TectaColors.primaryMain,
+                    size: 14,
+                  ),
+              ],
+            ),
+          );
+        }).toList();
+      },
     );
   }
 }
