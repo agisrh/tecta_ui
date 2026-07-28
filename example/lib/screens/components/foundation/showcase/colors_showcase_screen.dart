@@ -37,6 +37,8 @@ class ColorsShowcasePage extends StatelessWidget {
         sections: [
           ShowcaseSection(
             title: 'Primary (Deep Blue)',
+            note: 'Always use TectaColors tokens instead of hardcoded hex values. This ensures your UI responds correctly to theme changes and future palette updates across the entire design system.',
+            noteVariant: ShowcaseNoteVariant.tip,
             code: '''// Accessing Primary Colors
 Container(
   color: TectaColors.primaryMain,

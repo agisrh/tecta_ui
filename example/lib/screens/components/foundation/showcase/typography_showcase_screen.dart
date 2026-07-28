@@ -34,6 +34,8 @@ class TypographyShowcasePage extends StatelessWidget {
         sections: [
           ShowcaseSection(
             title: 'Headings (H1 - H6)',
+            note: 'Use heading styles sparingly — only one H1 per page. H1–H3 are best for page and section titles; H4–H6 work well for card headers and group labels.',
+            noteVariant: ShowcaseNoteVariant.tip,
             code: '''Text('Heading 1', style: TectaTypography.h1)
 Text('Heading 2', style: TectaTypography.h2)
 Text('Heading 3', style: TectaTypography.h3)
@@ -94,6 +96,8 @@ Text('Heading 6', style: TectaTypography.h6)''',
           ),
           ShowcaseSection(
             title: 'Subtitles',
+            note: 'Subtitle styles are designed to accompany headings — not replace them. subtitle1 is ideal for section intros, while subtitle2 pairs well with form labels and metadata rows.',
+            noteVariant: ShowcaseNoteVariant.info,
             code: '''Text('Subtitle 1', style: TectaTypography.subtitle1)
 Text('Subtitle 2', style: TectaTypography.subtitle2)''',
             overview: Column(
@@ -142,6 +146,8 @@ Text('Body 2', style: TectaTypography.body2)''',
           ),
           ShowcaseSection(
             title: 'Caption & Overline',
+            note: 'Avoid using caption or overline as standalone body copy — these are supplementary styles intended for timestamps, helper hints, and tag labels where space is constrained.',
+            noteVariant: ShowcaseNoteVariant.warning,
             code: '''Text('Caption', style: TectaTypography.caption)
 Text('OVERLINE', style: TectaTypography.overline)''',
             overview: Column(
