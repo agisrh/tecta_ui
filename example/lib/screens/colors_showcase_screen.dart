@@ -43,16 +43,13 @@ Container(
 )''',
             overview: _buildColorGroup(
               shades: [
-                _ColorShadeItem('Lighter', TectaColors.primaryLighter, 'FFE6EDFA',
-                    TectaColors.primaryDarker),
+                _ColorShadeItem(
+                    'Lighter', TectaColors.primaryLighter, 'FFE6EDFA', TectaColors.primaryDarker),
                 _ColorShadeItem(
                     'Light', TectaColors.primaryLight, 'FF7D9ECF', TectaColors.primaryDarker),
-                _ColorShadeItem(
-                    'Main', TectaColors.primaryMain, 'FF0F2B5C', TectaColors.white),
-                _ColorShadeItem(
-                    'Dark', TectaColors.primaryDark, 'FF0A1E42', TectaColors.white),
-                _ColorShadeItem(
-                    'Darker', TectaColors.primaryDarker, 'FF050F22', TectaColors.white),
+                _ColorShadeItem('Main', TectaColors.primaryMain, 'FF0F2B5C', TectaColors.white),
+                _ColorShadeItem('Dark', TectaColors.primaryDark, 'FF0A1E42', TectaColors.white),
+                _ColorShadeItem('Darker', TectaColors.primaryDarker, 'FF050F22', TectaColors.white),
               ],
             ),
           ),
@@ -66,12 +63,10 @@ Container(
               shades: [
                 _ColorShadeItem('Lighter', TectaColors.secondaryLighter, 'FFFFECE4',
                     TectaColors.secondaryDarker),
-                _ColorShadeItem('Light', TectaColors.secondaryLight, 'FFFFB399',
-                    TectaColors.secondaryDarker),
                 _ColorShadeItem(
-                    'Main', TectaColors.secondaryMain, 'FFF05A24', TectaColors.white),
-                _ColorShadeItem(
-                    'Dark', TectaColors.secondaryDark, 'FFC84517', TectaColors.white),
+                    'Light', TectaColors.secondaryLight, 'FFFFB399', TectaColors.secondaryDarker),
+                _ColorShadeItem('Main', TectaColors.secondaryMain, 'FFF05A24', TectaColors.white),
+                _ColorShadeItem('Dark', TectaColors.secondaryDark, 'FFC84517', TectaColors.white),
                 _ColorShadeItem(
                     'Darker', TectaColors.secondaryDarker, 'FF802B0E', TectaColors.white),
               ],
@@ -85,16 +80,13 @@ Container(
 )''',
             overview: _buildColorGroup(
               shades: [
-                _ColorShadeItem('Lighter', TectaColors.successLighter, 'FFE1F8EB',
-                    TectaColors.successDarker),
+                _ColorShadeItem(
+                    'Lighter', TectaColors.successLighter, 'FFE1F8EB', TectaColors.successDarker),
                 _ColorShadeItem(
                     'Light', TectaColors.successLight, 'FF86EFAC', TectaColors.successDarker),
-                _ColorShadeItem(
-                    'Main', TectaColors.successMain, 'FF22C55E', TectaColors.white),
-                _ColorShadeItem(
-                    'Dark', TectaColors.successDark, 'FF16A34A', TectaColors.white),
-                _ColorShadeItem(
-                    'Darker', TectaColors.successDarker, 'FF115E59', TectaColors.white),
+                _ColorShadeItem('Main', TectaColors.successMain, 'FF22C55E', TectaColors.white),
+                _ColorShadeItem('Dark', TectaColors.successDark, 'FF16A34A', TectaColors.white),
+                _ColorShadeItem('Darker', TectaColors.successDarker, 'FF115E59', TectaColors.white),
               ],
             ),
           ),
@@ -106,16 +98,13 @@ Container(
 )''',
             overview: _buildColorGroup(
               shades: [
-                _ColorShadeItem('Lighter', TectaColors.warningLighter, 'FFFFF5CC',
-                    TectaColors.warningDarker),
+                _ColorShadeItem(
+                    'Lighter', TectaColors.warningLighter, 'FFFFF5CC', TectaColors.warningDarker),
                 _ColorShadeItem(
                     'Light', TectaColors.warningLight, 'FFFFD666', TectaColors.warningDarker),
-                _ColorShadeItem(
-                    'Main', TectaColors.warningMain, 'FFFFAB00', TectaColors.white),
-                _ColorShadeItem(
-                    'Dark', TectaColors.warningDark, 'FFB77900', TectaColors.white),
-                _ColorShadeItem(
-                    'Darker', TectaColors.warningDarker, 'FF7A4F01', TectaColors.white),
+                _ColorShadeItem('Main', TectaColors.warningMain, 'FFFFAB00', TectaColors.white),
+                _ColorShadeItem('Dark', TectaColors.warningDark, 'FFB77900', TectaColors.white),
+                _ColorShadeItem('Darker', TectaColors.warningDarker, 'FF7A4F01', TectaColors.white),
               ],
             ),
           ),
@@ -133,8 +122,7 @@ Container(
                     'Light', TectaColors.errorLight, 'FFFFAC82', TectaColors.errorDarker),
                 _ColorShadeItem('Main', TectaColors.errorMain, 'FFFF5630', TectaColors.white),
                 _ColorShadeItem('Dark', TectaColors.errorDark, 'FFB7211F', TectaColors.white),
-                _ColorShadeItem(
-                    'Darker', TectaColors.errorDarker, 'FF7A0C2E', TectaColors.white),
+                _ColorShadeItem('Darker', TectaColors.errorDarker, 'FF7A0C2E', TectaColors.white),
               ],
             ),
           ),
@@ -146,26 +134,16 @@ Container(
 )''',
             overview: _buildColorGroup(
               shades: [
-                _ColorShadeItem(
-                    'Grey 50', TectaColors.grey50, 'FFFDFDFD', TectaColors.grey800),
-                _ColorShadeItem(
-                    'Grey 100', TectaColors.grey100, 'FFF9FAFB', TectaColors.grey800),
-                _ColorShadeItem(
-                    'Grey 200', TectaColors.grey200, 'FFF4F6F8', TectaColors.grey800),
-                _ColorShadeItem(
-                    'Grey 300', TectaColors.grey300, 'FFDFE3E8', TectaColors.grey800),
-                _ColorShadeItem(
-                    'Grey 400', TectaColors.grey400, 'FFC4CDD5', TectaColors.grey800),
-                _ColorShadeItem(
-                    'Grey 500', TectaColors.grey500, 'FF919EAB', TectaColors.white),
-                _ColorShadeItem(
-                    'Grey 600', TectaColors.grey600, 'FF637381', TectaColors.white),
-                _ColorShadeItem(
-                    'Grey 700', TectaColors.grey700, 'FF454F5B', TectaColors.white),
-                _ColorShadeItem(
-                    'Grey 800', TectaColors.grey800, 'FF212B36', TectaColors.white),
-                _ColorShadeItem(
-                    'Grey 900', TectaColors.grey900, 'FF161C24', TectaColors.white),
+                _ColorShadeItem('Grey 50', TectaColors.grey50, 'FFFDFDFD', TectaColors.grey800),
+                _ColorShadeItem('Grey 100', TectaColors.grey100, 'FFF9FAFB', TectaColors.grey800),
+                _ColorShadeItem('Grey 200', TectaColors.grey200, 'FFF4F6F8', TectaColors.grey800),
+                _ColorShadeItem('Grey 300', TectaColors.grey300, 'FFDFE3E8', TectaColors.grey800),
+                _ColorShadeItem('Grey 400', TectaColors.grey400, 'FFC4CDD5', TectaColors.grey800),
+                _ColorShadeItem('Grey 500', TectaColors.grey500, 'FF919EAB', TectaColors.white),
+                _ColorShadeItem('Grey 600', TectaColors.grey600, 'FF637381', TectaColors.white),
+                _ColorShadeItem('Grey 700', TectaColors.grey700, 'FF454F5B', TectaColors.white),
+                _ColorShadeItem('Grey 800', TectaColors.grey800, 'FF212B36', TectaColors.white),
+                _ColorShadeItem('Grey 900', TectaColors.grey900, 'FF161C24', TectaColors.white),
               ],
             ),
           ),

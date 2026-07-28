@@ -390,7 +390,9 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
           ),
           IconButton(
             icon: Icon(
-              themeNotifier.value == ThemeMode.dark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              themeNotifier.value == ThemeMode.dark
+                  ? Icons.light_mode_rounded
+                  : Icons.dark_mode_rounded,
               color: TectaColors.grey800,
             ),
             onPressed: () {
@@ -450,7 +452,8 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
               children: [
                 Positioned.fill(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 36.0), // Give room for iPhone notch/status bar
+                    padding:
+                        const EdgeInsets.only(top: 36.0), // Give room for iPhone notch/status bar
                     child: previewWidget,
                   ),
                 ),
@@ -478,14 +481,23 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.signal_cellular_4_bar_rounded, size: 12,
-                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black87),
+                            Icon(Icons.signal_cellular_4_bar_rounded,
+                                size: 12,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black87),
                             const SizedBox(width: 4),
-                            Icon(Icons.wifi, size: 12,
-                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black87),
+                            Icon(Icons.wifi,
+                                size: 12,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black87),
                             const SizedBox(width: 4),
-                            Icon(Icons.battery_5_bar_rounded, size: 12,
-                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black87),
+                            Icon(Icons.battery_5_bar_rounded,
+                                size: 12,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black87),
                           ],
                         ),
                       ],
@@ -521,7 +533,8 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
         break;
       }
     }
-    final formattedCategory = categoryTitle[0].toUpperCase() + categoryTitle.substring(1).toLowerCase();
+    final formattedCategory =
+        categoryTitle[0].toUpperCase() + categoryTitle.substring(1).toLowerCase();
 
     // Desktop view just renders the selected page directly on the flat page background
     return Column(
@@ -609,7 +622,9 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
               // Device Mode Segmented Switch
               Container(
                 decoration: BoxDecoration(
-                  color: theme.brightness == Brightness.dark ? TectaColors.grey800 : TectaColors.grey100,
+                  color: theme.brightness == Brightness.dark
+                      ? TectaColors.grey800
+                      : TectaColors.grey100,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 padding: const EdgeInsets.all(4.0),
@@ -634,7 +649,9 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
               // Theme Toggle Button
               IconButton(
                 icon: Icon(
-                  themeNotifier.value == ThemeMode.dark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                  themeNotifier.value == ThemeMode.dark
+                      ? Icons.light_mode_rounded
+                      : Icons.dark_mode_rounded,
                   color: TectaColors.grey800,
                 ),
                 onPressed: () {
@@ -731,7 +748,7 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
                   ),
                   alignment: Alignment.center,
                   child: const Text(
-                    'K',
+                    'T',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
@@ -741,7 +758,7 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Tecta Playground',
+                  'Tecta UI',
                   style: TectaTypography.subtitle1.copyWith(
                     fontWeight: FontWeight.w800,
                     color: TectaColors.grey800,
@@ -791,7 +808,8 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
                                   Icon(
                                     item.icon,
                                     size: 20,
-                                    color: isSelected ? TectaColors.primaryMain : TectaColors.grey500,
+                                    color:
+                                        isSelected ? TectaColors.primaryMain : TectaColors.grey500,
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
@@ -800,7 +818,9 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                                        color: isSelected ? TectaColors.primaryMain : TectaColors.grey700,
+                                        color: isSelected
+                                            ? TectaColors.primaryMain
+                                            : TectaColors.grey700,
                                       ),
                                     ),
                                   ),
@@ -985,8 +1005,7 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
                     children: [
                       Text(
                         item.title,
-                        style:
-                            (theme.textTheme.titleSmall ?? TectaTypography.subtitle2).copyWith(
+                        style: (theme.textTheme.titleSmall ?? TectaTypography.subtitle2).copyWith(
                           color: TectaColors.grey800,
                           fontWeight: FontWeight.w700,
                         ),
