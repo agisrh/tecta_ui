@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tecta_ui/tecta_ui.dart';
 import '../../../playground_tab_screen.dart'; // To reuse CodePlaygroundController
+import 'colors_playground_parser.dart';
+import 'colors_playground_docs.dart';
 
 class ColorsPlayground extends StatefulWidget {
   final ValueChanged<String> onTemplateChanged;
@@ -73,68 +75,14 @@ Widget build(BuildContext context) {
   void _parseCodeImmediate() {
     final code = _codeController.text;
     setState(() {
-      // 1. Width
-      final widthMatch = RegExp(r'width:\s*(\d+)').firstMatch(code);
-      if (widthMatch != null) {
-        _colorWidth = double.tryParse(widthMatch.group(1) ?? '200') ?? 200.0;
-      }
-
-      // 2. Height
-      final heightMatch = RegExp(r'height:\s*(\d+)').firstMatch(code);
-      if (heightMatch != null) {
-        _colorHeight = double.tryParse(heightMatch.group(1) ?? '200') ?? 200.0;
-      }
-
-      // 3. BorderRadius
-      final radiusMatch = RegExp(r'BorderRadius\.circular\((\d+)\)').firstMatch(code);
-      if (radiusMatch != null) {
-        _colorRadius = double.tryParse(radiusMatch.group(1) ?? '16') ?? 16.0;
-      }
-
-      // 4. Color name & Value
-      final colorMatch = RegExp(r'TectaColors\.([a-zA-Z0-9]+)').firstMatch(code);
-      if (colorMatch != null) {
-        final name = colorMatch.group(1) ?? 'primaryMain';
-        _colorName = name;
-        _colorValue = _getColorFromName(name);
-      }
+      _colorWidth = ColorsPlaygroundParser.parseWidth(code, 200.0);
+      _colorHeight = ColorsPlaygroundParser.parseHeight(code, 200.0);
+      _colorRadius = ColorsPlaygroundParser.parseRadius(code, 16.0);
+      
+      final colorName = ColorsPlaygroundParser.parseColorName(code, 'primaryMain');
+      _colorName = colorName;
+      _colorValue = ColorsPlaygroundParser.getColorFromName(colorName);
     });
-  }
-
-  Color _getColorFromName(String name) {
-    switch (name) {
-      case 'primaryLighter': return TectaColors.primaryLighter;
-      case 'primaryLight': return TectaColors.primaryLight;
-      case 'primaryMain': return TectaColors.primaryMain;
-      case 'primaryDark': return TectaColors.primaryDark;
-      case 'primaryDarker': return TectaColors.primaryDarker;
-      case 'secondaryLighter': return TectaColors.secondaryLighter;
-      case 'secondaryLight': return TectaColors.secondaryLight;
-      case 'secondaryMain': return TectaColors.secondaryMain;
-      case 'secondaryDark': return TectaColors.secondaryDark;
-      case 'secondaryDarker': return TectaColors.secondaryDarker;
-      case 'infoLighter': return TectaColors.infoLighter;
-      case 'infoLight': return TectaColors.infoLight;
-      case 'infoMain': return TectaColors.infoMain;
-      case 'infoDark': return TectaColors.infoDark;
-      case 'infoDarker': return TectaColors.infoDarker;
-      case 'successLighter': return TectaColors.successLighter;
-      case 'successLight': return TectaColors.successLight;
-      case 'successMain': return TectaColors.successMain;
-      case 'successDark': return TectaColors.successDark;
-      case 'successDarker': return TectaColors.successDarker;
-      case 'warningLighter': return TectaColors.warningLighter;
-      case 'warningLight': return TectaColors.warningLight;
-      case 'warningMain': return TectaColors.warningMain;
-      case 'warningDark': return TectaColors.warningDark;
-      case 'warningDarker': return TectaColors.warningDarker;
-      case 'errorLighter': return TectaColors.errorLighter;
-      case 'errorLight': return TectaColors.errorLight;
-      case 'errorMain': return TectaColors.errorMain;
-      case 'errorDark': return TectaColors.errorDark;
-      case 'errorDarker': return TectaColors.errorDarker;
-      default: return TectaColors.primaryMain;
-    }
   }
 
   void _copyToClipboard() {
@@ -385,20 +333,9 @@ Widget build(BuildContext context) {
                             height: 180,
                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             color: const Color(0xFF151515),
-                            child: SingleChildScrollView(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildDocHeader(),
-                                  const Divider(color: Color(0xFF2D2D2D), height: 1),
-                                  const SizedBox(height: 8),
-                                  _buildDocRow('width', 'double', 'Width of the preview container. (e.g. 200)'),
-                                  _buildDocRow('height', 'double', 'Height of the preview container. (e.g. 200)'),
-                                  _buildDocRow('borderRadius', 'double', 'Radius of corners via BorderRadius.circular(R). (e.g. 16)'),
-                                  _buildDocRow('TectaColors.<name>', 'Color', 'Tecta palette colors: primaryMain, secondaryMain, successMain, warningMain, errorMain, infoMain (plus Light/Lighter/Dark/Darker variants).'),
-                                ],
-                              ),
+                            child: const SingleChildScrollView(
+                              padding: EdgeInsets.only(bottom: 16.0),
+                              child: ColorsPlaygroundDocs(),
                             ),
                           ),
                       ],
@@ -567,80 +504,6 @@ Widget build(BuildContext context) {
                     ),
                   ),
                 ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDocHeader() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 140,
-            child: Text(
-              'Parameter',
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
-            ),
-          ),
-          SizedBox(
-            width: 80,
-            child: Text(
-              'Type',
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              'Description / Allowed Values',
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDocRow(String param, String type, String desc) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 140,
-            child: Text(
-              param,
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 12,
-                color: Color(0xFF9CDCFE),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 80,
-            child: Text(
-              type,
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 11,
-                color: Color(0xFF4EC9B0),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              desc,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.white70,
-                height: 1.3,
               ),
             ),
           ),

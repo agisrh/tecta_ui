@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tecta_ui/tecta_ui.dart';
 
-import 'components/foundation/playground/colors_playground.dart';
+import 'playground/foundation/colors/colors_playground.dart';
 
 /// A custom TextEditingController to highlight Dart/Flutter code syntax dynamically.
 class CodePlaygroundController extends TextEditingController {
