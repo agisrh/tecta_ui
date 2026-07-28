@@ -93,6 +93,7 @@ class _PlaygroundTabScreenState extends State<PlaygroundTabScreen> {
   double _previewScale = 1.0;
   bool _isMobilePreview = false;
   bool _isDarkPreview = true;
+  bool _isDocExpanded = true;
 
   // Parsed Visual states
   // Card Visual States
@@ -536,6 +537,69 @@ Widget build(BuildContext context) {
                       ),
                     ),
                   ),
+                  // Collapsible API Reference Panel
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF1E1E1E),
+                      border: Border(
+                        top: BorderSide(color: Color(0xFF2D2D2D), width: 1),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          onTap: () => setState(() => _isDocExpanded = !_isDocExpanded),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.menu_book_rounded, size: 16, color: TectaColors.primaryMain),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'API REFERENCE',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white.withValues(alpha: 0.8),
+                                        letterSpacing: 1.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Icon(
+                                  _isDocExpanded ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_up_rounded,
+                                  color: Colors.white54,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        if (_isDocExpanded)
+                          Container(
+                            height: 180,
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            color: const Color(0xFF151515),
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildDocHeader(),
+                                  const Divider(color: Color(0xFF2D2D2D), height: 1),
+                                  const SizedBox(height: 8),
+                                  ..._buildDocContent(),
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -740,5 +804,114 @@ Widget build(BuildContext context) {
         }).toList();
       },
     );
+  }
+
+  Widget _buildDocHeader() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 140,
+            child: Text(
+              'Parameter',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
+            ),
+          ),
+          SizedBox(
+            width: 130,
+            child: Text(
+              'Type / Enum',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              'Description / Allowed Values',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDocRow(String param, String type, String desc) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 140,
+            child: Text(
+              param,
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 12,
+                color: Color(0xFF9CDCFE),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 130,
+            child: Text(
+              type,
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 11,
+                color: Color(0xFF4EC9B0),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              desc,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.white70,
+                height: 1.3,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildDocContent() {
+    if (_selectedTemplate == 'Card') {
+      return [
+        _buildDocRow('padding', 'EdgeInsets', 'Inner padding. (e.g. const EdgeInsets.all(24))'),
+        _buildDocRow('header', 'Widget?', 'Optional card title header widget.'),
+        _buildDocRow('content', 'Widget', 'Main body text or inner content widget.'),
+        _buildDocRow('actions', 'List<Widget>?', 'Footer actions row (usually TectaButtons).'),
+      ];
+    } else if (_selectedTemplate == 'Button') {
+      return [
+        _buildDocRow('label', 'String', 'The primary text label inside the button.'),
+        _buildDocRow('variant', 'TectaButtonVariant', 'contained, outlined, text'),
+        _buildDocRow('size', 'TectaButtonSize', 'small, medium, large'),
+        _buildDocRow('loading', 'bool', 'If true, displays loading indicator state.'),
+        _buildDocRow('hasIcon', 'bool', 'If true, adds a default envelope icon prefix.'),
+      ];
+    } else if (_selectedTemplate == 'Alert') {
+      return [
+        _buildDocRow('title', 'String', 'Alert title displayed in bold text.'),
+        _buildDocRow('message', 'String', 'Alert body text message.'),
+        _buildDocRow('severity', 'TectaAlertSeverity', 'info, success, warning, error'),
+        _buildDocRow('variant', 'TectaAlertVariant', 'soft, filled, outlined'),
+        _buildDocRow('isClosable', 'bool', 'Renders close icon button triggers on right.'),
+      ];
+    } else if (_selectedTemplate == 'TextField') {
+      return [
+        _buildDocRow('label', 'String', 'Floating label title above input field.'),
+        _buildDocRow('placeholder', 'String', 'Greyed out hint placeholder text.'),
+        _buildDocRow('helperText', 'String?', 'Small descriptive help note below input.'),
+        _buildDocRow('errorText', 'String?', 'Displays helper in red validation state.'),
+      ];
+    }
+    return [];
   }
 }

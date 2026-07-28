@@ -23,6 +23,7 @@ class _ColorsPlaygroundState extends State<ColorsPlayground> {
   double _previewScale = 1.0;
   bool _isMobilePreview = false;
   bool _isDarkPreview = true;
+  bool _isDocExpanded = true;
 
   // Parsed Visual States
   Color _colorValue = TectaColors.primaryMain;
@@ -337,6 +338,72 @@ Widget build(BuildContext context) {
                       ),
                     ),
                   ),
+                  // Collapsible API Reference Panel
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF1E1E1E),
+                      border: Border(
+                        top: BorderSide(color: Color(0xFF2D2D2D), width: 1),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          onTap: () => setState(() => _isDocExpanded = !_isDocExpanded),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.menu_book_rounded, size: 16, color: TectaColors.primaryMain),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'API REFERENCE',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white.withValues(alpha: 0.8),
+                                        letterSpacing: 1.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Icon(
+                                  _isDocExpanded ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_up_rounded,
+                                  color: Colors.white54,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        if (_isDocExpanded)
+                          Container(
+                            height: 180,
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            color: const Color(0xFF151515),
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildDocHeader(),
+                                  const Divider(color: Color(0xFF2D2D2D), height: 1),
+                                  const SizedBox(height: 8),
+                                  _buildDocRow('width', 'double', 'Width of the preview container. (e.g. 200)'),
+                                  _buildDocRow('height', 'double', 'Height of the preview container. (e.g. 200)'),
+                                  _buildDocRow('borderRadius', 'double', 'Radius of corners via BorderRadius.circular(R). (e.g. 16)'),
+                                  _buildDocRow('TectaColors.<name>', 'Color', 'Tecta palette colors: primaryMain, secondaryMain, successMain, warningMain, errorMain, infoMain (plus Light/Lighter/Dark/Darker variants).'),
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -500,6 +567,80 @@ Widget build(BuildContext context) {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDocHeader() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 140,
+            child: Text(
+              'Parameter',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
+            ),
+          ),
+          SizedBox(
+            width: 80,
+            child: Text(
+              'Type',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              'Description / Allowed Values',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white38),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDocRow(String param, String type, String desc) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 140,
+            child: Text(
+              param,
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 12,
+                color: Color(0xFF9CDCFE),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 80,
+            child: Text(
+              type,
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 11,
+                color: Color(0xFF4EC9B0),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              desc,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.white70,
+                height: 1.3,
               ),
             ),
           ),
