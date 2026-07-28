@@ -23,13 +23,6 @@ class ShowcaseDesktopView extends StatelessWidget {
     required this.onTabChanged,
   });
 
-  Widget _buildPreviewCanvas(BuildContext context) {
-    return KeyedSubtree(
-      key: ValueKey('${selectedItem.title}_${themeNotifier.value}'),
-      child: Builder(builder: (context) => selectedItem.builder(context)),
-    );
-  }
-
   Widget _buildMainContent(BuildContext context) {
     switch (currentTab) {
       case 'Docs':
@@ -41,88 +34,88 @@ class ShowcaseDesktopView extends StatelessWidget {
       case 'Components':
       default:
         final formattedCategory = _getCategoryTitle(selectedItem);
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header: breadcrumb + title + short description
-            Padding(
-              padding: const EdgeInsets.fromLTRB(40.0, 40.0, 40.0, 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+
+        // Header widget (breadcrumb + title + description) — scrolls with content
+        final headerWidget = Padding(
+          padding: const EdgeInsets.fromLTRB(40.0, 40.0, 40.0, 32.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Breadcrumb
+              Row(
                 children: [
-                  // Breadcrumb
-                  Row(
-                    children: [
-                      Text(
-                        formattedCategory,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white70
-                              : TectaColors.grey800,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          '›',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white30
-                                : TectaColors.grey400,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        selectedItem.title,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: TectaColors.secondaryMain,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    formattedCategory,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white70
+                          : TectaColors.grey800,
+                    ),
                   ),
-                  const SizedBox(height: 12),
-                  // Title
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      '›',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white30
+                            : TectaColors.grey400,
+                      ),
+                    ),
+                  ),
                   Text(
                     selectedItem.title,
-                    style: TextStyle(
-                      fontSize: 38,
-                      fontWeight: FontWeight.w900,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : TectaColors.grey800,
-                      letterSpacing: -1.0,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: TectaColors.secondaryMain,
                     ),
                   ),
-                  // Short description below title
-                  if (selectedItem.description.isNotEmpty) ...[
-                    const SizedBox(height: 8),
-                    Text(
-                      selectedItem.description,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white54
-                            : TectaColors.grey500,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
                 ],
               ),
-            ),
-            // Component preview — must stay Expanded so showcase pages render correctly
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                child: _buildPreviewCanvas(context),
+              const SizedBox(height: 12),
+              // Title
+              Text(
+                selectedItem.title,
+                style: TextStyle(
+                  fontSize: 38,
+                  fontWeight: FontWeight.w900,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : TectaColors.grey800,
+                  letterSpacing: -1.0,
+                ),
               ),
+              // Short description below title
+              if (selectedItem.description.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Text(
+                  selectedItem.description,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white54
+                        : TectaColors.grey500,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        );
+
+        // Pass header via InheritedWidget — ShowcasePageLayout reads it from context
+        return ShowcaseHeaderScope(
+          header: headerWidget,
+          child: KeyedSubtree(
+            key: ValueKey('${selectedItem.title}_${themeNotifier.value}'),
+            child: Builder(
+              builder: (context) => selectedItem.builder(context),
             ),
-          ],
+          ),
         );
     }
   }
@@ -342,4 +335,22 @@ class ShowcaseDesktopView extends StatelessWidget {
       ),
     );
   }
+}
+
+/// InheritedWidget to pass a header widget down to ShowcasePageLayout
+class ShowcaseHeaderScope extends InheritedWidget {
+  final Widget header;
+
+  const ShowcaseHeaderScope({
+    super.key,
+    required this.header,
+    required super.child,
+  });
+
+  static ShowcaseHeaderScope? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<ShowcaseHeaderScope>();
+  }
+
+  @override
+  bool updateShouldNotify(ShowcaseHeaderScope oldWidget) => header != oldWidget.header;
 }

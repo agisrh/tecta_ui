@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
 import 'showcase_section.dart';
+import '../screens/home_screen_desktop.dart';
 
 class ShowcasePageLayout extends StatefulWidget {
   final List<ShowcaseSection> sections;
@@ -89,12 +90,12 @@ class _ShowcasePageLayoutState extends State<ShowcasePageLayout> {
           // For mobile or pages with single sections, render as standard list view without sidebar
           return ListView.builder(
             controller: _scrollController,
-            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0), // Added horizontal padding for mobile
+            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
             itemCount: widget.sections.length,
             itemBuilder: (context, index) {
               return Container(
                 key: _keys[index],
-                padding: const EdgeInsets.only(bottom: 24.0), // Add spacing between items
+                padding: const EdgeInsets.only(bottom: 24.0),
                 child: widget.sections[index],
               );
             },
@@ -102,22 +103,37 @@ class _ShowcasePageLayoutState extends State<ShowcasePageLayout> {
         }
 
         // Desktop split-pane layout with "ON THIS PAGE" sidebar
+        // Read header injected by ShowcaseHeaderScope from home_screen_desktop
+        final injectedHeader = ShowcaseHeaderScope.of(context)?.header;
+
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Left Column: Scrollable components list
+            // Left Column: Scrollable header + components list
             Expanded(
               child: SingleChildScrollView(
                 controller: _scrollController,
                 padding: const EdgeInsets.only(bottom: 40.0),
                 child: Column(
-                  children: List.generate(widget.sections.length, (index) {
-                    return Container(
-                      key: _keys[index],
-                      padding: const EdgeInsets.only(bottom: 32.0), // Add spacing between items
-                      child: widget.sections[index],
-                    );
-                  }),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header (breadcrumb + title) scrolls with content
+                    if (injectedHeader != null) injectedHeader,
+                    // Sections with horizontal padding
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List.generate(widget.sections.length, (index) {
+                          return Container(
+                            key: _keys[index],
+                            padding: const EdgeInsets.only(bottom: 32.0),
+                            child: widget.sections[index],
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -125,7 +141,7 @@ class _ShowcasePageLayoutState extends State<ShowcasePageLayout> {
             // Right Column: "ON THIS PAGE" sticky sidebar
             Container(
               width: 220,
-              margin: const EdgeInsets.only(top: 8.0),
+              margin: const EdgeInsets.only(top: 40.0),
               decoration: BoxDecoration(
                 border: Border(
                   left: BorderSide(
