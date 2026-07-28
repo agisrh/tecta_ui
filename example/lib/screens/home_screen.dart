@@ -76,7 +76,6 @@ class _ShowcaseCategory {
 
 class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
   bool _isGridView = false;
-  PreviewDeviceMode _deviceMode = PreviewDeviceMode.desktop;
   late _ShowcaseItem _selectedItem;
   String _currentTab = 'Components';
 
@@ -547,110 +546,6 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
       child: Builder(builder: (context) => _selectedItem.builder(context)),
     );
 
-    if (_deviceMode == PreviewDeviceMode.mobile) {
-      // Return a simulated iPhone device frame mockup
-      return Container(
-        width: 375,
-        height: 780,
-        margin: const EdgeInsets.symmetric(vertical: 24.0),
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(40.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
-              blurRadius: 32,
-              offset: const Offset(0, 16),
-            ),
-          ],
-          border: Border.all(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? TectaColors.grey700
-                : TectaColors.grey300,
-            width: 12.0,
-          ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(28.0),
-          child: Scaffold(
-            body: Stack(
-              children: [
-                Positioned.fill(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 36.0), // Give room for iPhone notch/status bar
-                    child: previewWidget,
-                  ),
-                ),
-                // Simulated Status Bar
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 36,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    color: Colors.transparent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '9:41',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : Colors.black87,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.signal_cellular_4_bar_rounded,
-                                size: 12,
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black87),
-                            const SizedBox(width: 4),
-                            Icon(Icons.wifi,
-                                size: 12,
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black87),
-                            const SizedBox(width: 4),
-                            Icon(Icons.battery_5_bar_rounded,
-                                size: 12,
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black87),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // Notch
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    width: 110,
-                    height: 20,
-                    decoration: const BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(16),
-                        bottomRight: Radius.circular(16),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
     String categoryTitle = 'Foundation';
     for (final cat in _categories) {
       if (cat.items.contains(_selectedItem)) {
@@ -744,33 +639,6 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
           const SizedBox.shrink(),
           Row(
             children: [
-              // Device Mode Segmented Switch
-              Container(
-                decoration: BoxDecoration(
-                  color: theme.brightness == Brightness.dark
-                      ? TectaColors.grey800
-                      : TectaColors.grey100,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  children: [
-                    _buildDeviceTab(
-                      label: 'Desktop View',
-                      icon: Icons.computer_rounded,
-                      isActive: _deviceMode == PreviewDeviceMode.desktop,
-                      onTap: () => setState(() => _deviceMode = PreviewDeviceMode.desktop),
-                    ),
-                    _buildDeviceTab(
-                      label: 'Mobile View',
-                      icon: Icons.phone_android_rounded,
-                      isActive: _deviceMode == PreviewDeviceMode.mobile,
-                      onTap: () => setState(() => _deviceMode = PreviewDeviceMode.mobile),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 20),
               // Theme Toggle Button
               IconButton(
                 icon: Icon(
@@ -793,54 +661,7 @@ class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
     );
   }
 
-  Widget _buildDeviceTab({
-    required String label,
-    required IconData icon,
-    required bool isActive,
-    required VoidCallback onTap,
-  }) {
-    final theme = Theme.of(context);
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          decoration: BoxDecoration(
-            color: isActive ? theme.cardColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(8.0),
-            boxShadow: isActive
-                ? [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.04),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                size: 16,
-                color: isActive ? TectaColors.primaryMain : TectaColors.grey500,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: isActive ? TectaColors.grey800 : TectaColors.grey500,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildSidebar() {
     final theme = Theme.of(context);
