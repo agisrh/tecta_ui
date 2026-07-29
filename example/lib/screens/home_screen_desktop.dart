@@ -171,11 +171,12 @@ class ShowcaseDesktopView extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain).withValues(alpha: 0.15),
+                  color: (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain)
+                      .withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  'v1.0.0',
+                  'v0.0.5',
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
@@ -268,7 +269,8 @@ class ShowcaseDesktopView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain).withValues(alpha: 0.1)
+                            ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain)
+                                .withValues(alpha: 0.1)
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -287,12 +289,10 @@ class ShowcaseDesktopView extends StatelessWidget {
                               item.title,
                               style: TextStyle(
                                 fontSize: 13,
-                                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                                  color: isSelected
-                                      ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain)
-                                      : (isDark
-                                          ? Colors.white70
-                                          : TectaColors.grey800),
+                                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                                color: isSelected
+                                    ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain)
+                                    : (isDark ? Colors.white70 : TectaColors.grey800),
                               ),
                             ),
                           ),

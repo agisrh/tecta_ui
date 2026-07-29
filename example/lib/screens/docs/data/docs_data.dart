@@ -180,7 +180,7 @@ class DocsData {
           desc(isDark, 'Or add it directly to your pubspec.yaml file under dependencies:'),
           const SizedBox(height: 16),
           const SyntaxHighlightedCode(code: '''dependencies:
-  tecta_ui: ^0.0.4'''),
+  tecta_ui: ^0.0.5'''),
           const SizedBox(height: 16),
           desc(isDark, 'Then run flutter pub get:'),
           const SizedBox(height: 12),
