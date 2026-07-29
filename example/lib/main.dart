@@ -18,7 +18,7 @@ class TectaShowcaseApp extends StatelessWidget {
       valueListenable: themeNotifier,
       builder: (context, currentMode, child) {
         return MaterialApp(
-          title: 'Tecta Showcase',
+          title: 'Tecta UI',
           debugShowCheckedModeBanner: false,
           theme: TectaTheme.lightTheme,
           themeMode: ThemeMode.light,
