@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class RatingShowcasePage extends StatefulWidget {
   const RatingShowcasePage({super.key});
@@ -14,33 +16,53 @@ class _RatingShowcasePageState extends State<RatingShowcasePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Rating',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          // ---------------------------------------------------------
-          // READ-ONLY RATING
-          // ---------------------------------------------------------
-          _buildSectionHeader('Read-Only Display (Half Star Enabled)'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: const Column(
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Rating',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
+            ),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Read-Only Rating Display',
+            note: 'Pass a fixed rating and disable rating callbacks to show feedback or reviews. Supports partial ratings using half stars.',
+            code: '''const TectaRating(
+  rating: 4.5,
+  allowHalfRating: true,
+  size: 32,
+)''',
+            overview: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Rating: 4.5 Stars', style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 8),
-                TectaRating(
+                Text(
+                  'Rating: 4.5 Stars',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white70 : TectaColors.grey700,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const TectaRating(
                   rating: 4.5,
                   allowHalfRating: true,
                   size: 32,
@@ -48,19 +70,25 @@ class _RatingShowcasePageState extends State<RatingShowcasePage> {
               ],
             ),
           ),
-          const SizedBox(height: 24),
-
-          // ---------------------------------------------------------
-          // INTERACTIVE FULL STAR
-          // ---------------------------------------------------------
-          _buildSectionHeader('Interactive Selection (Full Stars Only)'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Column(
+          ShowcaseSection(
+            title: 'Interactive Selection (Full Stars)',
+            note: 'Pass a callback to listen to user selections. By default, interactions will step values in full integers.',
+            code: '''TectaRating(
+  rating: _rating,
+  size: 32,
+  onRatingChanged: (val) => setState(() => _rating = val),
+)''',
+            overview: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Rating Selection: $_rating1 Stars', style: const TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
+                Text(
+                  'Selection: $_rating1 Stars',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white70 : TectaColors.grey700,
+                  ),
+                ),
+                const SizedBox(height: 12),
                 TectaRating(
                   rating: _rating1,
                   size: 32,
@@ -73,19 +101,27 @@ class _RatingShowcasePageState extends State<RatingShowcasePage> {
               ],
             ),
           ),
-          const SizedBox(height: 24),
-
-          // ---------------------------------------------------------
-          // INTERACTIVE HALF STAR
-          // ---------------------------------------------------------
-          _buildSectionHeader('Interactive Selection (Half Stars Allowed)'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Column(
+          ShowcaseSection(
+            title: 'Interactive Selection (Half Stars & Custom Color)',
+            note: 'Set allowHalfRating to true to enable precise mouse hovering selection down to 0.5 decimal steps, and customize star colors.',
+            code: '''TectaRating(
+  rating: _rating,
+  allowHalfRating: true,
+  size: 32,
+  color: TectaColors.infoMain,
+  onRatingChanged: (val) => setState(() => _rating = val),
+)''',
+            overview: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Rating Selection: $_rating2 Stars', style: const TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
+                Text(
+                  'Selection: $_rating2 Stars',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white70 : TectaColors.grey700,
+                  ),
+                ),
+                const SizedBox(height: 12),
                 TectaRating(
                   rating: _rating2,
                   allowHalfRating: true,
@@ -101,35 +137,6 @@ class _RatingShowcasePageState extends State<RatingShowcasePage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Material(
-      color: TectaColors.white,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: const BorderSide(color: TectaColors.grey200),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: child,
       ),
     );
   }

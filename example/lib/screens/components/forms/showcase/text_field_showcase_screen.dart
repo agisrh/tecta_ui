@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class TextFieldShowcasePage extends StatefulWidget {
   const TextFieldShowcasePage({super.key});
@@ -9,389 +11,261 @@ class TextFieldShowcasePage extends StatefulWidget {
 }
 
 class _TextFieldShowcasePageState extends State<TextFieldShowcasePage> {
-  // Dropdown states
-  String _selectedValue = 'EUR';
-
-  // Password toggle state
+  String _selectedValue = 'USD';
   bool _isPasswordObscured = true;
 
-  // Controllers for general inputs to show "Activated *" values
-  late final TextEditingController _activatedController;
+  late final TextEditingController _basicController;
   late final TextEditingController _passwordController;
-  late final TextEditingController _disabledController;
   late final TextEditingController _helperController;
   late final TextEditingController _errorController;
-  late final TextEditingController _multilineControlledController;
-  late final TextEditingController _multilineDefaultController;
+  late final TextEditingController _multilineController;
 
   @override
   void initState() {
     super.initState();
-    _activatedController = TextEditingController(text: '2Minimal');
-    _passwordController = TextEditingController(text: '12345678');
-    _disabledController = TextEditingController(text: '2Minimal');
-    _helperController = TextEditingController(text: '2Minimal');
-    _errorController = TextEditingController(text: '2Minimal');
-    _multilineControlledController = TextEditingController(text: 'Controlled');
-    _multilineDefaultController = TextEditingController(text: 'Default value');
+    _basicController = TextEditingController(text: 'Tecta UI Input');
+    _passwordController = TextEditingController(text: 'supersecret123');
+    _helperController = TextEditingController(text: 'User input value');
+    _errorController = TextEditingController(text: 'Invalid entry');
+    _multilineController = TextEditingController(text: 'This is a multiline text area.\nFeel free to write long comments here.');
   }
 
   @override
   void dispose() {
-    _activatedController.dispose();
+    _basicController.dispose();
     _passwordController.dispose();
-    _disabledController.dispose();
     _helperController.dispose();
     _errorController.dispose();
-    _multilineControlledController.dispose();
-    _multilineDefaultController.dispose();
+    _multilineController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-          title: Text(
-            'TextField',
-            style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context),
-          ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(56.0),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-              child: Container(
-                padding: const EdgeInsets.all(4.0),
-                decoration: BoxDecoration(
-                  color: TectaColors.grey200,
-                  borderRadius: BorderRadius.circular(10.0),
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Scaffold(
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'TextField',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
                 ),
-                child: TabBar(
-                  labelColor: TectaColors.grey900,
-                  unselectedLabelColor: TectaColors.grey500,
-                  labelStyle: TectaTypography.subtitle2.copyWith(fontWeight: FontWeight.w600),
-                  unselectedLabelStyle: TectaTypography.subtitle2.copyWith(fontWeight: FontWeight.w500),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  dividerColor: Colors.transparent,
-                  indicator: BoxDecoration(
-                    color: TectaColors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: TectaShadows.z1,
-                  ),
-                  tabs: const [
-                    Tab(text: 'Outlined'),
-                    Tab(text: 'Filled'),
-                    Tab(text: 'Standard'),
-                  ],
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
                 ),
               ),
             ),
-          ),
-        ),
-        backgroundColor: TectaColors.grey100,
-        body: TabBarView(
-          children: [
-            _buildVariantTab(TectaTextFieldVariant.outlined),
-            _buildVariantTab(TectaTextFieldVariant.filled),
-            _buildVariantTab(TectaTextFieldVariant.standard),
-          ],
-        ),
-      ),
-    );
-  }
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Visual Variants',
+            note: 'TectaTextField supports three major design variants: Outlined (default), Filled (subtle background), and Standard (bottom line border).',
+            code: '''// Outlined (default)
+TectaTextField(
+  variant: TectaTextFieldVariant.outlined,
+  placeholder: 'Outlined Variant',
+)
 
-  Widget _buildVariantTab(TectaTextFieldVariant variant) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-      children: [
-        _buildSectionHeader('General'),
-        const SizedBox(height: 12),
-        _buildCard(
-          child: Column(
-            children: [
-              TectaTextField(
-                variant: variant,
-                placeholder: 'Inactive',
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                label: 'Activated *',
-                controller: _activatedController,
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                label: 'Password',
-                obscureText: true,
-                controller: _passwordController,
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                label: 'Disabled',
-                enabled: false,
-                controller: _disabledController,
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                placeholder: '${variant.name.substring(0, 1).toUpperCase()}${variant.name.substring(1)} Input',
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 32),
+// Filled
+TectaTextField(
+  variant: TectaTextFieldVariant.filled,
+  placeholder: 'Filled Variant',
+)
 
-        _buildSectionHeader('With adornments'),
-        const SizedBox(height: 12),
-        _buildCard(
-          child: Column(
-            children: [
-              TectaTextField(
-                variant: variant,
-                label: 'Enabled',
-                prefixIcon: const Icon(Icons.person),
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                label: 'Disabled',
-                enabled: false,
-                placeholder: 'Default value',
-                prefixIcon: const Icon(Icons.person),
-                helperText: 'Helper text',
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                label: 'With normal TextField',
-                prefixText: 'Kg',
-                suffixIcon: TextButton(
-                  onPressed: () {},
-                  child: const Text('Action', style: TextStyle(color: TectaColors.white)),
+// Standard
+TectaTextField(
+  variant: TectaTextFieldVariant.standard,
+  placeholder: 'Standard Variant',
+)''',
+            overview: Column(
+              children: [
+                TectaTextField(
+                  variant: TectaTextFieldVariant.outlined,
+                  placeholder: 'Outlined (Default)',
+                  controller: _basicController,
                 ),
-                suffixIconColorOverride: TectaColors.grey800,
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                placeholder: 'End adornment',
-                suffixText: 'Kg',
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                label: 'Password',
-                obscureText: _isPasswordObscured,
-                prefixIcon: const Icon(Icons.person),
-                suffixIcon: IconButton(
-                  icon: Icon(_isPasswordObscured ? Icons.visibility_off : Icons.visibility),
-                  onPressed: () => setState(() => _isPasswordObscured = !_isPasswordObscured),
+                const SizedBox(height: 20),
+                TectaTextField(
+                  variant: TectaTextFieldVariant.filled,
+                  placeholder: 'Filled',
                 ),
-              ),
-            ],
+                const SizedBox(height: 20),
+                TectaTextField(
+                  variant: TectaTextFieldVariant.standard,
+                  placeholder: 'Standard Bottom Line',
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 32),
+          ShowcaseSection(
+            title: 'Helper & Error States',
+            note: 'Display support texts below the input boundary or trigger error borders with contextual helper message boxes.',
+            code: '''TectaTextField(
+  label: 'Normal Field',
+  helperText: 'Required field indicator',
+)
 
-        _buildSectionHeader('With helper text'),
-        const SizedBox(height: 12),
-        _buildCard(
-          child: Column(
-            children: [
-              TectaTextField(
-                variant: variant,
-                label: 'Helper text',
-                controller: _helperController,
-                helperText: 'Helper text',
-              ),
-              const SizedBox(height: 24),
-              TectaTextField(
-                variant: variant,
-                label: 'Error',
-                controller: _errorController,
-                errorText: 'Error text',
-              ),
-            ],
+TectaTextField(
+  label: 'Error Field',
+  errorText: 'The value entered is invalid',
+)''',
+            overview: Column(
+              children: [
+                TectaTextField(
+                  label: 'Account Name',
+                  controller: _helperController,
+                  helperText: 'Enter your profile organization alias',
+                ),
+                const SizedBox(height: 24),
+                TectaTextField(
+                  label: 'Billing Email',
+                  controller: _errorController,
+                  errorText: 'Please enter a valid email address (e.g. user@domain.com)',
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 32),
+          ShowcaseSection(
+            title: 'Adornments (Icons & Prefix/Suffix)',
+            note: 'Prepend or append decorative prefix labels, icons, suffix texts, or interactive buttons (like password visibility toggles).',
+            code: '''TectaTextField(
+  prefixIcon: Icon(Icons.search),
+  placeholder: 'Search resources...',
+)
 
-        _buildSectionHeader('Type'),
-        const SizedBox(height: 12),
-        _buildCard(
-          child: Column(
-            children: [
-              TectaTextField(
-                variant: variant,
-                placeholder: 'Password',
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                placeholder: 'Search',
-                prefixIcon: const Icon(Icons.search),
-              ),
-            ],
+TectaTextField(
+  suffixText: 'kg',
+  placeholder: 'Weight metric',
+)
+
+// Password Visibility
+TectaTextField(
+  obscureText: _isObscured,
+  suffixIcon: IconButton(
+    icon: Icon(_isObscured ? Icons.visibility_off : Icons.visibility),
+    onPressed: () => setState(() => _isObscured = !_isObscured),
+  ),
+)''',
+            overview: Column(
+              children: [
+                const TectaTextField(
+                  prefixIcon: Icon(Icons.search_rounded),
+                  placeholder: 'Search across workspace projects...',
+                ),
+                const SizedBox(height: 20),
+                const TectaTextField(
+                  label: 'Storage Capacity',
+                  suffixText: 'GB',
+                  placeholder: '50',
+                ),
+                const SizedBox(height: 20),
+                TectaTextField(
+                  label: 'Secure Password',
+                  obscureText: _isPasswordObscured,
+                  controller: _passwordController,
+                  prefixIcon: const Icon(Icons.lock_outline_rounded),
+                  suffixIcon: IconButton(
+                    icon: Icon(_isPasswordObscured ? Icons.visibility_off_rounded : Icons.visibility_rounded),
+                    onPressed: () => setState(() => _isPasswordObscured = !_isPasswordObscured),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 32),
-
-        _buildSectionHeader('Sizes'),
-        const SizedBox(height: 12),
-        _buildCard(
-          child: Column(
-            children: [
-              TectaTextField(
-                variant: variant,
-                size: TectaTextFieldSize.small,
-                label: 'Size',
-                placeholder: 'Small',
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                size: TectaTextFieldSize.medium,
-                label: 'Size',
-                placeholder: 'Medium',
-              ),
-            ],
+          ShowcaseSection(
+            title: 'Sizes & Dimensions',
+            note: 'TectaTextField supports medium (default) and small density layout options.',
+            code: '''TectaTextField(
+  size: TectaTextFieldSize.small,
+  placeholder: 'Small variant',
+)''',
+            overview: Column(
+              children: [
+                const TectaTextField(
+                  size: TectaTextFieldSize.small,
+                  placeholder: 'Small Density input',
+                ),
+                const SizedBox(height: 20),
+                TectaTextField(
+                  size: TectaTextFieldSize.medium,
+                  placeholder: 'Medium Density input (Default)',
+                  controller: _basicController,
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 32),
-
-        _buildSectionHeader('Select'),
-        const SizedBox(height: 12),
-        _buildCard(
-          child: Column(
-            children: [
-              TectaTextField<String>(
-                variant: variant,
-                label: 'Select',
-                selectedValue: _selectedValue,
-                onSelectChanged: (val) => setState(() => _selectedValue = val!),
-                items: const [
-                  DropdownMenuItem(value: 'USD', child: Text('\$')),
-                  DropdownMenuItem(value: 'EUR', child: Text('€')),
-                  DropdownMenuItem(value: 'GBP', child: Text('£')),
-                  DropdownMenuItem(value: 'JPY', child: Text('¥')),
-                ],
-                helperText: 'Please select your currency',
-              ),
-              const SizedBox(height: 24),
-              TectaTextField<String>(
-                variant: variant,
-                label: 'Native select',
-                selectedValue: _selectedValue,
-                onSelectChanged: (val) => setState(() => _selectedValue = val!),
-                items: const [
-                  DropdownMenuItem(value: 'USD', child: Text('\$')),
-                  DropdownMenuItem(value: 'EUR', child: Text('€')),
-                  DropdownMenuItem(value: 'GBP', child: Text('£')),
-                  DropdownMenuItem(value: 'JPY', child: Text('¥')),
-                ],
-                helperText: 'Please select your currency',
-              ),
-              const SizedBox(height: 24),
-              TectaTextField<String>(
-                variant: variant,
-                label: 'Form control select',
-                selectedValue: _selectedValue,
-                onSelectChanged: (val) => setState(() => _selectedValue = val!),
-                items: const [
-                  DropdownMenuItem(value: 'USD', child: Text('\$')),
-                  DropdownMenuItem(value: 'EUR', child: Text('€')),
-                  DropdownMenuItem(value: 'GBP', child: Text('£')),
-                  DropdownMenuItem(value: 'JPY', child: Text('¥')),
-                ],
-              ),
-              const SizedBox(height: 24),
-              TectaTextField<String>(
-                variant: variant,
-                label: 'Form control select (native)',
-                selectedValue: _selectedValue,
-                onSelectChanged: (val) => setState(() => _selectedValue = val!),
-                items: const [
-                  DropdownMenuItem(value: 'USD', child: Text('\$')),
-                  DropdownMenuItem(value: 'EUR', child: Text('€')),
-                  DropdownMenuItem(value: 'GBP', child: Text('£')),
-                  DropdownMenuItem(value: 'JPY', child: Text('¥')),
-                ],
-              ),
-            ],
+          ShowcaseSection(
+            title: 'Dropdown Select Option',
+            note: 'Transform TectaTextField into a drop-down menu selector by passing values, callback listeners, and a collection of DropdownMenuItem items.',
+            code: '''TectaTextField<String>(
+  label: 'Choose Currency',
+  selectedValue: _selectedValue,
+  onSelectChanged: (val) => setState(() => _selectedValue = val!),
+  items: const [
+    DropdownMenuItem(value: 'USD', child: Text('USD (\$)')),
+    DropdownMenuItem(value: 'EUR', child: Text('EUR (€)')),
+  ],
+)''',
+            overview: TectaTextField<String>(
+              label: 'Default Currency',
+              selectedValue: _selectedValue,
+              onSelectChanged: (val) {
+                if (val != null) {
+                  setState(() => _selectedValue = val);
+                  _showFeedback('Selected: $val');
+                }
+              },
+              items: const [
+                DropdownMenuItem(value: 'USD', child: Text('United States Dollar (USD)')),
+                DropdownMenuItem(value: 'EUR', child: Text('Euro (EUR)')),
+                DropdownMenuItem(value: 'GBP', child: Text('British Pound (GBP)')),
+                DropdownMenuItem(value: 'JPY', child: Text('Japanese Yen (JPY)')),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 32),
-
-        _buildSectionHeader('Multiline'),
-        const SizedBox(height: 12),
-        _buildCard(
-          child: Column(
-            children: [
-              TectaTextField(
-                variant: variant,
-                label: 'Multiline',
-                controller: _multilineControlledController,
-                maxLines: null,
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                placeholder: 'Multiline placeholder',
-                maxLines: 3,
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                label: 'Multiline',
-                controller: _multilineDefaultController,
-                maxLines: 4,
-              ),
-              const SizedBox(height: 20),
-              TectaTextField(
-                variant: variant,
-                placeholder: 'No label',
-                maxLines: 4,
-              ),
-            ],
+          ShowcaseSection(
+            title: 'Multiline Inputs',
+            note: 'Configure custom row heights or dynamic auto-sizing boxes using maxLines parameter.',
+            code: '''TectaTextField(
+  label: 'Notes',
+  maxLines: null, // Auto-expand
+)''',
+            overview: Column(
+              children: [
+                TectaTextField(
+                  label: 'Project Summary (Auto-expand)',
+                  maxLines: null,
+                  controller: _multilineController,
+                ),
+                const SizedBox(height: 20),
+                const TectaTextField(
+                  placeholder: 'Enter descriptions (Fixed 3 rows max)...',
+                  maxLines: 3,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildCard({required Widget child}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-      decoration: BoxDecoration(
-        color: TectaColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: TectaColors.grey200),
-      ),
-      child: child,
+  void _showFeedback(String msg) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), duration: const Duration(seconds: 1)),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class DropdownMenuShowcasePage extends StatefulWidget {
   const DropdownMenuShowcasePage({super.key});
@@ -33,39 +35,54 @@ class _DropdownMenuShowcasePageState extends State<DropdownMenuShowcasePage> {
   void _showFeedback(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: const Duration(seconds: 2)),
+      SnackBar(content: Text(message), duration: const Duration(seconds: 1)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Dropdown Menu',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          _buildSectionHeader('CONTEXTUAL ACTIONS (THREE DOTS)'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Row(
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Dropdown Menu',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
+            ),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Contextual Actions',
+            note: 'TectaDropdownMenu attaches contextual operation panels anchored to specific interactive trigger widgets.',
+            code: '''TectaDropdownMenu(
+  items: const [
+    TectaDropdownItem(label: 'Edit', icon: Icons.edit),
+    TectaDropdownItem(label: 'Delete', isDestructive: true),
+  ],
+  onItemSelected: (index) => handleSelection(index),
+  child: Icon(Icons.more_vert),
+)''',
+            overview: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
-                  child: Text(
-                    'Card Item Options',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
+                Text('Card options trigger:', style: TextStyle(color: isDark ? Colors.white70 : TectaColors.grey700)),
                 TectaDropdownMenu(
                   items: _contextItems,
                   onItemSelected: (index) {
@@ -74,29 +91,29 @@ class _DropdownMenuShowcasePageState extends State<DropdownMenuShowcasePage> {
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: TectaColors.grey200,
+                      color: isDark ? Colors.white.withValues(alpha: 0.1) : TectaColors.grey200,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.more_vert_rounded,
-                        size: 20, color: TectaColors.grey700),
+                    child: Icon(Icons.more_vert_rounded, size: 20, color: isDark ? Colors.white70 : TectaColors.grey700),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 32),
-          _buildSectionHeader('PROFILE OPTIONS (WITH DIVIDER)'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Row(
+          ShowcaseSection(
+            title: 'Profile Menu (with Divider)',
+            note: 'Add items and structure categories cleanly using dividing rules with TectaDropdownItem.divider().',
+            code: '''TectaDropdownMenu(
+  items: [
+    TectaDropdownItem(label: 'Profile'),
+    TectaDropdownItem.divider(),
+    TectaDropdownItem(label: 'Logout', isDestructive: true),
+  ],
+)''',
+            overview: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
-                  child: Text(
-                    'Tap Avatar to open menu',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
+                Text('Avatar profile trigger:', style: TextStyle(color: isDark ? Colors.white70 : TectaColors.grey700)),
                 TectaDropdownMenu(
                   items: _profileItems,
                   onItemSelected: (index) {
@@ -108,54 +125,24 @@ class _DropdownMenuShowcasePageState extends State<DropdownMenuShowcasePage> {
                   child: const TectaAvatar(
                     size: 40.0,
                     image: NetworkImage(
-                        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'),
+                      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 32),
-          _buildSectionHeader('CUSTOM COLOR (DARK PURPLE OVERLAY)'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Row(
+          ShowcaseSection(
+            title: 'Disabled Option Items',
+            note: 'Deactivate specific options inside the list by setting isEnabled to false on the individual items.',
+            code: '''TectaDropdownItem(
+  label: 'Download CSV (Premium)',
+  isEnabled: false,
+)''',
+            overview: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
-                  child: Text(
-                    'Trigger with custom Chip style',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TectaDropdownMenu(
-                  items: _contextItems,
-                  backgroundColor: Colors.deepPurple.shade900,
-                  borderRadius: BorderRadius.circular(16.0),
-                  textStyle: const TextStyle(color: Colors.white, fontSize: 13),
-                  onItemSelected: (index) {
-                    _showFeedback('Selected: ${_contextItems[index].label}');
-                  },
-                  child: const TectaChip(
-                    label: 'Options',
-                    color: Colors.deepPurple,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 32),
-          _buildSectionHeader('DISABLED OPTION ITEMS'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Expanded(
-                  child: Text(
-                    'Download / Export options',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
+                Text('Export options dropdown:', style: TextStyle(color: isDark ? Colors.white70 : TectaColors.grey700)),
                 TectaDropdownMenu(
                   items: _disabledItems,
                   onItemSelected: (index) {
@@ -171,33 +158,6 @@ class _DropdownMenuShowcasePageState extends State<DropdownMenuShowcasePage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 28.0),
-      decoration: BoxDecoration(
-        color: TectaColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: TectaColors.grey200),
-      ),
-      child: child,
     );
   }
 }

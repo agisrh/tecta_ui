@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class UploadShowcasePage extends StatefulWidget {
   const UploadShowcasePage({super.key});
@@ -22,45 +24,61 @@ class _UploadShowcasePageState extends State<UploadShowcasePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Upload',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          // ---------------------------------------------------------
-          // BOX / DRAG & DROP MULTI-FILE UPLOAD
-          // ---------------------------------------------------------
-          _buildSectionHeader('Multi File Upload'),
-          const SizedBox(height: 12),
-          TectaUploadBox(
-            onTap: () => _showSimulatedPicker('TectaUploadBox'),
-          ),
-          const SizedBox(height: 36),
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
-          // ---------------------------------------------------------
-          // AVATAR UPLOAD
-          // ---------------------------------------------------------
-          _buildSectionHeader('Upload Avatar'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Center(
+    return Scaffold(
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Upload',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
+            ),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Dropzone Box Upload',
+            note: 'TectaUploadBox provides a dashed dropzone boundary layout with interactive hover/click triggers designed for multi-file attachments.',
+            code: '''TectaUploadBox(
+  onTap: () => triggerFilePicker(),
+)''',
+            overview: TectaUploadBox(
+              onTap: () => _showSimulatedPicker('TectaUploadBox'),
+            ),
+          ),
+          ShowcaseSection(
+            title: 'Avatar Upload Picker',
+            note: 'Upload avatar widget designed for profile configuration layouts. Supports inline previews, action hover rings, and easy reset states.',
+            code: '''TectaUploadAvatar(
+  image: _selectedAvatar,
+  onTap: () {
+    setState(() {
+      _selectedAvatar = NetworkImage('url');
+    });
+  },
+)''',
+            overview: Center(
               child: Column(
                 children: [
                   TectaUploadAvatar(
                     image: _selectedAvatar,
                     onTap: () {
                       _showSimulatedPicker('TectaUploadAvatar');
-                      // Simulate selecting an image by showing a fallback network image or mock
                       setState(() {
                         _selectedAvatar = const NetworkImage(
                           'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
@@ -91,33 +109,6 @@ class _UploadShowcasePageState extends State<UploadShowcasePage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 32.0),
-      decoration: BoxDecoration(
-        color: TectaColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: TectaColors.grey200),
-      ),
-      child: child,
     );
   }
 }

@@ -31,6 +31,7 @@ class ShadowsShowcasePage extends StatelessWidget {
         sections: [
           ShowcaseSection(
             title: 'Standard Custom Shadows',
+            note: 'TectaShadows provides elevation shadows ranging from z1 (subtle card shadows) up to z24 (floating action buttons or dialog overlays).',
             code: '''// Box decoration with standard shadow elevation
 Container(
   decoration: BoxDecoration(
@@ -53,6 +54,7 @@ Container(
           ),
           ShowcaseSection(
             title: 'Semantic Alias Shadows',
+            note: 'Use semantic alias shortcuts (card, dialog, dropdown) to ensure alignment with standard element shadow guidelines.',
             code: '''// Box decoration with semantic alias shadows
 Container(
   decoration: BoxDecoration(

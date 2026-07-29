@@ -3,102 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:tecta_ui/tecta_ui.dart';
 import 'code_highlighter.dart';
 
-/// A styled note/tip card that can be placed inside a ShowcaseSection or overview widget.
-/// Supports three visual variants: tip, warning, and info.
-enum ShowcaseNoteVariant { tip, warning, info }
-
-class ShowcaseNote extends StatelessWidget {
-  final String text;
-  final ShowcaseNoteVariant variant;
-
-  const ShowcaseNote({
-    super.key,
-    required this.text,
-    this.variant = ShowcaseNoteVariant.tip,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final (accentColor, bgColor, icon, label) = switch (variant) {
-      ShowcaseNoteVariant.tip => (
-          const Color(0xFF7C3AED),
-          isDark ? const Color(0xFF1A1030) : const Color(0xFFF5F0FF),
-          Icons.auto_awesome_rounded,
-          'TIP',
-        ),
-      ShowcaseNoteVariant.warning => (
-          const Color(0xFFD97706),
-          isDark ? const Color(0xFF1E1408) : const Color(0xFFFFFBEB),
-          Icons.warning_amber_rounded,
-          'NOTE',
-        ),
-      ShowcaseNoteVariant.info => (
-          TectaColors.primaryMain,
-          isDark
-              ? TectaColors.primaryMain.withValues(alpha: 0.08)
-              : TectaColors.primaryMain.withValues(alpha: 0.05),
-          Icons.info_outline_rounded,
-          'INFO',
-        ),
-    };
-
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border(
-          left: BorderSide(color: accentColor, width: 3),
-          top: BorderSide(color: accentColor.withValues(alpha: 0.15)),
-          right: BorderSide(color: accentColor.withValues(alpha: 0.15)),
-          bottom: BorderSide(color: accentColor.withValues(alpha: 0.15)),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 16, color: accentColor),
-          const SizedBox(width: 10),
-          Expanded(
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: '$label  ',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w800,
-                      color: accentColor,
-                      letterSpacing: 0.6,
-                    ),
-                  ),
-                  TextSpan(
-                    text: text,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: isDark ? Colors.white70 : TectaColors.grey700,
-                      height: 1.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class ShowcaseSection extends StatefulWidget {
   final String title;
   final Widget overview;
   final String code;
   final String? note;
-  final ShowcaseNoteVariant noteVariant;
 
   const ShowcaseSection({
     super.key,
@@ -106,7 +15,6 @@ class ShowcaseSection extends StatefulWidget {
     required this.overview,
     required this.code,
     this.note,
-    this.noteVariant = ShowcaseNoteVariant.tip,
   });
 
   @override
@@ -148,7 +56,7 @@ class _ShowcaseSectionState extends State<ShowcaseSection> {
           LayoutBuilder(
             builder: (context, constraints) {
               final isWide = constraints.maxWidth > 500;
-              
+
               final titleWidget = Text(
                 widget.title,
                 style: TextStyle(
@@ -158,7 +66,7 @@ class _ShowcaseSectionState extends State<ShowcaseSection> {
                 ),
                 overflow: isWide ? TextOverflow.ellipsis : null,
               );
-              
+
               final tabsWidget = SizedBox(
                 width: 190,
                 child: TectaSegmentedControl(
@@ -208,9 +116,9 @@ class _ShowcaseSectionState extends State<ShowcaseSection> {
           ),
           // Optional section note below the content
           if (widget.note != null)
-            ShowcaseNote(
-              text: widget.note!,
-              variant: widget.noteVariant,
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Text(widget.note ?? ""),
             ),
         ],
       ),

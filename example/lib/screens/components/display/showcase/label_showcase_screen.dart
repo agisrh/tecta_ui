@@ -1,190 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class LabelShowcasePage extends StatelessWidget {
   const LabelShowcasePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Label',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          // ---------------------------------------------------------
-          // FILLED VARIANT
-          // ---------------------------------------------------------
-          _buildSectionHeader('Filled'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 12,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: _buildColorLabels(TectaLabelVariant.filled),
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Label',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 32),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Visual Variants',
+            note: 'TectaLabel is a badge indicator available in four variants: Filled (high contrast), Outlined (clean borders), Soft (tinted opacity background), and Inverted.',
+            code: '''// Filled
+TectaLabel(variant: TectaLabelVariant.filled, label: 'Filled')
 
-          // ---------------------------------------------------------
-          // OUTLINED VARIANT
-          // ---------------------------------------------------------
-          _buildSectionHeader('Outlined'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 12,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: _buildColorLabels(TectaLabelVariant.outlined),
-            ),
-          ),
-          const SizedBox(height: 32),
+// Outlined
+TectaLabel(variant: TectaLabelVariant.outlined, label: 'Outlined')
 
-          // ---------------------------------------------------------
-          // SOFT VARIANT
-          // ---------------------------------------------------------
-          _buildSectionHeader('Soft'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 12,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: _buildColorLabels(TectaLabelVariant.soft),
-            ),
-          ),
-          const SizedBox(height: 32),
+// Soft
+TectaLabel(variant: TectaLabelVariant.soft, label: 'Soft')
 
-          // ---------------------------------------------------------
-          // INVERTED VARIANT
-          // ---------------------------------------------------------
-          _buildSectionHeader('Inverted'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 12,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: _buildColorLabels(TectaLabelVariant.inverted),
-            ),
-          ),
-          const SizedBox(height: 32),
-
-          // ---------------------------------------------------------
-          // WITH ICON VARIANT
-          // ---------------------------------------------------------
-          _buildSectionHeader('With icon'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Wrap(
+// Inverted
+TectaLabel(variant: TectaLabelVariant.inverted, label: 'Inverted')''',
+            overview: Wrap(
               spacing: 12,
               runSpacing: 12,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                const TectaLabel(
-                  text: 'Start icon',
+                const TectaLabel(text: 'Primary Filled', variant: TectaLabelVariant.filled, color: TectaColors.primaryMain),
+                const TectaLabel(text: 'Primary Outlined', variant: TectaLabelVariant.outlined, color: TectaColors.primaryMain),
+                const TectaLabel(text: 'Primary Soft', variant: TectaLabelVariant.soft, color: TectaColors.primaryMain),
+                const TectaLabel(text: 'Primary Inverted', variant: TectaLabelVariant.inverted, color: TectaColors.primaryMain),
+              ],
+            ),
+          ),
+          ShowcaseSection(
+            title: 'With Icons',
+            note: 'Prepend startIcon or append endIcon to highlight warnings, statuses, or category indicators.',
+            code: '''TectaLabel(
+  text: 'Success',
+  startIcon: Icon(Icons.check),
+)''',
+            overview: Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: const [
+                TectaLabel(
+                  text: 'Approved',
                   variant: TectaLabelVariant.filled,
                   color: TectaColors.successMain,
-                  startIcon: Icon(Icons.mail),
+                  startIcon: Icon(Icons.check_circle_rounded),
                 ),
-                const TectaLabel(
-                  text: 'Start icon',
+                TectaLabel(
+                  text: 'Alert Triggered',
                   variant: TectaLabelVariant.outlined,
-                  color: TectaColors.successMain,
-                  startIcon: Icon(Icons.mail),
+                  color: TectaColors.errorMain,
+                  startIcon: Icon(Icons.warning_amber_rounded),
                 ),
-                const TectaLabel(
-                  text: 'End icon',
+                TectaLabel(
+                  text: 'Share Info',
                   variant: TectaLabelVariant.soft,
-                  color: TectaColors.secondaryMain,
-                  endIcon: Icon(Icons.mail),
-                ),
-                const TectaLabel(
-                  text: 'End icon',
-                  variant: TectaLabelVariant.inverted,
-                  color: TectaColors.secondaryMain,
-                  endIcon: Icon(Icons.mail),
+                  color: TectaColors.infoMain,
+                  endIcon: Icon(Icons.share_outlined),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 32),
-
-          // ---------------------------------------------------------
-          // CUSTOM COLORS VARIANT
-          // ---------------------------------------------------------
-          _buildSectionHeader('Custom Colors (Non-Tecta)'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 12,
-              crossAxisAlignment: WrapCrossAlignment.center,
+          ShowcaseSection(
+            title: 'Semantic Palette Tones',
+            note: 'Avail all design system semantic colors: Primary, Secondary, Success, Info, Warning, Error.',
+            code: '''TectaLabel(
+  text: 'Warning',
+  color: TectaColors.warningMain,
+)''',
+            overview: Wrap(
+              spacing: 10,
+              runSpacing: 10,
               children: [
-                const TectaLabel(text: 'Purple', variant: TectaLabelVariant.filled, color: Colors.purple),
-                const TectaLabel(text: 'Purple', variant: TectaLabelVariant.outlined, color: Colors.purple),
-                const TectaLabel(text: 'Purple', variant: TectaLabelVariant.soft, color: Colors.purple),
-                const TectaLabel(text: 'Teal', variant: TectaLabelVariant.filled, color: Colors.teal),
-                const TectaLabel(text: 'Teal', variant: TectaLabelVariant.outlined, color: Colors.teal),
-                const TectaLabel(text: 'Deep Orange', variant: TectaLabelVariant.soft, color: Colors.deepOrange),
-                const TectaLabel(text: 'Indigo', variant: TectaLabelVariant.inverted, color: Colors.indigo),
+                const TectaLabel(text: 'Info Status', variant: TectaLabelVariant.soft, color: TectaColors.infoMain),
+                const TectaLabel(text: 'Success Completed', variant: TectaLabelVariant.soft, color: TectaColors.successMain),
+                const TectaLabel(text: 'Warning Pending', variant: TectaLabelVariant.soft, color: TectaColors.warningMain),
+                const TectaLabel(text: 'Critical Error', variant: TectaLabelVariant.soft, color: TectaColors.errorMain),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  List<Widget> _buildColorLabels(TectaLabelVariant variant) {
-    return [
-      TectaLabel(text: 'Default', variant: variant, color: TectaColors.grey800),
-      TectaLabel(text: 'Primary', variant: variant, color: TectaColors.primaryMain),
-      TectaLabel(text: 'Secondary', variant: variant, color: TectaColors.secondaryMain),
-      TectaLabel(text: 'Info', variant: variant, color: TectaColors.infoMain),
-      TectaLabel(text: 'Success', variant: variant, color: TectaColors.successMain),
-      TectaLabel(text: 'Warning', variant: variant, color: TectaColors.warningMain),
-      TectaLabel(text: 'Error', variant: variant, color: TectaColors.errorMain),
-      TectaLabel(text: 'Black', variant: variant, color: TectaColors.black),
-      TectaLabel(text: 'White', variant: variant, color: TectaColors.white),
-    ];
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-      decoration: BoxDecoration(
-        color: TectaColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: TectaColors.grey200),
-      ),
-      child: child,
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class CheckboxShowcasePage extends StatefulWidget {
   const CheckboxShowcasePage({super.key});
@@ -12,7 +14,7 @@ class _CheckboxShowcasePageState extends State<CheckboxShowcasePage> {
   // State variables for various checkboxes
   bool? _basicUnchecked = false;
   bool? _basicChecked = true;
-  bool? _basicIndeterminate; // null
+  bool? _basicIndeterminate;
 
   bool? _sizeMedium = true;
   bool? _sizeSmall = true;
@@ -22,109 +24,110 @@ class _CheckboxShowcasePageState extends State<CheckboxShowcasePage> {
   bool? _placementBottom = false;
   bool? _placementEnd = false;
 
-  // Custom styles state
   bool? _customRound = true;
   bool? _customThick = true;
   bool? _customColor = true;
   bool? _customSizeSpacing = true;
 
-  // Colors state mapping
+  bool _buttonStyleSelected1 = false;
+  bool _buttonStyleSelected2 = true;
+
   static final List<Color> _colors = [
-    TectaColors.grey800,
     TectaColors.primaryMain,
     TectaColors.secondaryMain,
     TectaColors.infoMain,
     TectaColors.successMain,
     TectaColors.warningMain,
     TectaColors.errorMain,
-    Colors.purple,
-    Colors.deepOrange,
   ];
 
   final Map<Color, bool?> _colorsChecked = {
-    TectaColors.grey800: true,
     TectaColors.primaryMain: true,
     TectaColors.secondaryMain: true,
     TectaColors.infoMain: true,
     TectaColors.successMain: true,
     TectaColors.warningMain: true,
     TectaColors.errorMain: true,
-    Colors.purple: true,
-    Colors.deepOrange: true,
-  };
-
-  final Map<Color, bool?> _colorsIndeterminate = {
-    TectaColors.grey800: null,
-    TectaColors.primaryMain: null,
-    TectaColors.secondaryMain: null,
-    TectaColors.infoMain: null,
-    TectaColors.successMain: null,
-    TectaColors.warningMain: null,
-    TectaColors.errorMain: null,
-    Colors.purple: null,
-    Colors.deepOrange: null,
   };
 
   String _getColorName(Color color) {
-    if (color == TectaColors.grey800) return 'Default';
     if (color == TectaColors.primaryMain) return 'Primary';
     if (color == TectaColors.secondaryMain) return 'Secondary';
     if (color == TectaColors.infoMain) return 'Info';
     if (color == TectaColors.successMain) return 'Success';
     if (color == TectaColors.warningMain) return 'Warning';
     if (color == TectaColors.errorMain) return 'Error';
-    if (color == Colors.purple) return 'Purple';
-    if (color == Colors.deepOrange) return 'Orange';
     return 'Custom';
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Checkbox',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(color: TectaColors.grey300.withValues(alpha: 0.5), height: 1.0),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          // ===========================================================================
-          // BASIC CHECKBOXES
-          // ===========================================================================
-          _buildSectionHeader('BASIC'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Wrap(
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Checkbox',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
+            ),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Basic Checkboxes',
+            note: 'TectaCheckbox supports checked, unchecked, and indeterminate (null) states, along with standard interactive and disabled variations.',
+            code: '''// Basic states
+TectaCheckbox(
+  value: _basicUnchecked,
+  onChanged: (val) => setState(() => _basicUnchecked = val),
+)
+
+TectaCheckbox(
+  value: _basicChecked,
+  onChanged: (val) => setState(() => _basicChecked = val),
+)
+
+TectaCheckbox(
+  value: null, // Indeterminate
+  onChanged: (val) => {},
+)
+
+// Disabled
+const TectaCheckbox(
+  value: true,
+  onChanged: null,
+)''',
+            overview: Wrap(
               spacing: 24,
               runSpacing: 16,
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 TectaCheckbox(
                   value: _basicUnchecked,
                   onChanged: (val) => setState(() => _basicUnchecked = val),
-                  color: TectaColors.successMain,
                 ),
                 TectaCheckbox(
                   value: _basicChecked,
                   onChanged: (val) => setState(() => _basicChecked = val),
-                  color: TectaColors.successMain,
                 ),
                 TectaCheckbox(
                   value: _basicIndeterminate,
                   onChanged: (val) => setState(() => _basicIndeterminate = val),
-                  color: TectaColors.successMain,
                 ),
                 const TectaCheckbox(
                   value: false,
@@ -134,59 +137,177 @@ class _CheckboxShowcasePageState extends State<CheckboxShowcasePage> {
                   value: true,
                   onChanged: null,
                 ),
-                const TectaCheckbox(
-                  value: null,
-                  onChanged: null,
-                ),
               ],
             ),
           ),
+          ShowcaseSection(
+            title: 'Sizes',
+            note: 'TectaCheckbox is available in medium and small size options to fit into different density requirements.',
+            code: '''TectaCheckbox(
+  value: _sizeMedium,
+  size: TectaCheckboxSize.medium,
+  label: 'Medium Size',
+  onChanged: (val) => setState(() => _sizeMedium = val),
+)
 
-          const SizedBox(height: 32),
-
-          // ===========================================================================
-          // SIZES
-          // ===========================================================================
-          _buildSectionHeader('SIZES'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Wrap(
-              spacing: 24,
-              runSpacing: 16,
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
+TectaCheckbox(
+  value: _sizeSmall,
+  size: TectaCheckboxSize.small,
+  label: 'Small Size',
+  onChanged: (val) => setState(() => _sizeSmall = val),
+)''',
+            overview: Row(
               children: [
                 TectaCheckbox(
                   value: _sizeMedium,
                   onChanged: (val) => setState(() => _sizeMedium = val),
-                  color: TectaColors.successMain,
                   size: TectaCheckboxSize.medium,
                   label: 'Medium',
                 ),
+                const SizedBox(width: 32),
                 TectaCheckbox(
                   value: _sizeSmall,
                   onChanged: (val) => setState(() => _sizeSmall = val),
-                  color: TectaColors.successMain,
                   size: TectaCheckboxSize.small,
                   label: 'Small',
                 ),
               ],
             ),
           ),
-
-          const SizedBox(height: 32),
-
-          // ===========================================================================
-          // PLACEMENT
-          // ===========================================================================
-          _buildSectionHeader('PLACEMENT'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Wrap(
+          ShowcaseSection(
+            title: 'Button Style Checkbox',
+            note: 'A button-like checkbox target. Perfect for multi-selection layout cards, configuration panels, or modern filter flows.',
+            code: '''// Layout Checkbox like an interactive button
+InkWell(
+  onTap: () => setState(() => _buttonStyle = !_buttonStyle),
+  borderRadius: BorderRadius.circular(10.0),
+  child: AnimatedContainer(
+    duration: const Duration(milliseconds: 200),
+    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+    decoration: BoxDecoration(
+      color: _buttonStyle 
+          ? TectaColors.primaryMain.withValues(alpha: 0.08) 
+          : Colors.transparent,
+      border: Border.all(
+        color: _buttonStyle ? TectaColors.primaryMain : TectaColors.grey300,
+        width: 1.5,
+      ),
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          _buttonStyle ? Icons.check_box_outlined : Icons.check_box_outline_blank,
+          color: _buttonStyle ? TectaColors.primaryMain : TectaColors.grey500,
+        ),
+        const SizedBox(width: 10.0),
+        Text('Option'),
+      ],
+    ),
+  ),
+)''',
+            overview: Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                InkWell(
+                  onTap: () => setState(() => _buttonStyleSelected1 = !_buttonStyleSelected1),
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 14.0),
+                    decoration: BoxDecoration(
+                      color: _buttonStyleSelected1
+                          ? TectaColors.primaryMain.withValues(alpha: isDark ? 0.12 : 0.08)
+                          : (isDark ? Colors.white.withValues(alpha: 0.04) : Colors.white),
+                      border: Border.all(
+                        color: _buttonStyleSelected1
+                            ? TectaColors.primaryMain
+                            : (isDark ? Colors.white.withValues(alpha: 0.1) : TectaColors.grey300),
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _buttonStyleSelected1 ? Icons.check_box_outlined : Icons.check_box_outline_blank,
+                          color: _buttonStyleSelected1 ? TectaColors.primaryMain : TectaColors.grey500,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          'Standard Option',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: _buttonStyleSelected1 ? FontWeight.w700 : FontWeight.w500,
+                            color: _buttonStyleSelected1
+                                ? TectaColors.primaryMain
+                                : (isDark ? Colors.white70 : TectaColors.grey800),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () => setState(() => _buttonStyleSelected2 = !_buttonStyleSelected2),
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 14.0),
+                    decoration: BoxDecoration(
+                      color: _buttonStyleSelected2
+                          ? TectaColors.primaryMain.withValues(alpha: isDark ? 0.12 : 0.08)
+                          : (isDark ? Colors.white.withValues(alpha: 0.04) : Colors.white),
+                      border: Border.all(
+                        color: _buttonStyleSelected2
+                            ? TectaColors.primaryMain
+                            : (isDark ? Colors.white.withValues(alpha: 0.1) : TectaColors.grey300),
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _buttonStyleSelected2 ? Icons.check_box_outlined : Icons.check_box_outline_blank,
+                          color: _buttonStyleSelected2 ? TectaColors.primaryMain : TectaColors.grey500,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          'Selected Option',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: _buttonStyleSelected2 ? FontWeight.w700 : FontWeight.w500,
+                            color: _buttonStyleSelected2
+                                ? TectaColors.primaryMain
+                                : (isDark ? Colors.white70 : TectaColors.grey800),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ShowcaseSection(
+            title: 'Label Placement',
+            note: 'Configure where the label text is placed relative to the checkbox (top, start, bottom, end).',
+            code: '''TectaCheckbox(
+  value: _placementStart,
+  label: 'Start Placement',
+  labelPlacement: TectaCheckboxLabelPlacement.start,
+  onChanged: (val) => {},
+)''',
+            overview: Wrap(
               spacing: 24,
               runSpacing: 16,
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 TectaCheckbox(
                   value: _placementTop,
@@ -215,20 +336,27 @@ class _CheckboxShowcasePageState extends State<CheckboxShowcasePage> {
               ],
             ),
           ),
+          ShowcaseSection(
+            title: 'Custom Styles',
+            note: 'Override border radius, border thickness, colors, and specific dimensions freely to align with custom branding guidelines.',
+            code: '''TectaCheckbox(
+  value: _customRound,
+  borderRadiusOverride: 50.0, // Circle
+  label: 'Rounded (Circle)',
+  onChanged: (val) => {},
+)
 
-          const SizedBox(height: 32),
-
-          // ===========================================================================
-          // CUSTOM STYLES
-          // ===========================================================================
-          _buildSectionHeader('CUSTOM STYLE'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Wrap(
+TectaCheckbox(
+  value: _customColor,
+  activeBgColorOverride: Colors.amber,
+  activeBorderColorOverride: Colors.orange,
+  checkMarkColorOverride: Colors.black,
+  label: 'Amber Theme',
+  onChanged: (val) => {},
+)''',
+            overview: Wrap(
               spacing: 24,
               runSpacing: 16,
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 TectaCheckbox(
                   value: _customRound,
@@ -239,7 +367,7 @@ class _CheckboxShowcasePageState extends State<CheckboxShowcasePage> {
                 TectaCheckbox(
                   value: _customThick,
                   onChanged: (val) => setState(() => _customThick = val),
-                  borderWidthOverride: 4.0,
+                  borderWidthOverride: 3.0,
                   color: TectaColors.errorMain,
                   label: 'Thick Border',
                 ),
@@ -249,7 +377,7 @@ class _CheckboxShowcasePageState extends State<CheckboxShowcasePage> {
                   activeBgColorOverride: Colors.amber,
                   activeBorderColorOverride: Colors.orange,
                   checkMarkColorOverride: Colors.black,
-                  label: 'Custom Color',
+                  label: 'Custom Colors',
                 ),
                 TectaCheckbox(
                   value: _customSizeSpacing,
@@ -258,99 +386,35 @@ class _CheckboxShowcasePageState extends State<CheckboxShowcasePage> {
                   iconSizeOverride: 20.0,
                   spacingOverride: 16.0,
                   color: TectaColors.infoMain,
-                  label: 'Custom Size/Spacing',
+                  label: 'Custom Size',
                 ),
               ],
             ),
           ),
-
-          const SizedBox(height: 32),
-
-          // ===========================================================================
-          // COLORS
-          // ===========================================================================
-          _buildSectionHeader('COLORS'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // Checked Column
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ..._colors.map((col) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: _buildColorRow(col, _getColorName(col), true),
-                      );
-                    }),
-                    const TectaCheckbox(
-                      value: true,
-                      onChanged: null,
-                      label: 'Disabled',
-                    ),
-                  ],
-                ),
-                // Indeterminate Column
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ..._colors.map((col) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: _buildColorRow(col, _getColorName(col), false),
-                      );
-                    }),
-                    const TectaCheckbox(
-                      value: null,
-                      onChanged: null,
-                      label: 'Disabled',
-                    ),
-                  ],
-                ),
-              ],
+          ShowcaseSection(
+            title: 'Color Palettes',
+            note: 'TectaCheckbox is fully integrated with semantic theme color palettes including Primary, Secondary, Info, Success, Warning, and Error.',
+            code: '''TectaCheckbox(
+  value: true,
+  color: TectaColors.successMain,
+  label: 'Success Color',
+  onChanged: (val) => {},
+)''',
+            overview: Wrap(
+              spacing: 20,
+              runSpacing: 16,
+              children: _colors.map((col) {
+                return TectaCheckbox(
+                  value: _colorsChecked[col],
+                  onChanged: (val) => setState(() => _colorsChecked[col] = val),
+                  color: col,
+                  label: _getColorName(col),
+                );
+              }).toList(),
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildColorRow(Color color, String label, bool isCheckedCol) {
-    final Map<Color, bool?> stateMap = isCheckedCol ? _colorsChecked : _colorsIndeterminate;
-    return TectaCheckbox(
-      value: stateMap[color],
-      onChanged: (val) => setState(() => stateMap[color] = val),
-      color: color,
-      label: label,
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 28.0),
-      decoration: BoxDecoration(
-        color: TectaColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: TectaColors.grey200),
-      ),
-      child: child,
     );
   }
 }

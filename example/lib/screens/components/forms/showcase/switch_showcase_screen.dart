@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class SwitchShowcasePage extends StatefulWidget {
   const SwitchShowcasePage({super.key});
@@ -9,104 +11,92 @@ class SwitchShowcasePage extends StatefulWidget {
 }
 
 class _SwitchShowcasePageState extends State<SwitchShowcasePage> {
-  // Basic states
   bool _basicActive = true;
   bool _basicInactive1 = false;
   bool _basicInactive2 = false;
   bool _basicDefaultActive = true;
 
-  // Sizes states
   bool _sizeSmall = false;
   bool _sizeMedium = false;
 
-  // Placement states
   bool _placementTop = false;
   bool _placementStart = false;
   bool _placementBottom = false;
   bool _placementEnd = false;
 
   static final List<Color> _colors = [
-    TectaColors.grey800,
     TectaColors.primaryMain,
     TectaColors.secondaryMain,
     TectaColors.infoMain,
     TectaColors.successMain,
     TectaColors.warningMain,
     TectaColors.errorMain,
-    Colors.purple,
-    Colors.deepOrange,
   ];
 
-  // Colors states (Default Column)
   final Map<Color, bool> _colorsActive = {
-    TectaColors.grey800: true,
     TectaColors.primaryMain: true,
     TectaColors.secondaryMain: true,
     TectaColors.infoMain: true,
     TectaColors.successMain: true,
     TectaColors.warningMain: true,
     TectaColors.errorMain: true,
-    Colors.purple: true,
-    Colors.deepOrange: true,
   };
-  bool _colorsUnchecked = false;
-
-  // Colors states (Disabled Column)
-  final Map<Color, bool> _colorsDisabled = {
-    TectaColors.grey800: true,
-    TectaColors.primaryMain: true,
-    TectaColors.secondaryMain: true,
-    TectaColors.infoMain: true,
-    TectaColors.successMain: true,
-    TectaColors.warningMain: true,
-    TectaColors.errorMain: true,
-    Colors.purple: true,
-    Colors.deepOrange: true,
-  };
-  final bool _colorsDisabledUnchecked = false;
 
   String _getColorName(Color color) {
-    if (color == TectaColors.grey800) return 'Default';
     if (color == TectaColors.primaryMain) return 'Primary';
     if (color == TectaColors.secondaryMain) return 'Secondary';
     if (color == TectaColors.infoMain) return 'Info';
     if (color == TectaColors.successMain) return 'Success';
     if (color == TectaColors.warningMain) return 'Warning';
     if (color == TectaColors.errorMain) return 'Error';
-    if (color == Colors.purple) return 'Purple';
-    if (color == Colors.deepOrange) return 'Orange';
     return 'Custom';
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Switch',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(color: TectaColors.grey300.withValues(alpha: 0.5), height: 1.0),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          // ===========================================================================
-          // BASIC SWITCHES
-          // ===========================================================================
-          _buildSectionHeader('BASIC'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Switch',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
+            ),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Basic Switches',
+            note: 'TectaSwitch represents a binary toggle selector with responsive animations. Supports active, inactive, and disabled variations.',
+            code: '''// Basic toggles
+TectaSwitch(
+  value: _active,
+  color: TectaColors.successMain,
+  onChanged: (val) => setState(() => _active = val),
+)
+
+// Disabled
+const TectaSwitch(
+  value: true,
+  onChanged: null,
+)''',
+            overview: Row(
               children: [
                 TectaSwitch(
                   value: _basicActive,
@@ -140,16 +130,16 @@ class _SwitchShowcasePageState extends State<SwitchShowcasePage> {
               ],
             ),
           ),
-          const SizedBox(height: 32),
-
-          // ===========================================================================
-          // SIZES
-          // ===========================================================================
-          _buildSectionHeader('SIZES'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          ShowcaseSection(
+            title: 'Sizes',
+            note: 'TectaSwitch comes in small and medium sizes to handle different spatial density requirements.',
+            code: '''TectaSwitch(
+  value: _small,
+  size: TectaSwitchSize.small,
+  label: 'Small',
+  onChanged: (val) => setState(() => _small = val),
+)''',
+            overview: Row(
               children: [
                 TectaSwitch(
                   value: _sizeSmall,
@@ -167,19 +157,18 @@ class _SwitchShowcasePageState extends State<SwitchShowcasePage> {
               ],
             ),
           ),
-          const SizedBox(height: 32),
-
-          // ===========================================================================
-          // PLACEMENTS
-          // ===========================================================================
-          _buildSectionHeader('PLACEMENTS'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Wrap(
+          ShowcaseSection(
+            title: 'Label Placement',
+            note: 'Easily adjust the layout placement of labels in relation to the switch control (top, bottom, start, end).',
+            code: '''TectaSwitch(
+  value: _placement,
+  label: 'Label',
+  labelPlacement: TectaSwitchLabelPlacement.start,
+  onChanged: (val) => {},
+)''',
+            overview: Wrap(
               spacing: 24,
               runSpacing: 16,
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 TectaSwitch(
                   value: _placementTop,
@@ -208,141 +197,28 @@ class _SwitchShowcasePageState extends State<SwitchShowcasePage> {
               ],
             ),
           ),
-          const SizedBox(height: 32),
-
-          // ===========================================================================
-          // COLORS
-          // ===========================================================================
-          _buildSectionHeader('COLORS'),
-          const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Default Column Card
-              Expanded(
-                child: _buildColumnCard(
-                  title: 'Default',
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ..._colors.map((col) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: _buildColorRow(col, _getColorName(col), false),
-                        );
-                      }),
-                      TectaSwitch(
-                        value: _colorsUnchecked,
-                        label: 'Unchecked',
-                        onChanged: (val) => setState(() => _colorsUnchecked = val),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              // Disabled Column Card
-              Expanded(
-                child: _buildColumnCard(
-                  title: 'Disabled',
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ..._colors.map((col) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: _buildColorRow(col, _getColorName(col), true),
-                        );
-                      }),
-                      TectaSwitch(
-                        value: _colorsDisabledUnchecked,
-                        label: 'Unchecked',
-                        onChanged: null,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildColorRow(Color color, String label, bool isDisabled) {
-    if (isDisabled) {
-      return TectaSwitch(
-        value: _colorsDisabled[color]!,
-        color: color,
-        label: label,
-        onChanged: null,
-      );
-    }
-    return TectaSwitch(
-      value: _colorsActive[color]!,
-      color: color,
-      label: label,
-      onChanged: (val) => setState(() => _colorsActive[color] = val),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 28.0),
-      decoration: BoxDecoration(
-        color: TectaColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: TectaColors.grey200),
-      ),
-      child: child,
-    );
-  }
-
-  Widget _buildColumnCard({required String title, required Widget child}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-      decoration: BoxDecoration(
-        color: TectaColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: TectaColors.grey200),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: TectaColors.grey100,
-              borderRadius: BorderRadius.circular(6.0),
-              border: Border.all(color: TectaColors.grey200),
-            ),
-            child: Text(
-              title,
-              style: TectaTypography.overline.copyWith(
-                color: TectaColors.grey600,
-                fontSize: 10,
-                fontWeight: FontWeight.bold,
-              ),
+          ShowcaseSection(
+            title: 'Semantic Colors',
+            note: 'Integrates natively with design system color tokens like Primary, Secondary, Info, Success, Warning, and Error.',
+            code: '''TectaSwitch(
+  value: true,
+  color: TectaColors.warningMain,
+  label: 'Warning Option',
+  onChanged: (val) => {},
+)''',
+            overview: Wrap(
+              spacing: 24,
+              runSpacing: 16,
+              children: _colors.map((col) {
+                return TectaSwitch(
+                  value: _colorsActive[col]!,
+                  color: col,
+                  label: _getColorName(col),
+                  onChanged: (val) => setState(() => _colorsActive[col] = val),
+                );
+              }).toList(),
             ),
           ),
-          const SizedBox(height: 20),
-          child,
         ],
       ),
     );

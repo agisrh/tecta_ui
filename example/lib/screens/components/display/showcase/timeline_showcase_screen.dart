@@ -1,33 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class TimelineShowcasePage extends StatelessWidget {
   const TimelineShowcasePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Timeline',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          // ---------------------------------------------------------
-          // STANDARD TIMELINE
-          // ---------------------------------------------------------
-          _buildSectionHeader('Delivery Tracking (Solid Line, Outlined Indicator)'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: const TectaTimeline(
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Timeline',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
+            ),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Delivery Tracking (Solid Line, Outlined Indicator)',
+            note: 'TectaTimelineItem supports title, subtitle, time metadata, along with outlined circle node indicators.',
+            code: '''TectaTimeline(
+  children: [
+    TectaTimelineItem(
+      title: 'Order Placed',
+      subtitle: 'Your order has been received.',
+      time: '09:30 AM',
+      indicatorType: TectaTimelineIndicatorType.outlined,
+      indicatorColor: TectaColors.primaryMain,
+    ),
+  ],
+)''',
+            overview: const TectaTimeline(
               children: [
                 TectaTimelineItem(
                   title: 'Order Placed',
@@ -60,15 +82,15 @@ class TimelineShowcasePage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 24),
-
-          // ---------------------------------------------------------
-          // DASHED TIMELINE
-          // ---------------------------------------------------------
-          _buildSectionHeader('Project Progress (Dashed Line, Soft Indicator)'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: const TectaTimeline(
+          ShowcaseSection(
+            title: 'Project Progress (Dashed Line, Soft Indicator)',
+            note: 'Set lineType to TectaTimelineLineType.dashed and indicatorType to TectaTimelineIndicatorType.soft to render soft status backdrops.',
+            code: '''TectaTimelineItem(
+  title: 'Planning',
+  indicatorType: TectaTimelineIndicatorType.soft,
+  lineType: TectaTimelineLineType.dashed,
+)''',
+            overview: const TectaTimeline(
               children: [
                 TectaTimelineItem(
                   title: 'Requirement Analysis',
@@ -98,35 +120,6 @@ class TimelineShowcasePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Material(
-      color: TectaColors.white,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: const BorderSide(color: TectaColors.grey200),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: child,
       ),
     );
   }

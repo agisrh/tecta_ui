@@ -1,157 +1,143 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class DividerShowcasePage extends StatelessWidget {
   const DividerShowcasePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Divider',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(color: TectaColors.grey300.withValues(alpha: 0.5), height: 1.0),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          // ===========================================================================
-          // HORIZONTAL DIVIDERS
-          // ===========================================================================
-          _buildSectionHeader('HORIZONTAL DIVIDERS'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Column(
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Divider',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
+            ),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Horizontal Dividers',
+            note: 'TectaDivider supports horizontal separating lines with three styles: solid (default), dashed, and dotted.',
+            code: '''// Solid
+TectaDivider()
+
+// Dashed
+TectaDivider(style: TectaDividerStyle.dashed)
+
+// Dotted with custom color and thickness
+TectaDivider(
+  style: TectaDividerStyle.dotted,
+  thickness: 3.0,
+  color: Colors.blue,
+)''',
+            overview: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Solid Divider (Default)',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('Solid Divider (Default)', style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.white70 : TectaColors.grey700)),
                 const SizedBox(height: 8),
                 const TectaDivider(),
                 const SizedBox(height: 24),
-                const Text('Dashed Divider', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('Dashed Divider', style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.white70 : TectaColors.grey700)),
                 const SizedBox(height: 8),
                 const TectaDivider(style: TectaDividerStyle.dashed),
                 const SizedBox(height: 24),
-                const Text('Dotted Divider', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('Dotted Divider (Thick)', style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.white70 : TectaColors.grey700)),
                 const SizedBox(height: 8),
                 const TectaDivider(style: TectaDividerStyle.dotted, thickness: 3.0),
-                const SizedBox(height: 24),
-                const Text('Thick colored with Indents',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                const TectaDivider(
-                  thickness: 4.0,
-                  color: TectaColors.primaryMain,
-                  indent: 32.0,
-                  endIndent: 32.0,
-                ),
               ],
             ),
           ),
-          const SizedBox(height: 32),
-
-          // ===========================================================================
-          // VERTICAL DIVIDERS
-          // ===========================================================================
-          _buildSectionHeader('VERTICAL DIVIDERS'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: SizedBox(
-              height: 100,
+          ShowcaseSection(
+            title: 'Vertical Dividers',
+            note: 'Switch orientation parameter to Axis.vertical to divide child rows inside Row/Flex layouts.',
+            code: '''TectaDivider(
+  orientation: Axis.vertical,
+  style: TectaDividerStyle.dashed,
+)''',
+            overview: SizedBox(
+              height: 60,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text('Item 1'),
+                  Text('Item A', style: TextStyle(color: isDark ? Colors.white70 : TectaColors.grey700)),
                   const TectaDivider(orientation: Axis.vertical),
-                  const Text('Item 2'),
+                  Text('Item B', style: TextStyle(color: isDark ? Colors.white70 : TectaColors.grey700)),
                   const TectaDivider(
                     orientation: Axis.vertical,
                     style: TectaDividerStyle.dashed,
                     color: TectaColors.errorMain,
                   ),
-                  const Text('Item 3'),
-                  const TectaDivider(
-                    orientation: Axis.vertical,
-                    style: TectaDividerStyle.dotted,
-                    thickness: 4.0,
-                    color: TectaColors.successMain,
-                    indent: 8.0,
-                    endIndent: 8.0,
-                  ),
-                  const Text('Item 4'),
+                  Text('Item C', style: TextStyle(color: isDark ? Colors.white70 : TectaColors.grey700)),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 32),
+          ShowcaseSection(
+            title: 'Dividers with Labels',
+            note: 'Pass widget elements to label slot to embed text or icon markers, and set alignments to start, center (default), or end.',
+            code: '''TectaDivider(
+  label: Text('OR'),
+)
 
-          // ===========================================================================
-          // DIVIDERS WITH LABELS
-          // ===========================================================================
-          _buildSectionHeader('DIVIDERS WITH LABELS'),
-          const SizedBox(height: 16),
-          _buildCard(
-            child: Column(
+TectaDivider(
+  labelAlignment: TectaDividerLabelAlignment.start,
+  label: Text('Start Label'),
+)''',
+            overview: Column(
               children: [
-                const Text(
-                  'Label Centered',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
                 TectaDivider(
                   label: Text(
                     'OR',
                     style: TectaTypography.caption.copyWith(
-                      color: TectaColors.grey500,
+                      color: isDark ? Colors.white38 : TectaColors.grey500,
                     ),
                   ),
                 ),
-                const SizedBox(height: 35),
-                const Text(
-                  'Label Start Align',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 24),
                 TectaDivider(
                   labelAlignment: TectaDividerLabelAlignment.start,
                   label: Text(
-                    'Section A',
+                    'Section Header',
                     style: TectaTypography.subtitle2.copyWith(
                       fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white70 : TectaColors.grey800,
                     ),
                   ),
                 ),
-                const SizedBox(height: 35),
-                const Text('Label End Align (with Icon)',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
+                const SizedBox(height: 24),
                 TectaDivider(
                   labelAlignment: TectaDividerLabelAlignment.end,
                   label: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
-                        Icons.info_outline,
+                        Icons.info_outline_rounded,
                         size: 16,
                         color: TectaColors.infoMain,
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        'Info',
+                        'Details',
                         style: TectaTypography.caption.copyWith(
                           color: TectaColors.infoMain,
                         ),
@@ -159,56 +145,11 @@ class DividerShowcasePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 35),
-                const Text(
-                  'Dashed with Label & Custom Color',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TectaDivider(
-                  style: TectaDividerStyle.dashed,
-                  color: Colors.orange,
-                  label: Text(
-                    'CUSTOM',
-                    style: TectaTypography.body2.copyWith(
-                      color: Colors.orange,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 28.0),
-      decoration: BoxDecoration(
-        color: TectaColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: TectaColors.grey200),
-      ),
-      child: child,
     );
   }
 }

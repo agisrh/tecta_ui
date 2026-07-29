@@ -13,35 +13,40 @@ ShowcaseCategory buildOverlaysCategory() {
     items: [
       ShowcaseItem(
         title: 'Dialog',
-        description: 'Overlay popups',
+        description:
+            'Modal windows layered over the main content to require explicit user decisions, confirmations, or critical inputs.',
         icon: Icons.picture_in_picture_outlined,
         iconColor: TectaColors.successMain,
         builder: (context) => const DialogShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Bottom Sheet',
-        description: 'Slide up modal drawers',
+        description:
+            'Slide-up modal panels anchored to the screen bottom, ideal for contextual menus, sub-tasks, or supplementary options.',
         icon: Icons.call_to_action_outlined,
         iconColor: TectaColors.infoMain,
         builder: (context) => const BottomSheetShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Snackbar',
-        description: 'Toast feedback messages',
+        description:
+            'Transient feedback banners that appear briefly at the bottom of the screen to inform users about background processes or system actions.',
         icon: Icons.sms_failed_outlined,
         iconColor: TectaColors.warningMain,
         builder: (context) => const SnackbarShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Tooltip',
-        description: 'Hover bubble note tags',
+        description:
+            'Compact contextual popovers triggered by hover or long-press to clarify the purpose of interactive icons or truncated text.',
         icon: Icons.label_outline_rounded,
         iconColor: TectaColors.primaryMain,
         builder: (context) => const TooltipShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Dropdown Menu',
-        description: 'Premium action list popovers',
+        description:
+            'Floating contextual overlays presenting a list of secondary actions or selectable values anchored to a target widget.',
         icon: Icons.arrow_drop_down_circle_outlined,
         iconColor: TectaColors.primaryMain,
         builder: (context) => const DropdownMenuShowcasePage(),

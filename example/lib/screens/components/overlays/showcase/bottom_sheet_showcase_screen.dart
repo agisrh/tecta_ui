@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
+import '../../../../utils/showcase_page_layout.dart';
+import '../../../../utils/showcase_section.dart';
 
 class BottomSheetShowcasePage extends StatelessWidget {
   const BottomSheetShowcasePage({super.key});
 
-  void _showStandardSheet(BuildContext context) {
+  void _showStandardSheet(BuildContext context, bool isDark) {
     showTectaBottomSheet(
       context,
       child: TectaBottomSheet(
@@ -15,7 +17,7 @@ class BottomSheetShowcasePage extends StatelessWidget {
           children: [
             Text(
               'Allow this app to access your contacts? This helps in finding friends easily.',
-              style: TectaTypography.body2.copyWith(color: TectaColors.grey600),
+              style: TectaTypography.body2.copyWith(color: isDark ? Colors.white60 : TectaColors.grey600),
             ),
             const SizedBox(height: 24.0),
             Row(
@@ -26,14 +28,11 @@ class BottomSheetShowcasePage extends StatelessWidget {
                   child: const Text('Deny'),
                 ),
                 const SizedBox(width: 8.0),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: TectaColors.primaryMain,
-                    foregroundColor: TectaColors.white,
-                    elevation: 0,
-                  ),
+                TectaButton(
+                  label: 'Allow',
+                  color: TectaColors.primaryMain,
+                  size: TectaButtonSize.small,
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Allow'),
                 ),
               ],
             ),
@@ -43,7 +42,7 @@ class BottomSheetShowcasePage extends StatelessWidget {
     );
   }
 
-  void _showListMenuSheet(BuildContext context) {
+  void _showListMenuSheet(BuildContext context, bool isDark) {
     showTectaBottomSheet(
       context,
       child: TectaBottomSheet(
@@ -56,22 +55,16 @@ class BottomSheetShowcasePage extends StatelessWidget {
               title: const Text('Share Link'),
               onTap: () => Navigator.pop(context),
             ),
-            const Divider(height: 1, color: TectaColors.grey200),
+            const Divider(height: 1),
             ListTile(
               leading: const Icon(Icons.copy_outlined),
               title: const Text('Copy Link'),
               onTap: () => Navigator.pop(context),
             ),
-            const Divider(height: 1, color: TectaColors.grey200),
+            const Divider(height: 1),
             ListTile(
-              leading: const Icon(Icons.edit_outlined),
-              title: const Text('Edit Details'),
-              onTap: () => Navigator.pop(context),
-            ),
-            const Divider(height: 1, color: TectaColors.grey200),
-            ListTile(
-              leading: const Icon(Icons.delete_outline, color: TectaColors.errorMain),
-              title: Text('Delete File', style: TextStyle(color: TectaColors.errorMain)),
+              leading: const Icon(Icons.delete_outline_rounded, color: TectaColors.errorMain),
+              title: const Text('Delete File', style: TextStyle(color: TectaColors.errorMain)),
               onTap: () => Navigator.pop(context),
             ),
           ],
@@ -86,56 +79,24 @@ class BottomSheetShowcasePage extends StatelessWidget {
       child: TectaBottomSheet(
         title: 'Available Options',
         content: SizedBox(
-          height: 300,
+          height: 240,
           child: ListView.separated(
-            physics: const BouncingScrollPhysics(),
-            itemCount: 15,
-            separatorBuilder: (context, index) =>
-                const Divider(height: 1, color: TectaColors.grey200),
+            itemCount: 10,
+            separatorBuilder: (context, index) => const Divider(height: 1),
             itemBuilder: (context, index) {
               return ListTile(
                 leading: CircleAvatar(
                   backgroundColor: TectaColors.grey200,
                   child: Text(
                     '${index + 1}',
-                    style: const TextStyle(color: TectaColors.grey800),
+                    style: const TextStyle(color: TectaColors.grey800, fontSize: 13),
                   ),
                 ),
                 title: Text('Option Title ${index + 1}'),
-                subtitle: Text('Details for option item ${index + 1}'),
                 onTap: () => Navigator.pop(context),
               );
             },
           ),
-        ),
-      ),
-    );
-  }
-
-  void _showActionsHeaderSheet(BuildContext context) {
-    showTectaBottomSheet(
-      context,
-      child: TectaBottomSheet(
-        title: 'Edit Profile',
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Done', style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-        ],
-        content: const Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TectaTextField(
-              label: 'Display Name',
-              suffixIcon: Icon(Icons.person),
-            ),
-            SizedBox(height: 16.0),
-            TectaTextField(
-              label: 'Bio Description',
-              suffixIcon: Icon(Icons.edit_note),
-            ),
-          ],
         ),
       ),
     );
@@ -148,7 +109,7 @@ class BottomSheetShowcasePage extends StatelessWidget {
       child: DraggableScrollableSheet(
         initialChildSize: 0.6,
         minChildSize: 0.4,
-        maxChildSize: 0.95,
+        maxChildSize: 0.9,
         expand: false,
         builder: (context, scrollController) {
           return TectaBottomSheet(
@@ -156,14 +117,12 @@ class BottomSheetShowcasePage extends StatelessWidget {
             content: ListView.separated(
               controller: scrollController,
               shrinkWrap: true,
-              itemCount: 25,
-              separatorBuilder: (context, index) =>
-                  const Divider(height: 1, color: TectaColors.grey200),
+              itemCount: 20,
+              separatorBuilder: (context, index) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: const Icon(Icons.drag_indicator, color: TectaColors.grey400),
+                  leading: const Icon(Icons.drag_indicator_rounded, color: TectaColors.grey400),
                   title: Text('Scrollable Item ${index + 1}'),
-                  subtitle: const Text('Drag me up to expand this sheet!'),
                   onTap: () => Navigator.pop(context),
                 );
               },
@@ -176,100 +135,104 @@ class BottomSheetShowcasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Bottom Sheet',
-          style: TectaTypography.h4.copyWith(color: TectaColors.grey800),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      backgroundColor: TectaColors.grey100,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        children: [
-          _buildSectionHeader('Interactive Examples'),
-          const SizedBox(height: 12),
-          _buildCard(
-            child: Column(
-              children: [
-                // Standard Modal
-                ListTile(
-                  title: const Text('Standard Bottom Sheet'),
-                  subtitle: const Text('Simple informational bottom dialog'),
-                  trailing: const Icon(Icons.keyboard_arrow_up),
-                  onTap: () => _showStandardSheet(context),
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Bottom Sheet',
+                style: TectaTypography.h4.copyWith(
+                  color: isDark ? Colors.white : TectaColors.grey800,
                 ),
-                const Divider(height: 1, color: TectaColors.grey200),
-
-                // Menu Options
-                ListTile(
-                  title: const Text('List Menu Bottom Sheet'),
-                  subtitle: const Text('Contextual operations panel'),
-                  trailing: const Icon(Icons.keyboard_arrow_up),
-                  onTap: () => _showListMenuSheet(context),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
                 ),
-                const Divider(height: 1, color: TectaColors.grey200),
-
-                // Scrollable content
-                ListTile(
-                  title: const Text('Scrollable Bottom Sheet'),
-                  subtitle: const Text('Long list inside a bottom viewport'),
-                  trailing: const Icon(Icons.keyboard_arrow_up),
-                  onTap: () => _showScrollableSheet(context),
-                ),
-                const Divider(height: 1, color: TectaColors.grey200),
-
-                // Actions Header
-                ListTile(
-                  title: const Text('Actions Header Bottom Sheet'),
-                  subtitle: const Text('Sheet containing done/close header buttons'),
-                  trailing: const Icon(Icons.keyboard_arrow_up),
-                  onTap: () => _showActionsHeaderSheet(context),
-                ),
-                const Divider(height: 1, color: TectaColors.grey200),
-
-                // Draggable Expandable sheet
-                ListTile(
-                  title: const Text('Draggable Bottom Sheet'),
-                  subtitle: const Text('Drag upwards to expand size dynamically'),
-                  trailing: const Icon(Icons.keyboard_arrow_up),
-                  onTap: () => _showDraggableSheet(context),
-                ),
-              ],
+              ),
+            ),
+      body: ShowcasePageLayout(
+        sections: [
+          ShowcaseSection(
+            title: 'Standard Bottom Sheet',
+            note: 'TectaBottomSheet is anchored to the bottom edge of the viewport. Supports title headers, handle bars, and action parameters.',
+            code: '''showTectaBottomSheet(
+  context,
+  child: TectaBottomSheet(
+    title: 'Permission Request',
+    content: Column(
+      children: [Text('Allow access?')],
+    ),
+  ),
+)''',
+            overview: TectaButton(
+              label: 'Trigger Standard Sheet',
+              onPressed: () => _showStandardSheet(context, isDark),
+            ),
+          ),
+          ShowcaseSection(
+            title: 'List Menu Options',
+            note: 'Embed operations menu or action tiles inside the content area of the sheet.',
+            code: '''TectaBottomSheet(
+  title: 'Choose Action',
+  content: Column(
+    children: [
+      ListTile(title: Text('Share')),
+    ],
+  ),
+)''',
+            overview: TectaButton(
+              label: 'Trigger List Menu Sheet',
+              color: TectaColors.successMain,
+              onPressed: () => _showListMenuSheet(context, isDark),
+            ),
+          ),
+          ShowcaseSection(
+            title: 'Scrollable Viewport',
+            note: 'Add scrolling components inside the content slot. Recommended to wrap in sized constraints boxes.',
+            code: '''TectaBottomSheet(
+  content: SizedBox(
+    height: 250,
+    child: ListView.builder(...),
+  ),
+)''',
+            overview: TectaButton(
+              label: 'Trigger Scrollable Sheet',
+              color: TectaColors.warningMain,
+              onPressed: () => _showScrollableSheet(context),
+            ),
+          ),
+          ShowcaseSection(
+            title: 'Draggable Expandable Sheet',
+            note: 'Wrap TectaBottomSheet inside DraggableScrollableSheet to enable swipe-to-expand capabilities.',
+            code: '''showTectaBottomSheet(
+  context,
+  isScrollControlled: true,
+  child: DraggableScrollableSheet(
+    builder: (context, controller) {
+      return TectaBottomSheet(
+        content: ListView(controller: controller, ...),
+      );
+    },
+  ),
+)''',
+            overview: TectaButton(
+              label: 'Trigger Draggable Sheet',
+              color: Colors.purple,
+              onPressed: () => _showDraggableSheet(context),
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Text(
-        title,
-        style: TectaTypography.overline.copyWith(
-          color: TectaColors.grey500,
-          fontSize: 12,
-          letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({required Widget child}) {
-    return Material(
-      color: TectaColors.white,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: const BorderSide(color: TectaColors.grey200),
-      ),
-      child: child,
     );
   }
 }

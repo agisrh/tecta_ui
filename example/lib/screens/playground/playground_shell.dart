@@ -1,8 +1,11 @@
+// ignore_for_file: prefer_adjacent_string_concatenation
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tecta_ui/tecta_ui.dart';
-import '../playground_tab_screen.dart'; // To reuse CodePlaygroundController
+import 'playground_mega_menu.dart';
+import 'playground_code_controller.dart';
 
 class PlaygroundShell extends StatefulWidget {
   final String templateName;
@@ -72,6 +75,61 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
     );
   }
 
+  final LayerLink _megaMenuLayerLink = LayerLink();
+  OverlayEntry? _megaMenuOverlay;
+
+  void _openMegaMenu() {
+    if (_megaMenuOverlay != null) {
+      _closeMegaMenu();
+      return;
+    }
+    _megaMenuOverlay = OverlayEntry(builder: (ctx) => _buildMegaMenuOverlay(ctx));
+    Overlay.of(context).insert(_megaMenuOverlay!);
+    setState(() {});
+  }
+
+  void _refreshMegaMenu() {
+    _megaMenuOverlay?.markNeedsBuild();
+  }
+
+  void _closeMegaMenu() {
+    _megaMenuOverlay?.remove();
+    _megaMenuOverlay = null;
+    if (mounted) setState(() {});
+  }
+
+  Widget _buildMegaMenuOverlay(BuildContext ctx) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: _closeMegaMenu,
+      child: Stack(
+        children: [
+          Positioned.fill(child: Container(color: Colors.transparent)),
+          CompositedTransformFollower(
+            link: _megaMenuLayerLink,
+            showWhenUnlinked: false,
+            offset: const Offset(0, 36),
+            child: Material(
+              color: Colors.transparent,
+              child: GestureDetector(
+                onTap: () {}, // prevent close when tapping inside menu
+                child: PlaygroundMegaMenu(
+                  selectedTemplate: widget.templateName,
+                  onTemplateSelected: (item) {
+                    widget.onTemplateChanged(item);
+                    _refreshMegaMenu();
+                    _closeMegaMenu();
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── Simple Dropdown (for Zoom) ──────────────────────────────────────────────
   Widget _buildTopDropdown({
     required String label,
     required List<String> items,
@@ -192,16 +250,38 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                             const SizedBox(width: 16),
                             const Icon(Icons.auto_awesome_rounded, size: 16, color: Colors.white38),
                             const SizedBox(width: 16),
-                            // Templates Dropdown Menu
-                            _buildTopDropdown(
-                              label: 'Templates',
-                              items: ['Card', 'Button', 'Alert', 'TextField', 'Color'],
-                              value: widget.templateName,
-                              onChanged: (val) {
-                                if (val != null) {
-                                  widget.onTemplateChanged(val);
-                                }
-                              },
+                            // Templates Mega Menu trigger
+                            CompositedTransformTarget(
+                              link: _megaMenuLayerLink,
+                              child: GestureDetector(
+                                onTap: _openMegaMenu,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF3A3A3C),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Templates',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -283,7 +363,8 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(Icons.menu_book_rounded, size: 16, color: TectaColors.primaryMain),
+                                    const Icon(Icons.menu_book_rounded,
+                                        size: 16, color: TectaColors.primaryMain),
                                     const SizedBox(width: 8),
                                     Text(
                                       'API REFERENCE',
@@ -297,7 +378,9 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                                   ],
                                 ),
                                 Icon(
-                                  _isDocExpanded ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_up_rounded,
+                                  _isDocExpanded
+                                      ? Icons.keyboard_arrow_down_rounded
+                                      : Icons.keyboard_arrow_up_rounded,
                                   color: Colors.white54,
                                   size: 18,
                                 ),
@@ -359,7 +442,9 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                             const SizedBox(width: 8),
                             IconButton(
                               icon: Icon(
-                                _isMobilePreview ? Icons.phone_android_rounded : Icons.computer_rounded,
+                                _isMobilePreview
+                                    ? Icons.phone_android_rounded
+                                    : Icons.computer_rounded,
                                 size: 18,
                                 color: Colors.white70,
                               ),
@@ -392,7 +477,8 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                               ),
                               onPressed: _copyToClipboard,
                               icon: const Icon(Icons.copy_all_rounded, size: 16),
-                              label: const Text('Export', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                              label: const Text('Export',
+                                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
                             ),
                           ],
                         ),
@@ -409,7 +495,9 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                         decoration: BoxDecoration(
                           color: _isDarkPreview ? const Color(0xFF222222) : const Color(0xFFF9F9F9),
                           borderRadius: BorderRadius.circular(_isMobilePreview ? 24.0 : 0.0),
-                          border: _isMobilePreview ? Border.all(color: const Color(0xFF333333), width: 8) : null,
+                          border: _isMobilePreview
+                              ? Border.all(color: const Color(0xFF333333), width: 8)
+                              : null,
                           boxShadow: _isMobilePreview
                               ? [
                                   BoxShadow(
@@ -424,7 +512,14 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                           scale: _previewScale,
                           child: Center(
                             child: SingleChildScrollView(
-                              child: widget.preview,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(maxWidth: 600),
+                                  child: widget.preview,
+                                ),
+                              ),
                             ),
                           ),
                         ),

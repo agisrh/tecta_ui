@@ -39,7 +39,6 @@ class ColorsShowcasePage extends StatelessWidget {
             title: 'Primary (Deep Blue)',
             note:
                 'Always use TectaColors tokens instead of hardcoded hex values. This ensures your UI responds correctly to theme changes and future palette updates across the entire design system.',
-            noteVariant: ShowcaseNoteVariant.tip,
             code: '''// Accessing Primary Colors
 Container(
   color: TectaColors.primaryMain,
@@ -81,6 +80,7 @@ Container(
           ),
           ShowcaseSection(
             title: 'Secondary (Orange)',
+            note: 'Secondary palette handles auxiliary focus, accents, active states, and non-primary branding visual tags.',
             code: '''// Accessing Secondary Colors
 Container(
   color: TectaColors.secondaryMain,
@@ -122,6 +122,7 @@ Container(
           ),
           ShowcaseSection(
             title: 'Success (Green)',
+            note: 'Success colors are utilized to reflect successful sync completion, approval prompts, and online status badges.',
             code: '''// Accessing Success Colors
 Container(
   color: TectaColors.successMain,
@@ -163,6 +164,7 @@ Container(
           ),
           ShowcaseSection(
             title: 'Info (Blue)',
+            note: 'Info colors are designed for non-critical helpful tips, notifications, user guides, or status updates.',
             code: '''// Accessing Info Colors
 Container(
   color: TectaColors.infoMain,
@@ -204,6 +206,7 @@ Container(
           ),
           ShowcaseSection(
             title: 'Warning (Orange/Yellow)',
+            note: 'Warning colors highlight pending states, system warnings, or actions that require a bit of caution.',
             code: '''// Accessing Warning Colors
 Container(
   color: TectaColors.warningMain,
@@ -245,6 +248,7 @@ Container(
           ),
           ShowcaseSection(
             title: 'Error (Red)',
+            note: 'Error colors represent system errors, failed syncs, destructive operations (delete/reject), or validation issues.',
             code: '''// Accessing Error Colors
 Container(
   color: TectaColors.errorMain,

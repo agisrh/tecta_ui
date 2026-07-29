@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tecta_ui/tecta_ui.dart';
 import 'home_screen.dart'; // To access ShowcaseItem and ShowcaseCategory
 import 'docs_tab_screen.dart';
-import 'templates_tab_screen.dart';
+import 'blocks_tab_screen.dart';
 import 'playground_tab_screen.dart';
 
 class ShowcaseDesktopView extends StatelessWidget {
@@ -27,7 +27,7 @@ class ShowcaseDesktopView extends StatelessWidget {
     switch (currentTab) {
       case 'Docs':
         return const DocsTabScreen();
-      case 'Templates':
+      case 'Blocks':
         return const TemplatesTabScreen();
       case 'Playground':
         return const PlaygroundTabScreen();
@@ -98,7 +98,7 @@ class ShowcaseDesktopView extends StatelessWidget {
                     fontSize: 15,
                     color: Theme.of(context).brightness == Brightness.dark
                         ? Colors.white54
-                        : TectaColors.grey500,
+                        : TectaColors.grey600,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -187,7 +187,7 @@ class ShowcaseDesktopView extends StatelessWidget {
           ),
           // Navigation Tabs
           Row(
-            children: ['Docs', 'Components', 'Templates', 'Playground'].map((tab) {
+            children: ['Docs', 'Components', 'Blocks', 'Playground'].map((tab) {
               final isSelected = currentTab == tab;
               return GestureDetector(
                 onTap: () => onTabChanged(tab),

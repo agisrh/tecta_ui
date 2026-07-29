@@ -11,31 +11,33 @@ class TypographyShowcasePage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: MediaQuery.of(context).size.width >= 1024 ? null : AppBar(
-        title: Text(
-          'Typography',
-          style: TectaTypography.h4.copyWith(
-            color: TectaColors.grey800,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(
-            color: theme.dividerColor,
-            height: 1.0,
-          ),
-        ),
-      ),
+      appBar: MediaQuery.of(context).size.width >= 1024
+          ? null
+          : AppBar(
+              title: Text(
+                'Typography',
+                style: TectaTypography.h4.copyWith(
+                  color: TectaColors.grey800,
+                ),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: theme.dividerColor,
+                  height: 1.0,
+                ),
+              ),
+            ),
       body: ShowcasePageLayout(
         sections: [
           ShowcaseSection(
             title: 'Headings (H1 - H6)',
-            note: 'Use heading styles sparingly — only one H1 per page. H1–H3 are best for page and section titles; H4–H6 work well for card headers and group labels.',
-            noteVariant: ShowcaseNoteVariant.tip,
+            note:
+                'Use heading styles sparingly — only one H1 per page. H1–H3 are best for page and section titles; H4–H6 work well for card headers and group labels.',
             code: '''Text('Heading 1', style: TectaTypography.h1)
 Text('Heading 2', style: TectaTypography.h2)
 Text('Heading 3', style: TectaTypography.h3)
@@ -96,8 +98,8 @@ Text('Heading 6', style: TectaTypography.h6)''',
           ),
           ShowcaseSection(
             title: 'Subtitles',
-            note: 'Subtitle styles are designed to accompany headings — not replace them. subtitle1 is ideal for section intros, while subtitle2 pairs well with form labels and metadata rows.',
-            noteVariant: ShowcaseNoteVariant.info,
+            note:
+                'Subtitle styles are designed to accompany headings — not replace them. subtitle1 is ideal for section intros, while subtitle2 pairs well with form labels and metadata rows.',
             code: '''Text('Subtitle 1', style: TectaTypography.subtitle1)
 Text('Subtitle 2', style: TectaTypography.subtitle2)''',
             overview: Column(
@@ -122,6 +124,7 @@ Text('Subtitle 2', style: TectaTypography.subtitle2)''',
           ),
           ShowcaseSection(
             title: 'Body Text',
+            note: 'Body text variants handle normal reading paragraphs. body1 is standard for larger viewport page articles, while body2 is optimized for dashboard elements, forms, and general listings.',
             code: '''Text('Body 1', style: TectaTypography.body1)
 Text('Body 2', style: TectaTypography.body2)''',
             overview: Column(
@@ -131,7 +134,8 @@ Text('Body 2', style: TectaTypography.body2)''',
                   variantName: 'Body 1',
                   style: TectaTypography.body1,
                   desc: 'Size: 16, Regular (400)',
-                  sampleText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                  sampleText:
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 ),
                 const SizedBox(height: 16),
                 _buildTypographyCard(
@@ -139,15 +143,16 @@ Text('Body 2', style: TectaTypography.body2)''',
                   variantName: 'Body 2',
                   style: TectaTypography.body2,
                   desc: 'Size: 14, Regular (400)',
-                  sampleText: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                  sampleText:
+                      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 ),
               ],
             ),
           ),
           ShowcaseSection(
             title: 'Caption & Overline',
-            note: 'Avoid using caption or overline as standalone body copy — these are supplementary styles intended for timestamps, helper hints, and tag labels where space is constrained.',
-            noteVariant: ShowcaseNoteVariant.warning,
+            note:
+                'Avoid using caption or overline as standalone body copy — these are supplementary styles intended for timestamps, helper hints, and tag labels where space is constrained.',
             code: '''Text('Caption', style: TectaTypography.caption)
 Text('OVERLINE', style: TectaTypography.overline)''',
             overview: Column(

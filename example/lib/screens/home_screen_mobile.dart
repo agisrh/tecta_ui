@@ -119,7 +119,7 @@ class _ShowcaseMobileViewState extends State<ShowcaseMobileView> {
                 Text(
                   item.description,
                   style: (theme.textTheme.bodySmall ?? TectaTypography.caption).copyWith(
-                    color: TectaColors.grey500,
+                    color: TectaColors.grey600,
                     fontSize: 11,
                   ),
                   maxLines: 2,
@@ -187,7 +187,7 @@ class _ShowcaseMobileViewState extends State<ShowcaseMobileView> {
                       Text(
                         item.description,
                         style: (theme.textTheme.bodySmall ?? TectaTypography.caption).copyWith(
-                          color: TectaColors.grey500,
+                          color: TectaColors.grey600,
                           fontSize: 11,
                         ),
                       ),

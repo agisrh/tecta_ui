@@ -45,7 +45,7 @@ class ShowcaseHomeScreen extends StatefulWidget {
 
 class _ShowcaseHomeScreenState extends State<ShowcaseHomeScreen> {
   late ShowcaseItem _selectedItem;
-  String _currentTab = 'Components';
+  String _currentTab = 'Docs';
   late List<ShowcaseCategory> _categories;
 
   @override

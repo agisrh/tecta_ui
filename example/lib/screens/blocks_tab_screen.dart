@@ -15,7 +15,7 @@ class TemplatesTabScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Premium Templates',
+            'Blocks',
             style: TextStyle(
               fontSize: 38,
               fontWeight: FontWeight.w900,
@@ -25,7 +25,7 @@ class TemplatesTabScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'Ready-to-use page layouts and application templates built using Tecta UI.',
+            'Ready-to-use UI blocks and page layouts built using Tecta UI components.',
             style: TextStyle(
               fontSize: 16,
               color: isDark ? Colors.white70 : TectaColors.grey600,

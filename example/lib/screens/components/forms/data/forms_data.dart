@@ -18,70 +18,80 @@ ShowcaseCategory buildFormsCategory() {
     items: [
       ShowcaseItem(
         title: 'Buttons',
-        description: 'Interactive actions',
+        description:
+            'Interactive trigger elements used to perform actions, submit forms, or initiate key user flows.',
         icon: Icons.smart_button_outlined,
         iconColor: TectaColors.successMain,
         builder: (context) => const ButtonShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Checkbox',
-        description: 'Selection controls',
+        description:
+            'Selection controls allowing users to select one or multiple independent options from a list.',
         icon: Icons.check_box_outlined,
         iconColor: TectaColors.warningMain,
         builder: (context) => const CheckboxShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Radio Button',
-        description: 'Single selection controls',
+        description:
+            'Single-select controls used when users must choose exactly one option from a mutually exclusive set.',
         icon: Icons.radio_button_checked,
         iconColor: TectaColors.infoMain,
         builder: (context) => const RadioShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Switch',
-        description: 'Toggle selections',
+        description:
+            'Binary toggle controls designed to instantly activate or deactivate settings and preferences.',
         icon: Icons.toggle_on_outlined,
         iconColor: TectaColors.successMain,
         builder: (context) => const SwitchShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Text Field',
-        description: 'Text and select inputs',
+        description:
+            'Input controls enabling users to type, edit, and validate textual data with custom helper and error states.',
         icon: Icons.edit_note_rounded,
         iconColor: TectaColors.warningMain,
         builder: (context) => const TextFieldShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Upload',
-        description: 'File upload fields',
+        description:
+            'File selection and dropzone components supporting file pickers, attachment previews, and upload states.',
         icon: Icons.upload_file_outlined,
         iconColor: TectaColors.infoMain,
         builder: (context) => const UploadShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Segmented Control',
-        description: 'Custom switch tabs',
+        description:
+            'Linear set of connected buttons used to toggle between closely related options or filter view modes.',
         icon: Icons.splitscreen_outlined,
         iconColor: TectaColors.primaryMain,
         builder: (context) => const SegmentedControlShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Rating',
-        description: 'Premium feedback stars',
+        description:
+            'Star-based evaluation controls allowing users to provide or view qualitative numeric reviews.',
         icon: Icons.star_rate_rounded,
         iconColor: TectaColors.warningMain,
         builder: (context) => const RatingShowcasePage(),
       ),
       ShowcaseItem(
         title: 'Slider',
-        description: 'Custom slider values',
+        description:
+            'Interactive track controls that enable smooth or stepped selection across a continuous range of values.',
         icon: Icons.linear_scale_rounded,
         iconColor: TectaColors.successMain,
         builder: (context) => const SliderShowcasePage(),
       ),
       ShowcaseItem(
         title: 'DatePicker & TimePicker',
-        description: 'Premium calendar dialogs',
+        description:
+            'Modal and inline pickers designed for intuitive date, range, and time selection across workflows.',
         icon: Icons.calendar_month_outlined,
         iconColor: TectaColors.infoMain,
         builder: (context) => const PickerShowcasePage(),

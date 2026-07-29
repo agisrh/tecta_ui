@@ -52,6 +52,7 @@ class IconsShowcasePage extends StatelessWidget {
         sections: [
           ShowcaseSection(
             title: 'Solar Icons - Outline',
+            note: 'Linear solar icons are standard outline representation vector glyphs optimized for secondary action tags, inputs, and regular app navigations.',
             code: '''Icon(
   SolarLinearIcons.home,
   color: TectaColors.secondaryMain,
@@ -59,34 +60,41 @@ class IconsShowcasePage extends StatelessWidget {
             overview: Column(
               children: [
                 Container(
+                  width: double.infinity,
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: TectaColors.primaryLighter.withValues(alpha: 0.5),
+                    color: theme.brightness == Brightness.dark
+                        ? Colors.white.withValues(alpha: 0.05)
+                        : TectaColors.primaryLighter.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(color: TectaColors.primaryLight.withValues(alpha: 0.5)),
+                    border: Border.all(
+                      color: theme.brightness == Brightness.dark
+                          ? Colors.white.withValues(alpha: 0.1)
+                          : TectaColors.primaryLighter,
+                    ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.info_outline, color: TectaColors.primaryMain, size: 20),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Information',
-                            style: TectaTypography.subtitle2.copyWith(
-                              color: TectaColors.primaryDarker,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
                       Text(
-                        'This design system utilizes Solar Icons as its iconography reference system. You can explore the full icon pack at:',
-                        style: TectaTypography.body2.copyWith(color: TectaColors.grey700),
+                        'Note:',
+                        style: TectaTypography.subtitle2.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.brightness == Brightness.dark
+                              ? Colors.white
+                              : TectaColors.primaryDark,
+                        ),
                       ),
                       const SizedBox(height: 4),
+                      Text(
+                        'A standardized set of visual symbols designed to clarify meaning, speed up navigation, and provide immediate context for actions or information without relying solely on text. The icons are based on Solar Icon Set from Figma Community:',
+                        style: TectaTypography.body2.copyWith(
+                          color: theme.brightness == Brightness.dark
+                              ? Colors.white60
+                              : TectaColors.grey700,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
                       Text(
                         'https://www.figma.com/community/file/1396367368966571051',
                         style: TectaTypography.body2.copyWith(
@@ -105,6 +113,7 @@ class IconsShowcasePage extends StatelessWidget {
           ),
           ShowcaseSection(
             title: 'Solar Icons - Bold',
+            note: 'Bold filled solar icons represent active states, primary selections, or emphasized alerts.',
             code: '''Icon(
   SolarBoldIcons.home,
   color: TectaColors.secondaryMain,
