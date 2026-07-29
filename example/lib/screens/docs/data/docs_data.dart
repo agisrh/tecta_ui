@@ -173,14 +173,16 @@ class DocsData {
         id: 'installation',
         title: 'Installation',
         contentBuilder: (ctx, isDark) => [
-          desc(isDark, 'Add Tecta UI to your Flutter project via git dependency in pubspec.yaml:'),
+          desc(isDark, 'Add Tecta UI to your Flutter project using flutter pub add:'),
+          const SizedBox(height: 16),
+          const SyntaxHighlightedCode(code: 'flutter pub add tecta_ui'),
+          const SizedBox(height: 16),
+          desc(isDark, 'Or add it directly to your pubspec.yaml file under dependencies:'),
           const SizedBox(height: 16),
           const SyntaxHighlightedCode(code: '''dependencies:
-  tecta_ui:
-    git:
-      url: https://github.com/agisrh/tecta_ui.git'''),
+  tecta_ui: ^0.0.4'''),
           const SizedBox(height: 16),
-          desc(isDark, 'Then run flutter pub get to install:'),
+          desc(isDark, 'Then run flutter pub get:'),
           const SizedBox(height: 12),
           const SyntaxHighlightedCode(code: 'flutter pub get'),
         ],
