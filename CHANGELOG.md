@@ -3,8 +3,11 @@
 * Added `TectaSegmentedControl` component with premium sliding animations and customizable style properties.
 * Added `TectaDropdownMenu` component supporting context lists, customizable overlays, dividers, and disabled items.
 * Added `TectaCalendar`, `TectaDatePicker`, `TectaDateRangePicker`, `TectaMonthPicker`, `TectaYearPicker`, and `TectaTimePicker` components with full customization and localization support.
-* Integrated `TectaDivider` component.
+* Added `TectaDivider` component.
 * Enhanced color flexibility and customization options across components.
+* Added comprehensive interactive playgrounds for all 18 remaining components and foundations (Typography, Shadows, Icons, Checkbox, Switch, Slider, Picker, SegmentedControl, Skeleton, Progress, Accordion, Timeline, Tabs, Label, Dialog, BottomSheet, Snackbar, Tooltip, DropdownMenu).
+* Implemented fixed `maxWidth` layout constraints (e.g., max-width 360/320px) on all picker dialogs to prevent unnecessary horizontal stretching on larger web/desktop screens.
+* Locked playground canvas theme mode to light to prevent styling color conflicts inside code preview.
 
 ## 0.0.3
 

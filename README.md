@@ -55,8 +55,13 @@ Add `tecta_ui` to your `pubspec.yaml` file:
 dependencies:
   flutter:
     sdk: flutter
-  tecta_ui:
-    path: ./tecta_ui # or use pub version once published
+  tecta_ui: ^0.0.1 # Or latest version from pub.dev
+```
+
+Or run this command in your terminal:
+
+```bash
+flutter pub add tecta_ui
 ```
 
 ### 2. Import package
