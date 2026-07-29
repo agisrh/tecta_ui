@@ -72,7 +72,7 @@ class TectaDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final resolvedColor = color ?? TectaColors.grey200;
+    final resolvedColor = color ?? TectaColors.grey300;
     final finalColor = TectaColors.resolve(context, resolvedColor);
 
     if (orientation == Axis.vertical) {
