@@ -21,7 +21,8 @@ class TectaShowcaseApp extends StatelessWidget {
           title: 'Tecta UI',
           debugShowCheckedModeBanner: false,
           theme: TectaTheme.lightTheme,
-          themeMode: ThemeMode.light,
+          darkTheme: TectaTheme.darkTheme,
+          themeMode: currentMode,
           home: const ShowcaseHomeScreen(),
         );
       },

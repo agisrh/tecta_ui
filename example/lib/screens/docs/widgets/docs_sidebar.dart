@@ -58,7 +58,7 @@ class DocsSidebar extends StatelessWidget {
                         height: 14,
                         decoration: BoxDecoration(
                           color:
-                              isSelected ? TectaColors.secondaryMain : Colors.transparent,
+                              isSelected ? (isDark ? const Color(0xFFFF8C42) : TectaColors.secondaryMain) : Colors.transparent,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -70,7 +70,7 @@ class DocsSidebar extends StatelessWidget {
                             fontSize: 13,
                             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                             color: isSelected
-                                ? TectaColors.secondaryMain
+                                ? (isDark ? const Color(0xFFFF8C42) : TectaColors.secondaryMain)
                                 : (isDark ? Colors.white54 : TectaColors.grey500),
                           ),
                           child: Text(

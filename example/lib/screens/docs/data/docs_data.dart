@@ -27,17 +27,21 @@ class DocsData {
   }
 
   static Widget noteCard(bool isDark, String label, Color accentColor, IconData icon, String text) {
+    final effectiveAccent = isDark 
+        ? (accentColor == TectaColors.primaryMain ? const Color(0xFF64B5F6) : accentColor)
+        : accentColor;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: accentColor.withValues(alpha: 0.1),
+        color: effectiveAccent.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: accentColor.withValues(alpha: 0.5), width: 0.5),
+        border: Border.all(color: effectiveAccent.withValues(alpha: 0.5), width: 0.5),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 16, color: accentColor),
+          Icon(icon, size: 16, color: effectiveAccent),
           const SizedBox(width: 10),
           Expanded(
             child: RichText(
@@ -48,12 +52,16 @@ class DocsData {
                     style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                        color: effectiveAccent,
                         letterSpacing: 0.6),
                   ),
                   TextSpan(
                     text: text,
-                    style: TextStyle(fontSize: 13, color: Colors.black, height: 1.5),
+                    style: TextStyle(
+                      fontSize: 13, 
+                      color: isDark ? Colors.white70 : TectaColors.grey800, 
+                      height: 1.5,
+                    ),
                   ),
                 ],
               ),

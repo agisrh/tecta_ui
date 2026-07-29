@@ -152,9 +152,9 @@ class ShowcaseDesktopView extends StatelessWidget {
           // Logo Tecta UI
           Row(
             children: [
-              const Icon(
+              Icon(
                 SolarLinearIcons.star,
-                color: TectaColors.primaryMain,
+                color: isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain,
                 size: 24,
               ),
               const SizedBox(width: 12),
@@ -171,15 +171,15 @@ class ShowcaseDesktopView extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: TectaColors.primaryMain.withValues(alpha: 0.15),
+                  color: (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain).withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Text(
+                child: Text(
                   'v1.0.0',
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: TectaColors.primaryMain,
+                    color: isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain,
                   ),
                 ),
               ),
@@ -220,7 +220,7 @@ class ShowcaseDesktopView extends StatelessWidget {
               themeNotifier.value == ThemeMode.dark
                   ? Icons.light_mode_rounded
                   : Icons.dark_mode_rounded,
-              color: TectaColors.grey800,
+              color: isDark ? Colors.white70 : TectaColors.grey800,
             ),
             onPressed: () {
               themeNotifier.value =
@@ -234,6 +234,7 @@ class ShowcaseDesktopView extends StatelessWidget {
 
   Widget _buildSidebar(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
       width: 290,
       decoration: BoxDecoration(
@@ -271,7 +272,7 @@ class ShowcaseDesktopView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? TectaColors.primaryMain.withValues(alpha: 0.1)
+                            ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain).withValues(alpha: 0.1)
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -280,7 +281,9 @@ class ShowcaseDesktopView extends StatelessWidget {
                           Icon(
                             item.icon,
                             size: 18,
-                            color: isSelected ? TectaColors.primaryMain : TectaColors.grey500,
+                            color: isSelected
+                                ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain)
+                                : TectaColors.grey500,
                           ),
                           const SizedBox(width: 14),
                           Expanded(
@@ -288,12 +291,12 @@ class ShowcaseDesktopView extends StatelessWidget {
                               item.title,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                                color: isSelected
-                                    ? TectaColors.primaryMain
-                                    : (Theme.of(context).brightness == Brightness.dark
-                                        ? Colors.white70
-                                        : TectaColors.grey800),
+                                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                                  color: isSelected
+                                      ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain)
+                                      : (isDark
+                                          ? Colors.white70
+                                          : TectaColors.grey800),
                               ),
                             ),
                           ),

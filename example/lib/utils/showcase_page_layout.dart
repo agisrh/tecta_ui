@@ -180,7 +180,7 @@ class _ShowcasePageLayoutState extends State<ShowcasePageLayout> {
                                 width: 3,
                                 height: 14,
                                 decoration: BoxDecoration(
-                                  color: isSelected ? TectaColors.primaryMain : Colors.transparent,
+                                  color: isSelected ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain) : Colors.transparent,
                                   borderRadius: BorderRadius.circular(2),
                                 ),
                               ),
@@ -192,7 +192,7 @@ class _ShowcasePageLayoutState extends State<ShowcasePageLayout> {
                                     fontSize: 13,
                                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                                     color: isSelected
-                                        ? TectaColors.primaryMain
+                                        ? (isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain)
                                         : (isDark ? Colors.white54 : TectaColors.grey500),
                                   ),
                                   child: Text(

@@ -27,7 +27,6 @@ class ButtonShowcasePage extends StatelessWidget {
                 child: Container(color: TectaColors.grey300.withValues(alpha: 0.5), height: 1.0),
               ),
             ),
-      backgroundColor: TectaColors.grey100,
       body: ShowcasePageLayout(
         sections: [
           ShowcaseSection(
