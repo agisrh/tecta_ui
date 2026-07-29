@@ -1,8 +1,7 @@
 ## 0.0.5
-
-* Updated Blocks tab in example app to display a premium and visual "Coming Soon" state.
 * Enhanced package documentation and installation guides to direct users to pub.dev.
 * Cleaned up unused methods and UI code across blocks layouts.
+* Cooming soon Block Layouts.
 
 ## 0.0.4
 
