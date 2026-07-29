@@ -214,17 +214,13 @@ class ShowcaseDesktopView extends StatelessWidget {
               );
             }).toList(),
           ),
-          // Right Theme Control
           IconButton(
             icon: Icon(
-              themeNotifier.value == ThemeMode.dark
-                  ? Icons.light_mode_rounded
-                  : Icons.dark_mode_rounded,
-              color: isDark ? Colors.white70 : TectaColors.grey800,
+              isDark ? SolarLinearIcons.sun : SolarLinearIcons.moon,
+              color: isDark ? const Color(0xFFFF8C42) : TectaColors.primaryMain,
             ),
             onPressed: () {
-              themeNotifier.value =
-                  themeNotifier.value == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+              themeNotifier.value = isDark ? ThemeMode.light : ThemeMode.dark;
             },
           ),
         ],

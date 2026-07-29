@@ -218,6 +218,15 @@ class _ShowcaseMobileViewState extends State<ShowcaseMobileView> {
         actions: [
           IconButton(
             icon: Icon(
+              Theme.of(context).brightness == Brightness.dark ? SolarLinearIcons.sun : SolarLinearIcons.moon,
+              color: TectaColors.grey800,
+            ),
+            onPressed: () {
+              widget.themeNotifier.value = Theme.of(context).brightness == Brightness.dark ? ThemeMode.light : ThemeMode.dark;
+            },
+          ),
+          IconButton(
+            icon: Icon(
               _isGridView ? Icons.view_list_rounded : Icons.grid_view_rounded,
               color: TectaColors.grey800,
             ),
@@ -228,20 +237,7 @@ class _ShowcaseMobileViewState extends State<ShowcaseMobileView> {
               });
             },
           ),
-          IconButton(
-            icon: Icon(
-              widget.themeNotifier.value == ThemeMode.dark
-                  ? Icons.light_mode_rounded
-                  : Icons.dark_mode_rounded,
-              color: TectaColors.grey800,
-            ),
-            onPressed: () {
-              setState(() {
-                widget.themeNotifier.value =
-                    widget.themeNotifier.value == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
-              });
-            },
-          ),
+
           const SizedBox(width: 8),
         ],
       ),

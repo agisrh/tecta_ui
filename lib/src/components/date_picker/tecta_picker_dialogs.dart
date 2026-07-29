@@ -33,67 +33,70 @@ Future<DateTime?> showTectaDatePicker({
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
             backgroundColor: Colors.white,
             clipBehavior: Clip.antiAlias,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (title != null) ...[
-                    Text(
-                      title,
-                      style: TectaTypography.subtitle1.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: TectaColors.grey800,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 360),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (title != null) ...[
+                      Text(
+                        title,
+                        style: TectaTypography.subtitle1.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: TectaColors.grey800,
+                        ),
                       ),
+                      const SizedBox(height: 16),
+                    ],
+                    TectaCalendar(
+                      selectedDate: tempDate,
+                      selectionMode: TectaCalendarSelectionMode.single,
+                      firstDate: firstDate,
+                      lastDate: lastDate,
+                      selectedColor: selectedColor,
+                      todayColor: todayColor,
+                      headerTextStyle: headerTextStyle,
+                      weekdayTextStyle: weekdayTextStyle,
+                      dayTextStyle: dayTextStyle,
+                      selectedDayTextStyle: selectedDayTextStyle,
+                      todayTextStyle: todayTextStyle,
+                      monthNames: monthNames,
+                      weekdays: weekdays,
+                      weekendHeaderTextStyle: weekendHeaderTextStyle,
+                      weekendDayTextStyle: weekendDayTextStyle,
+                      onDateSelected: (date) {
+                        setState(() {
+                          tempDate = date;
+                        });
+                      },
                     ),
-                    const SizedBox(height: 16),
-                  ],
-                  TectaCalendar(
-                    selectedDate: tempDate,
-                    selectionMode: TectaCalendarSelectionMode.single,
-                    firstDate: firstDate,
-                    lastDate: lastDate,
-                    selectedColor: selectedColor,
-                    todayColor: todayColor,
-                    headerTextStyle: headerTextStyle,
-                    weekdayTextStyle: weekdayTextStyle,
-                    dayTextStyle: dayTextStyle,
-                    selectedDayTextStyle: selectedDayTextStyle,
-                    todayTextStyle: todayTextStyle,
-                    monthNames: monthNames,
-                    weekdays: weekdays,
-                    weekendHeaderTextStyle: weekendHeaderTextStyle,
-                    weekendDayTextStyle: weekendDayTextStyle,
-                    onDateSelected: (date) {
-                      setState(() {
-                        tempDate = date;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      cancelButton ??
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              MaterialLocalizations.of(context).cancelButtonLabel,
-                              style: TectaTypography.subtitle2.copyWith(
-                                color: TectaColors.grey500,
-                                fontWeight: FontWeight.bold,
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        cancelButton ??
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                MaterialLocalizations.of(context).cancelButtonLabel,
+                                style: TectaTypography.subtitle2.copyWith(
+                                  color: TectaColors.grey500,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                      const SizedBox(width: 8),
-                      confirmButton ??
-                          TectaButton(
-                            label: MaterialLocalizations.of(context).okButtonLabel,
-                            onPressed: () => Navigator.pop(context, tempDate),
-                          ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 8),
+                        confirmButton ??
+                            TectaButton(
+                              label: MaterialLocalizations.of(context).okButtonLabel,
+                              onPressed: () => Navigator.pop(context, tempDate),
+                            ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -138,77 +141,80 @@ Future<DateTimeRange?> showTectaDateRangePicker({
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
             backgroundColor: Colors.white,
             clipBehavior: Clip.antiAlias,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (title != null) ...[
-                    Text(
-                      title,
-                      style: TectaTypography.subtitle1.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: TectaColors.grey800,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 360),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (title != null) ...[
+                      Text(
+                        title,
+                        style: TectaTypography.subtitle1.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: TectaColors.grey800,
+                        ),
                       ),
+                      const SizedBox(height: 16),
+                    ],
+                    TectaCalendar(
+                      rangeStartDate: tempStart,
+                      rangeEndDate: tempEnd,
+                      selectionMode: TectaCalendarSelectionMode.range,
+                      firstDate: firstDate,
+                      lastDate: lastDate,
+                      selectedColor: selectedColor,
+                      todayColor: todayColor,
+                      rangeColor: rangeColor,
+                      headerTextStyle: headerTextStyle,
+                      weekdayTextStyle: weekdayTextStyle,
+                      dayTextStyle: dayTextStyle,
+                      selectedDayTextStyle: selectedDayTextStyle,
+                      todayTextStyle: todayTextStyle,
+                      monthNames: monthNames,
+                      weekdays: weekdays,
+                      weekendHeaderTextStyle: weekendHeaderTextStyle,
+                      weekendDayTextStyle: weekendDayTextStyle,
+                      onRangeSelected: (start, end) {
+                        setState(() {
+                          tempStart = start;
+                          tempEnd = end;
+                        });
+                      },
                     ),
-                    const SizedBox(height: 16),
-                  ],
-                  TectaCalendar(
-                    rangeStartDate: tempStart,
-                    rangeEndDate: tempEnd,
-                    selectionMode: TectaCalendarSelectionMode.range,
-                    firstDate: firstDate,
-                    lastDate: lastDate,
-                    selectedColor: selectedColor,
-                    todayColor: todayColor,
-                    rangeColor: rangeColor,
-                    headerTextStyle: headerTextStyle,
-                    weekdayTextStyle: weekdayTextStyle,
-                    dayTextStyle: dayTextStyle,
-                    selectedDayTextStyle: selectedDayTextStyle,
-                    todayTextStyle: todayTextStyle,
-                    monthNames: monthNames,
-                    weekdays: weekdays,
-                    weekendHeaderTextStyle: weekendHeaderTextStyle,
-                    weekendDayTextStyle: weekendDayTextStyle,
-                    onRangeSelected: (start, end) {
-                      setState(() {
-                        tempStart = start;
-                        tempEnd = end;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      cancelButton ??
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              MaterialLocalizations.of(context).cancelButtonLabel,
-                              style: TectaTypography.subtitle2.copyWith(
-                                color: TectaColors.grey500,
-                                fontWeight: FontWeight.bold,
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        cancelButton ??
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                MaterialLocalizations.of(context).cancelButtonLabel,
+                                style: TectaTypography.subtitle2.copyWith(
+                                  color: TectaColors.grey500,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                      const SizedBox(width: 8),
-                      confirmButton ??
-                          TectaButton(
-                            label: MaterialLocalizations.of(context).okButtonLabel,
-                            onPressed: () {
-                              if (tempStart != null && tempEnd != null) {
-                                Navigator.pop(
-                                    context, DateTimeRange(start: tempStart!, end: tempEnd!));
-                              } else {
-                                Navigator.pop(context);
-                              }
-                            },
-                          ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 8),
+                        confirmButton ??
+                            TectaButton(
+                              label: MaterialLocalizations.of(context).okButtonLabel,
+                              onPressed: () {
+                                if (tempStart != null && tempEnd != null) {
+                                  Navigator.pop(
+                                      context, DateTimeRange(start: tempStart!, end: tempEnd!));
+                                } else {
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -241,55 +247,58 @@ Future<int?> showTectaMonthPicker({
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
             backgroundColor: Colors.white,
             clipBehavior: Clip.antiAlias,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title ?? 'Select Month',
-                    style: TectaTypography.subtitle1.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: TectaColors.grey800,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 320),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title ?? 'Select Month',
+                      style: TectaTypography.subtitle1.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: TectaColors.grey800,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  TectaMonthPicker(
-                    selectedMonth: tempMonth,
-                    selectedColor: selectedColor,
-                    gridTextStyle: gridTextStyle,
-                    selectedGridTextStyle: selectedGridTextStyle,
-                    monthNames: monthNames,
-                    onMonthSelected: (month) {
-                      setState(() {
-                        tempMonth = month;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      cancelButton ??
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              MaterialLocalizations.of(context).cancelButtonLabel,
-                              style: TectaTypography.subtitle2.copyWith(
-                                color: TectaColors.grey500,
-                                fontWeight: FontWeight.bold,
+                    const SizedBox(height: 20),
+                    TectaMonthPicker(
+                      selectedMonth: tempMonth,
+                      selectedColor: selectedColor,
+                      gridTextStyle: gridTextStyle,
+                      selectedGridTextStyle: selectedGridTextStyle,
+                      monthNames: monthNames,
+                      onMonthSelected: (month) {
+                        setState(() {
+                          tempMonth = month;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        cancelButton ??
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                MaterialLocalizations.of(context).cancelButtonLabel,
+                                style: TectaTypography.subtitle2.copyWith(
+                                  color: TectaColors.grey500,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                      const SizedBox(width: 8),
-                      confirmButton ??
-                          TectaButton(
-                            label: MaterialLocalizations.of(context).okButtonLabel,
-                            onPressed: () => Navigator.pop(context, tempMonth),
-                          ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 8),
+                        confirmButton ??
+                            TectaButton(
+                              label: MaterialLocalizations.of(context).okButtonLabel,
+                              onPressed: () => Navigator.pop(context, tempMonth),
+                            ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -323,56 +332,59 @@ Future<int?> showTectaYearPicker({
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
             backgroundColor: Colors.white,
             clipBehavior: Clip.antiAlias,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title ?? 'Select Year',
-                    style: TectaTypography.subtitle1.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: TectaColors.grey800,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 320),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title ?? 'Select Year',
+                      style: TectaTypography.subtitle1.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: TectaColors.grey800,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  TectaYearPicker(
-                    selectedYear: tempYear,
-                    firstYear: firstYear,
-                    lastYear: lastYear,
-                    selectedColor: selectedColor,
-                    gridTextStyle: gridTextStyle,
-                    selectedGridTextStyle: selectedGridTextStyle,
-                    onYearSelected: (year) {
-                      setState(() {
-                        tempYear = year;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      cancelButton ??
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              MaterialLocalizations.of(context).cancelButtonLabel,
-                              style: TectaTypography.subtitle2.copyWith(
-                                color: TectaColors.grey500,
-                                fontWeight: FontWeight.bold,
+                    const SizedBox(height: 20),
+                    TectaYearPicker(
+                      selectedYear: tempYear,
+                      firstYear: firstYear,
+                      lastYear: lastYear,
+                      selectedColor: selectedColor,
+                      gridTextStyle: gridTextStyle,
+                      selectedGridTextStyle: selectedGridTextStyle,
+                      onYearSelected: (year) {
+                        setState(() {
+                          tempYear = year;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        cancelButton ??
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                MaterialLocalizations.of(context).cancelButtonLabel,
+                                style: TectaTypography.subtitle2.copyWith(
+                                  color: TectaColors.grey500,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                      const SizedBox(width: 8),
-                      confirmButton ??
-                          TectaButton(
-                            label: MaterialLocalizations.of(context).okButtonLabel,
-                            onPressed: () => Navigator.pop(context, tempYear),
-                          ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 8),
+                        confirmButton ??
+                            TectaButton(
+                              label: MaterialLocalizations.of(context).okButtonLabel,
+                              onPressed: () => Navigator.pop(context, tempYear),
+                            ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -404,54 +416,57 @@ Future<TimeOfDay?> showTectaTimePicker({
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         backgroundColor: Colors.white,
         clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title ?? 'Select Time',
-                style: TectaTypography.subtitle1.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: TectaColors.grey800,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 320),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title ?? 'Select Time',
+                  style: TectaTypography.subtitle1.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: TectaColors.grey800,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              TectaTimePicker(
-                initialTime: tempTime,
-                format: format,
-                style: style,
-                activeColor: activeColor,
-                timeTextStyle: timeTextStyle,
-                ampmTextStyle: ampmTextStyle,
-                onTimeChanged: (time) {
-                  tempTime = time;
-                },
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  cancelButton ??
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(
-                          MaterialLocalizations.of(context).cancelButtonLabel,
-                          style: TectaTypography.subtitle2.copyWith(
-                            color: TectaColors.grey500,
-                            fontWeight: FontWeight.bold,
+                const SizedBox(height: 16),
+                TectaTimePicker(
+                  initialTime: tempTime,
+                  format: format,
+                  style: style,
+                  activeColor: activeColor,
+                  timeTextStyle: timeTextStyle,
+                  ampmTextStyle: ampmTextStyle,
+                  onTimeChanged: (time) {
+                    tempTime = time;
+                  },
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    cancelButton ??
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(
+                            MaterialLocalizations.of(context).cancelButtonLabel,
+                            style: TectaTypography.subtitle2.copyWith(
+                              color: TectaColors.grey500,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                  const SizedBox(width: 8),
-                  confirmButton ??
-                      TectaButton(
-                        label: MaterialLocalizations.of(context).okButtonLabel,
-                        onPressed: () => Navigator.pop(context, tempTime),
-                      ),
-                ],
-              ),
-            ],
+                    const SizedBox(width: 8),
+                    confirmButton ??
+                        TectaButton(
+                          label: MaterialLocalizations.of(context).okButtonLabel,
+                          onPressed: () => Navigator.pop(context, tempTime),
+                        ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );

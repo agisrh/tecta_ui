@@ -35,7 +35,7 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
 
   double _previewScale = 1.0;
   bool _isMobilePreview = false;
-  bool _isDarkPreview = true;
+
   bool _isDocExpanded = true;
 
   @override
@@ -432,16 +432,6 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                           children: [
                             IconButton(
                               icon: Icon(
-                                _isDarkPreview ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
-                                size: 18,
-                                color: Colors.white70,
-                              ),
-                              tooltip: 'Toggle Canvas Theme',
-                              onPressed: () => setState(() => _isDarkPreview = !_isDarkPreview),
-                            ),
-                            const SizedBox(width: 8),
-                            IconButton(
-                              icon: Icon(
                                 _isMobilePreview
                                     ? Icons.phone_android_rounded
                                     : Icons.computer_rounded,
@@ -493,7 +483,7 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                         width: _isMobilePreview ? 360 : null,
                         height: _isMobilePreview ? 640 : null,
                         decoration: BoxDecoration(
-                          color: _isDarkPreview ? const Color(0xFF222222) : const Color(0xFFF9F9F9),
+                          color: const Color(0xFFF9F9F9),
                           borderRadius: BorderRadius.circular(_isMobilePreview ? 24.0 : 0.0),
                           border: _isMobilePreview
                               ? Border.all(color: const Color(0xFF333333), width: 8)
@@ -517,7 +507,10 @@ class _PlaygroundShellState extends State<PlaygroundShell> {
                                     const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                                 child: ConstrainedBox(
                                   constraints: const BoxConstraints(maxWidth: 600),
-                                  child: widget.preview,
+                                  child: Theme(
+                                    data: TectaTheme.lightTheme,
+                                    child: widget.preview,
+                                  ),
                                 ),
                               ),
                             ),
