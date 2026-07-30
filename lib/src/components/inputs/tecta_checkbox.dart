@@ -85,7 +85,7 @@ class TectaCheckbox extends StatelessWidget {
   });
 
   Color _getColor(BuildContext context) {
-    final Color activeColor = color ?? TectaColors.primaryMain;
+    final Color activeColor = color ?? Theme.of(context).colorScheme.primary;
     return TectaColors.resolve(context, activeColor);
   }
 

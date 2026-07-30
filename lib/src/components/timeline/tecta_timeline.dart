@@ -115,7 +115,7 @@ class _TimelineItemPresenter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color activeColor = indicatorColor ?? TectaColors.primaryMain;
+    final Color activeColor = indicatorColor ?? Theme.of(context).colorScheme.primary;
 
     // Render node indicator
     Widget nodeIndicator = indicator ?? const SizedBox.shrink();

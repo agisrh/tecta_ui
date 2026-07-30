@@ -196,9 +196,9 @@ class _TectaCalendarState extends State<TectaCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = widget.selectedColor ?? TectaColors.primaryMain;
+    final primaryColor = widget.selectedColor ?? Theme.of(context).colorScheme.primary;
     final activeTodayColor = widget.todayColor ?? TectaColors.infoMain;
-    final activeRangeBg = widget.rangeColor ?? TectaColors.primaryMain.withValues(alpha: 0.12);
+    final activeRangeBg = widget.rangeColor ?? primaryColor.withValues(alpha: 0.12);
 
     final resolvedPrimary = TectaColors.resolve(context, primaryColor);
     final resolvedToday = TectaColors.resolve(context, activeTodayColor);

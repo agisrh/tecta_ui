@@ -138,7 +138,7 @@ class _TectaTabsState extends State<TectaTabs> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     if (widget.tabs.isEmpty) return const SizedBox.shrink();
 
-    final Color active = widget.activeColor ?? TectaColors.primaryMain;
+    final Color active = widget.activeColor ?? Theme.of(context).colorScheme.primary;
     final Color inactive = widget.inactiveColor ?? TectaColors.grey500;
 
     // Define indicators
@@ -227,7 +227,7 @@ class _TectaTabsState extends State<TectaTabs> with SingleTickerProviderStateMix
                   TectaLabel(
                     text: tab.badge!,
                     color: isSelected
-                        ? TectaColors.primaryMain
+                        ? active
                         : TectaColors.grey800,
                     variant: isSelected
                         ? TectaLabelVariant.filled

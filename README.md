@@ -55,7 +55,7 @@ Add `tecta_ui` to your `pubspec.yaml` file:
 dependencies:
   flutter:
     sdk: flutter
-  tecta_ui: ^0.0.5 # Or latest version from pub.dev
+  tecta_ui: ^0.0.6 # Or latest version from pub.dev
 ```
 
 Or run this command in your terminal:
@@ -139,6 +139,46 @@ TectaEmptyState(
     onPressed: () => refresh(),
   ),
 )
+```
+
+---
+
+## 🎨 Theme Customization
+
+Tecta UI components support dynamic brand colors. By default, components will look up and inherit colors from `Theme.of(context).colorScheme.primary` and `secondary`.
+
+### 1. Standard ThemeData Customization
+If you use standard Flutter themes, components automatically adjust to the active colors:
+```dart
+MaterialApp(
+  theme: ThemeData(
+    useMaterial3: true,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.deepPurple,
+      primary: Colors.deepPurple,
+      secondary: Colors.amber,
+    ),
+  ),
+  // ...
+);
+```
+
+### 2. Custom TectaTheme Builder
+Alternatively, use the custom `TectaTheme` builder from the package to preserve MUI/Minimals styled radius, elevation, and fonts while applying custom colors:
+```dart
+MaterialApp(
+  theme: TectaTheme.buildTheme(
+    brightness: Brightness.light,
+    primaryColor: Colors.teal,
+    secondaryColor: Colors.pink,
+  ),
+  darkTheme: TectaTheme.buildTheme(
+    brightness: Brightness.dark,
+    primaryColor: Colors.tealAccent,
+    secondaryColor: Colors.pinkAccent,
+  ),
+  // ...
+);
 ```
 
 ---

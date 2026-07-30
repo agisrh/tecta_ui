@@ -185,7 +185,7 @@ class TectaTextField<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final activeColor = activeBorderColorOverride ?? TectaColors.primaryMain;
+    final activeColor = activeBorderColorOverride ?? Theme.of(context).colorScheme.primary;
     final inactiveColor = inactiveBorderColorOverride ?? TectaColors.grey300;
     final errorColor = errorColorOverride ?? TectaColors.errorMain;
     final double radius = borderRadiusOverride ?? 8.0;

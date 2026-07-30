@@ -67,7 +67,7 @@ class _TectaMonthPickerState extends State<TectaMonthPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = widget.selectedColor ?? TectaColors.primaryMain;
+    final primaryColor = widget.selectedColor ?? Theme.of(context).colorScheme.primary;
     final resolvedPrimary = TectaColors.resolve(context, primaryColor);
     final localizedMonths = _getLocalizedMonths(context);
 
@@ -199,7 +199,7 @@ class _TectaYearPickerState extends State<TectaYearPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = widget.selectedColor ?? TectaColors.primaryMain;
+    final primaryColor = widget.selectedColor ?? Theme.of(context).colorScheme.primary;
     final resolvedPrimary = TectaColors.resolve(context, primaryColor);
 
     return ConstrainedBox(

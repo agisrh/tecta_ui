@@ -1,3 +1,8 @@
+## 0.0.6
+* Added support for dynamic primary and secondary colors in design system components.
+* Refactored component default colors to fallback to `Theme.of(context).colorScheme.primary` or `Theme.of(context).colorScheme.secondary` instead of hardcoded `TectaColors` constants.
+* Updated `TectaTheme` to support custom brand colors via `buildTheme(primaryColor: ..., secondaryColor: ...)`.
+
 ## 0.0.5
 * Enhanced package documentation and installation guides to direct users to pub.dev.
 * Cleaned up unused methods and UI code across blocks layouts.

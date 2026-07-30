@@ -82,7 +82,7 @@ class _TectaLinearProgressState extends State<TectaLinearProgress>
 
   Color _getCurrentColor(double animationValue) {
     final colors = widget.colors!;
-    if (colors.isEmpty) return widget.color ?? TectaColors.primaryMain;
+    if (colors.isEmpty) return widget.color ?? Theme.of(context).colorScheme.primary;
     if (colors.length == 1) return colors.first;
 
     final double segment = 1.0 / colors.length;
@@ -112,7 +112,7 @@ class _TectaLinearProgressState extends State<TectaLinearProgress>
         },
       );
     } else {
-      final Color activeColor = widget.color ?? TectaColors.primaryMain;
+      final Color activeColor = widget.color ?? Theme.of(context).colorScheme.primary;
       indicator = LinearProgressIndicator(
         value: widget.value,
         color: activeColor,
@@ -210,7 +210,7 @@ class _TectaCircularProgressState extends State<TectaCircularProgress>
 
   Color _getCurrentColor(double animationValue) {
     final colors = widget.colors!;
-    if (colors.isEmpty) return widget.color ?? TectaColors.primaryMain;
+    if (colors.isEmpty) return widget.color ?? Theme.of(context).colorScheme.primary;
     if (colors.length == 1) return colors.first;
 
     final double segment = 1.0 / colors.length;
@@ -242,7 +242,7 @@ class _TectaCircularProgressState extends State<TectaCircularProgress>
       );
     }
 
-    final Color activeColor = widget.color ?? TectaColors.primaryMain;
+    final Color activeColor = widget.color ?? Theme.of(context).colorScheme.primary;
     return SizedBox(
       width: widget.size,
       height: widget.size,

@@ -233,13 +233,20 @@ class MyApp extends StatelessWidget {
 Color primary = TectaColors.primaryMain;
 Color surface = TectaColors.grey100;
 
-// Custom theme override
-final customTheme = ThemeData(
-  brightness: Brightness.dark,
-  primaryColor: TectaColors.primaryMain,
-  scaffoldBackgroundColor: TectaColors.grey900,
-  cardColor: TectaColors.grey800,
-  dividerColor: TectaColors.grey700,
+// 1. Build a custom Tecta theme with custom brand colors
+final customTheme = TectaTheme.buildTheme(
+  brightness: Brightness.light,
+  primaryColor: Colors.teal,       // Custom primary
+  secondaryColor: Colors.pink,    // Custom secondary
+);
+
+// 2. Or configure custom colors directly in standard ThemeData
+final standardTheme = ThemeData(
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: Colors.deepPurple,
+    primary: Colors.deepPurple,
+    secondary: Colors.amber,
+  ),
 );'''),
           const SizedBox(height: 16),
           noteCard(

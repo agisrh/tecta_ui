@@ -114,7 +114,7 @@ class _TectaTimePickerState extends State<TectaTimePicker> {
   }
 
   Widget _buildWheelPicker(BuildContext context) {
-    final activeThemeColor = widget.activeColor ?? TectaColors.primaryMain;
+    final activeThemeColor = widget.activeColor ?? Theme.of(context).colorScheme.primary;
     final resolvedActive = TectaColors.resolve(context, activeThemeColor);
     final totalHours = widget.format == TectaTimeFormat.h12 ? 12 : 24;
 
@@ -254,7 +254,7 @@ class _TectaTimePickerState extends State<TectaTimePicker> {
   }
 
   Widget _buildDialPicker(BuildContext context) {
-    final activeThemeColor = widget.activeColor ?? TectaColors.primaryMain;
+    final activeThemeColor = widget.activeColor ?? Theme.of(context).colorScheme.primary;
     final resolvedActive = TectaColors.resolve(context, activeThemeColor);
 
     final String hourStr = _selectedHour.toString().padLeft(2, '0');

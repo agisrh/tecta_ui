@@ -32,8 +32,8 @@ class TectaButton extends StatelessWidget {
   /// Visual variant of the button. Defaults to [TectaButtonVariant.contained].
   final TectaButtonVariant variant;
 
-  /// Theme color of the button. Defaults to [TectaColors.primaryMain].
-  final Color color;
+  /// Theme color of the button. Defaults to Theme.of(context).colorScheme.primary.
+  final Color? color;
 
   /// Height and padding size of the button. Defaults to [TectaButtonSize.medium].
   final TectaButtonSize size;
@@ -99,7 +99,7 @@ class TectaButton extends StatelessWidget {
     required this.label,
     this.onPressed,
     this.variant = TectaButtonVariant.contained,
-    this.color = TectaColors.primaryMain,
+    this.color,
     this.size = TectaButtonSize.medium,
     this.icon,
     this.trailingIcon,
@@ -250,7 +250,7 @@ class TectaButton extends StatelessWidget {
       return Colors.transparent;
     }
 
-    final resolvedColor = TectaColors.resolve(context, color);
+    final resolvedColor = TectaColors.resolve(context, color ?? Theme.of(context).colorScheme.primary);
 
     if (variant == TectaButtonVariant.soft) {
       if (resolvedColor == TectaColors.primaryMain || resolvedColor == Theme.of(context).colorScheme.primary) {
@@ -280,7 +280,7 @@ class TectaButton extends StatelessWidget {
       return TectaColors.grey500;
     }
 
-    final resolvedColor = TectaColors.resolve(context, color);
+    final resolvedColor = TectaColors.resolve(context, color ?? Theme.of(context).colorScheme.primary);
 
     // Contained has specific text contrasts
     if (variant == TectaButtonVariant.contained) {

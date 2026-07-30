@@ -23,8 +23,8 @@ class TectaFab extends StatelessWidget {
   /// Style variant. Defaults to [TectaButtonVariant.contained].
   final TectaButtonVariant variant;
 
-  /// Theme color. Defaults to [TectaColors.primaryMain].
-  final Color color;
+  /// Theme color. Defaults to Theme.of(context).colorScheme.primary.
+  final Color? color;
 
   /// Sizing scale of the FAB. Defaults to [TectaButtonSize.large].
   final TectaButtonSize size;
@@ -73,7 +73,7 @@ class TectaFab extends StatelessWidget {
     this.label,
     this.onPressed,
     this.variant = TectaButtonVariant.contained,
-    this.color = TectaColors.primaryMain,
+    this.color,
     this.size = TectaButtonSize.large,
     this.backgroundColor,
     this.contentColor,
@@ -240,7 +240,7 @@ class TectaFab extends StatelessWidget {
       return Colors.transparent;
     }
 
-    final resolvedColor = TectaColors.resolve(context, color);
+    final resolvedColor = TectaColors.resolve(context, color ?? Theme.of(context).colorScheme.primary);
 
     if (variant == TectaButtonVariant.soft) {
       if (resolvedColor == TectaColors.primaryMain || resolvedColor == Theme.of(context).colorScheme.primary) {
@@ -280,7 +280,7 @@ class TectaFab extends StatelessWidget {
       return TectaColors.grey500;
     }
 
-    final resolvedColor = TectaColors.resolve(context, color);
+    final resolvedColor = TectaColors.resolve(context, color ?? Theme.of(context).colorScheme.primary);
 
     if (variant == TectaButtonVariant.soft) {
       if (resolvedColor == TectaColors.primaryMain || resolvedColor == Theme.of(context).colorScheme.primary) {

@@ -47,7 +47,7 @@ class TectaSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color primary = activeColor ?? TectaColors.primaryMain;
+    final Color primary = activeColor ?? Theme.of(context).colorScheme.primary;
     final Color inactive = inactiveColor ?? TectaColors.grey200;
 
     return SliderTheme(

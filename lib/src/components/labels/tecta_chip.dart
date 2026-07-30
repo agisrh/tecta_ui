@@ -192,7 +192,7 @@ class TectaChip extends StatelessWidget {
       );
     }
 
-    final Color activeColor = color != null ? TectaColors.resolve(context, color!) : TectaColors.primaryMain;
+    final Color activeColor = color != null ? TectaColors.resolve(context, color!) : Theme.of(context).colorScheme.primary;
 
     // Render delete action
     Widget? trailingWidget;
@@ -271,7 +271,7 @@ class TectaChip extends StatelessWidget {
   }
 
   Color _getBgColor(BuildContext context) {
-    final Color activeColor = color != null ? TectaColors.resolve(context, color!) : TectaColors.primaryMain;
+    final Color activeColor = color != null ? TectaColors.resolve(context, color!) : Theme.of(context).colorScheme.primary;
 
     switch (variant) {
       case TectaChipVariant.filled:
@@ -290,7 +290,7 @@ class TectaChip extends StatelessWidget {
   }
 
   Color _getTextColor(BuildContext context) {
-    final Color activeColor = color != null ? TectaColors.resolve(context, color!) : TectaColors.primaryMain;
+    final Color activeColor = color != null ? TectaColors.resolve(context, color!) : Theme.of(context).colorScheme.primary;
 
     switch (variant) {
       case TectaChipVariant.filled:
@@ -325,7 +325,7 @@ class TectaChip extends StatelessWidget {
   }
 
   Color _getAvatarBgColor(BuildContext context, Color chipBg, Color chipText) {
-    final Color activeColor = color != null ? TectaColors.resolve(context, color!) : TectaColors.primaryMain;
+    final Color activeColor = color != null ? TectaColors.resolve(context, color!) : Theme.of(context).colorScheme.primary;
 
     if (variant == TectaChipVariant.filled) {
       if (color == null) {
